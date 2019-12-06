@@ -98,54 +98,5 @@ jsonContent:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com:/Jason-Yoo/Jason-Yoo.github.io.git
-    
+  repo: https://github.com:/Jason-Yoo/Jason-Yoo.github.io.git  
   branch: master
-  #表示站内搜索
-search:
-  path: search.xml
-  field: post
-  format: html
-  limit: 10000
-
-  # 自动生成sitemap
-sitemap:
-  path: sitemap.xml
-baidusitemap:
-  path: baidusitemap.xml
-
-
-
-# 文章文字统计
-symbols_count_time:
- #文章内是否显示
-  symbols: true
-  time: true
- # 网页底部是否显示
-  total_symbols: true
-  total_time: false
-
-
-# hexo-neat
-# 博文压缩
-neat_enable: true
-# 压缩html
-neat_html:
-  enable: true
-  exclude:
-# 压缩css  
-neat_css:
-  enable: true
-  exclude:
-    - '**/*.min.css'
-# 压缩js
-neat_js:
-  enable: true
-  mangle: true
-  output:
-  compress:
-  exclude:
-    - '**/*.min.js'
-    - '**/jquery.fancybox.pack.js'
-    - '**/index.js'  
-
