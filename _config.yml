@@ -73,7 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: yilia-plus
+theme: hexo-theme-next-7.6.0
 #侧边栏配置
 jsonContent:
     meta: false
