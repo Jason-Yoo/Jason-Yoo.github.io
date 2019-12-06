@@ -99,8 +99,8 @@ jsonContent:
 deploy:
   type: git
   repo: 
-    github: https://github.com/Jason-Yoo/Jason-Yoo.github.io.git
-    coding: https://github.com/Jason-Yoo/Jason-Yoo.github.git
+    github: git@github.com:/Jason-Yoo/Jason-Yoo.github.io.git
+    coding: git@git.coding.net:/Jason-Yoo/Jason-Yoo.github.git
   branch: master
   #表示站内搜索
 search:
