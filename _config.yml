@@ -98,9 +98,8 @@ jsonContent:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: 
-    github: git@github.com:/Jason-Yoo/Jason-Yoo.github.io.git
-    coding: git@git.coding.net:/Jason-Yoo/Jason-Yoo.github.git
+  repo: https://github.com:/Jason-Yoo/Jason-Yoo.github.io.git
+    
   branch: master
   #表示站内搜索
 search:
