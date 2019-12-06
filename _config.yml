@@ -115,26 +115,7 @@ sitemap:
 baidusitemap:
   path: baidusitemap.xml
 
-# 二次元
-live2d:
-  enable: true
-  scriptFrom: local
-  pluginRootPath: live2dw/
-  pluginJsPath: lib/
-  pluginModelPath: assets/
-  tagMode: false
-  debug: false
-  model:
-    #use: live2d-widget-model-kesyoban
-    use: live2d-widget-model-koharu
-  display:
-    position: right
-    width: 75
-    height: 150
-    #hOffset: 0
-    #vOffset: 40
-  mobile:
-    show: false
+
 
 # 文章文字统计
 symbols_count_time:
@@ -169,10 +150,3 @@ neat_js:
     - '**/jquery.fancybox.pack.js'
     - '**/index.js'  
 
-# hexo-tag-cloud
-tag_cloud:
-    textFont: Trebuchet MS, Helvetica
-    textColor: '#333'
-    textHeight: 20
-    outlineColor: '#E2E1D1'
-    maxSpeed: 0.1
