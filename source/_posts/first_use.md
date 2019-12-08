@@ -2,6 +2,9 @@
 title: 搞好了图片
 typora-root-url: ../../source
 typora-copy-images-to: ../images/first_use.assets
+categories: HEXO
+tags:
+- 博客搭建
 ---
 
 图片怎么搞也弄会了，后面可以偶尔写写博客了，相比于其他的方式，这个点个性化可以更强一点，后面也可以学学博客的美化什么的，挺好的。

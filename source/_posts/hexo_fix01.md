@@ -2,6 +2,9 @@
 title: 搭建hexo博客并简单的实现多终端同步
 typora-root-url: ../../source
 typora-copy-images-to: ../images/hexo_fix01.assets
+categories: HEXO
+tags:
+- 博客搭建
 ---
 
 ​		为了实现多终端同步，花了一个小时，主要是卡在提交上了，现在的CSDN真的不能再看了，太水了，都是从别的地方复制粘贴过来，很难解决你的问题,所以还是需要去看官方的文档。

@@ -2,6 +2,9 @@
 title: MacOS公式编辑软件推荐
 typora-root-url: ../../source
 typora-copy-images-to: ../images/software.assets
+categories: Software
+tags:
+- 软件安利
 ---
 
 推荐Mathpix这个软件；

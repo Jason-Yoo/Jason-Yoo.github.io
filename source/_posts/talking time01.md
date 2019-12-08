@@ -2,6 +2,9 @@
 title: 旋翼机自主着陆-主要技术难点：
 typora-root-url: ../../source
 typora-copy-images-to: ../images/talking time01.assets
+categories: Computer Vision
+tags:
+- 自主着陆
 ---
 
 #### 搜索阶段:

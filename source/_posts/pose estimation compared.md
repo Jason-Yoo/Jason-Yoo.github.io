@@ -2,6 +2,10 @@
 title: 基于点特征的各位姿求解算法对比工作
 typora-root-url: ../../source
 typora-copy-images-to: ../images/pose estimation compared.assets
+categories: Computer Vision
+tags:
+- 视觉测量
+- 位姿求解
 ---
 
 基于点特征的位姿求解算法：

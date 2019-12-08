@@ -2,6 +2,10 @@
 title: 特征点布局设计
 typora-root-url: ../../source
 typora-copy-images-to: ../images/Feature optimization_01.assets
+categories: Computer Vision
+tags:
+- 视觉测量
+- 特征优化
 ---
 
 ### 基于视觉定位跟踪的大型机械部件数字化对接关键技术研究--谭启蒙 北京邮电大学 201204

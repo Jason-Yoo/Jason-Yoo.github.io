@@ -2,6 +2,9 @@
 title: TX2-learning
 typora-root-url: ../../source
 typora-copy-images-to: ../images/TX2-learning.assets
+categories: Engineering experiment
+tags:
+- TX2
 ---
 
 TX2-Learning review

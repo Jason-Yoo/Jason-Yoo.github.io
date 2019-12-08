@@ -2,6 +2,9 @@
 title: 多目标进化优化理论
 typora-root-url: ../../source
 typora-copy-images-to: ../images/MOEA.assets
+categories: Computer Vision
+tags:
+- 多目标优化
 ---
 
 ### 1.进化算法：遗传算法、进化规划、进化策略

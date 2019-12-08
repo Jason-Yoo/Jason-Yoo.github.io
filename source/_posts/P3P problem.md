@@ -2,6 +2,10 @@
 title: P3P问题研究
 typora-root-url: ../../source
 typora-copy-images-to: ../images/p3p problem.assets
+categories: Computer Vision
+tags:
+- 视觉测量
+- 位姿求解
 ---
 
 P3P问题原理：

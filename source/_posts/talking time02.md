@@ -2,6 +2,9 @@
 title: 旋翼机自主着陆-合作目标设计
 typora-root-url: ../../source
 typora-copy-images-to: ../images/talking time02.assets
+categories: Engineering experiment
+tags:
+- 自主着陆
 ---
 
 ​		这个课题在我本科阶段就一直很想做，所以在毕业设计的时候也以此为毕业课题，从设计合作目标，到最后实现整个系统也花了我蛮久的时间。虽然在毕设中拿到了优秀，但是实际做的还是比较粗糙的，自己也不能满意，但为了有了结果，只好大概实现了实时的位姿估计，怎么插入视频我还没学会，那就先放点图片吧。
@@ -39,6 +42,5 @@ typora-copy-images-to: ../images/talking time02.assets
 所谓的合作目标设计，也就在考虑如下因素的基础上，加上相机的成像模型与应用距离的范围，对合作目标的存在的多种组合按照一定的约束进行筛选，找出最恰当的点、线分布状态。
 
 <center><img src="/images/talking%20time02.assets/%E6%88%AA%E5%B1%8F2019-10-16%E4%B8%8B%E5%8D%887.48.16.png" alt="截屏2019-10-16下午7.48.16" style="zoom:50%;" /></center>
-
 ### 
 

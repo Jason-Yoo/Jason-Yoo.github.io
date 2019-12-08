@@ -2,7 +2,9 @@
 title: 复盘最近半个月
 typora-root-url: ../../source
 typora-copy-images-to: ../images/review01.assets
-
+categories: Review
+tags:
+- 小声逼逼
 ---
 
 ​		因为最近课程也比较多，也很难抽时间系统性的搞其他的，唯一坚持了半个月的就是每天复习之前学的雅思，把笔记什么的重新整理了一下，从听力到阅读到写作，口语还没来得及，口语也不着急，把一些做题技巧和做题要点复盘了一下。

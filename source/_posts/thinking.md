@@ -2,6 +2,9 @@
 
 title: 总有那么一会需要问问自己
 typora-root-url: ../../source
+categories: Review
+tags:
+- 小声逼逼
 ---
 
 ##### 我在谁？我在那？我在干嘛？我接下来干嘛？

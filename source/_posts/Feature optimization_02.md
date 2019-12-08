@@ -1,6 +1,10 @@
 ---
 title: 合作目标位姿测量影响精度的因素
 typora-root-url: ../../source
+categories: Computer Vision
+tags:
+- 视觉测量
+- 特征优化
 ---
 
 ### 基于目标特征的单目视觉位置姿态测量技术研究 --赵连军 中国科学院大学 201405

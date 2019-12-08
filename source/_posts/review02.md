@@ -2,6 +2,9 @@
 title: 再次Review
 typora-root-url: ../../source
 typora-copy-images-to: ../images/review02.assets
+categories: Review
+tags:
+- 小声逼逼
 ---
 
 #### 日常复盘
