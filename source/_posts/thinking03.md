@@ -1,5 +1,5 @@
 ---
-title: 如何进行科研
+title: 小声逼逼
 typora-root-url: ../../source
 typora-copy-images-to: ../images/talking time01.assets
 categories: Review
@@ -7,7 +7,7 @@ tags:
 - 小声逼逼
 ---
 
-#### 做科研的正确方式：
+#### 科研的打开方式：
 
 1.解决的根本问题是什么（Ax+b=0）
 
@@ -15,4 +15,4 @@ tags:
 
 3.解决该问题需要付出的代价（算法复杂度、算法稳定度、算法精度）
 
-##### 望深思！！！！
+望深思！
