@@ -17,6 +17,18 @@ https://elinux.org/Jetson_TX2 ，这个网站基本上涵盖了TX2所有的硬�
 
 https://github.com/NVIDIA-AI-IOT/redtail ，这个上面是英伟达官方提供的一些用在机器人上面的深度神经网络模型，看看Readme基本上能够上手了，至于原理性的东西还是需要从基础的RNN学起。
 
+刷4.2的需要注意的坑和解决的办法：
+
+卡在 Vision works on target 的解决方案：
+
+https://devtalk.nvidia.com/default/topic/1055485/jetson-agx-xavier/xavier-visionworks-install-failing-sdk-manager-/post/5350878/#5350878
+
+卡在 Opencv on target 的解决方案：
+
+https://devtalk.nvidia.com/default/topic/1055673/failed-to-install-opencv-using-sdk-manager/?offset=3#
+
+
+
 <img src="/images/TX2-learning.assets/Screenshot%20from%202019-10-22%2017-20-11.png" alt="Screenshot from 2019-10-22 17-20-11" style="zoom:50%;" />
 
 
