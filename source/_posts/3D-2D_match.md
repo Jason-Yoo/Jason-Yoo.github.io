@@ -2,6 +2,7 @@
 title: 相机畸变模型
 typora-root-url: ../../source
 typora-copy-images-to: ../images/3D-2D_match.assets
+mathjax: true
 categories: Computer Vision
 tags:
 - 视觉测量
