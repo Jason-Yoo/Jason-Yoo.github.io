@@ -1,5 +1,5 @@
 ---
-title: 线性代数基本概念
+title: 线性代数
 typora-root-url: ../../source
 typora-copy-images-to: ../images/linear algebra.assets
 mathjax: true
