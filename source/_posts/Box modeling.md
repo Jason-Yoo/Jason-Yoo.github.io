@@ -1,3 +1,13 @@
+---
+title: UAVGP堆叠箱体建模方案
+typora-root-url: ../../source
+typora-copy-images-to: ../images/Box modeling.assets
+categories: Computer Vision
+tags:
+- 视觉测量
+- 图像处理
+---
+
 基于单目视觉的堆叠箱体工件空间位姿求解研究 --浙江大学 刘年福
 
 （1）特征点空间坐标测量模型
