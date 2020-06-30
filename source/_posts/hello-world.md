@@ -1,11 +1,21 @@
 ---
-title: 整好了
+title: Hello Word
+top: 1
 typora-root-url: ../../source
 typora-copy-images-to: ../images/hello-world.assets
-categories: HEXO
+categories: blog
 tags:
 - 博客搭建
 ---
-好像这样就可以写东西了，通过这种方式记录一下科研的点滴吧，反正也是给自己回顾用，就不用特别正式了。
+##### Who ?
 
-<img src="/images/hello-world.assets/2AED6C53-EC36-42D1-AC0A-A86D5AEC209A_4_5005_c.jpeg" alt="2AED6C53-EC36-42D1-AC0A-A86D5AEC209A_4_5005_c" style="zoom:50%;" />
+```javascript
+杨吉多才，男，南京航空航天大学硕士在读，视觉检测，视觉测量方向，详情见左侧About，感谢您的关注。
+```
+
+##### What ?
+
+```javascript
+记录科研的点滴生活，梳理自己的知识框架，虽然菜，但也要菜的有理有据不是嘛。
+```
+
