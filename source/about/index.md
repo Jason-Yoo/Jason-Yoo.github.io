@@ -2,7 +2,7 @@
 title: About
 date: 2020-01-05 21:43:54
 comments: false 
-typora-root-url: ../about
+typora-root-url: ../../source
 typora-copy-images-to: ../about/about.assets
 ---
 
@@ -64,17 +64,17 @@ typora-copy-images-to: ../about/about.assets
 
 ##### 2016  江苏省TI杯电子设计竞赛  位同步时钟提取电路（F题）（占比50%）
 
-​	此位同步时钟提取系统主要包括m序列发生器，Xilinx Spartan6lx16（FPGA），LCD12864，无限增益多路负反馈二阶低通滤波器，阈值可调高速比较器模块，开关电源（电源模块）。通过模拟电路将TTL电平的m序列信号滤除高频谐波，只留下基波发送给以FPGA为核心的接收端，接收端经过放大器比较器，进入FPGA进行相关运算，实现测频、显示、还原m序列和提取位同步时钟的功能。
+​	位同步时钟提取系统主要包括: m序列发生器，Xilinx Spartan6lx16（FPGA），LCD12864，无限增益多路负反馈二阶低通滤波器，阈值可调高速比较器模块，开关电源（电源模块）。通过模拟电路将TTL电平的m序列信号滤除高频谐波，只留下基波发送给以FPGA为核心的接收端，接收端经过放大器比较器，进入FPGA进行相关运算，实现测频、显示、还原m序列和提取位同步时钟的功能。
 
 主要贡献：
 
 整个硬件电路的设计与制作，主要包括：m序列发生器设计，无限增益多路负反馈二阶低通滤波器，放大器、比较器；
 
-<img src="/about.assets/IMG_0265.JPG" alt="IMG_0265" style="zoom:33%;" />
+<img src="/about/about.assets/IMG_0265.JPG" alt="IMG_0265" style="zoom:33%;" />
 
 ##### 2016-2017 校级创新训练项目《基于机器视觉的全自动抓取系统》（负责人  占比90%）；
 
-主要有以下几个方面：
+主要贡献：
 
 1. 台球颜色的识别与定位
 
@@ -94,9 +94,9 @@ typora-copy-images-to: ../about/about.assets
 
 ​	软件——本装置通过机载的STM32开发板实现对舵机的控制，通过图传将图像传回电脑，在上位机上完成对目标球的识别和选取，之后返回目标球的实时坐标，由开发板解算机构的运动路径并最终使装置到达目标球上方并完成抓取。
 
-<img src="/about.assets/image-20200630193427721.png" alt="image-20200630193427721" style="zoom:33%;" />
+<img src="/about/about.assets/image-20200630193427721.png" alt="image-20200630193427721" style="zoom:33%;" />
 
-<img src="/about.assets/image-20200630193448299.png" alt="image-20200630193448299" style="zoom:33%;" />
+<img src="/about/about.assets/image-20200630193448299.png" alt="image-20200630193448299" style="zoom:33%;" />
 
 ##### 2017-2018 省级创新训练项目《运载多旋翼全天候自主飞行系统》（负责人 占比90%）；
 
@@ -106,11 +106,11 @@ typora-copy-images-to: ../about/about.assets
 
 ​	项目虽然已经结题，但它的意义不仅仅在于只是补偿使飞机水平，目前可做的是在精确测定载物的重心的基础上，然后通过机械装置动态改变飞机的重心，以实现在电机相同转速状态下飞机水平方向的前后左右移动，以此提高飞机的飞行时间和电机的使用效率，这个对未来的多旋翼载物飞行具有重要意义。
 
-<img src="/about.assets/image-20200630193755739.png" alt="image-20200630193755739" style="zoom:33%;" />
+<img src="/about/about.assets/image-20200630193755739.png" alt="image-20200630193755739" style="zoom:33%;" />
 
-<img src="/about.assets/%E8%BF%90%E8%BD%BD%E5%A4%9A%E6%97%8B%E7%BF%BC%E8%87%AA%E4%B8%BB%E9%A3%9E%E8%A1%8C%E7%B3%BB%E7%BB%9F.jpg" alt="运载多旋翼自主飞行系统" style="zoom:33%;" />
+<img src="/about/about.assets/%E8%BF%90%E8%BD%BD%E5%A4%9A%E6%97%8B%E7%BF%BC%E8%87%AA%E4%B8%BB%E9%A3%9E%E8%A1%8C%E7%B3%BB%E7%BB%9F.jpg" alt="运载多旋翼自主飞行系统" style="zoom:33%;" />
 
-<img src="/about.assets/image-20200630193946641.png" alt="image-20200630193946641" style="zoom:33%;" />
+<img src="/about/about.assets/image-20200630193946641.png" alt="image-20200630193946641" style="zoom:33%;" />
 
 
 
@@ -118,9 +118,9 @@ typora-copy-images-to: ../about/about.assets
 
 ​	主要贡献：利用Labview设计串口接收、数据滤波和存储等功能；
 
-<img src="/about.assets/image-20200630194043195.png" alt="image-20200630194043195" style="zoom:33%;" />
+<img src="/about/about.assets/image-20200630194043195.png" alt="image-20200630194043195" style="zoom:33%;" />
 
-##### **2017.8-2017.12**  江苏富勒三维科技有限公司  FL001系列（多防护图形化编程）无人机（占比70%）
+##### **2017.8-2017.12**  江苏富勒三维科技有限公司  FL001系列（多防护图形化编程）无人机（占比80%）
 
   主要贡献：
 
@@ -128,21 +128,19 @@ typora-copy-images-to: ../about/about.assets
 
 2.在PIXHAWK飞控外部建立控制器，实现一键起飞降落、自主避障和图形化编程接口等
 
-第一版
+第一版:
 
-![wx_camera_1541075923601](/about.assets/wx_camera_1541075923601.jpg)
+![wx_camera_1541075923601](/about/about.assets/wx_camera_1541075923601.jpg)
 
 第二版：
 
-<img src="/about.assets/mmexport1538104790447.jpg" alt="mmexport1538104790447" style="zoom:50%;" />
+<img src="/about/about.assets/mmexport1538104790447.jpg" alt="mmexport1538104790447" style="zoom:50%;" />
 
-![mmexport1538104801602](/about.assets/mmexport1538104801602.jpg)
+![mmexport1538104801602](/about/about.assets/mmexport1538104801602.jpg)
 
-![83FA79E1-7D81-4757-A53F-711411C582D2_1_105_c](/about.assets/83FA79E1-7D81-4757-A53F-711411C582D2_1_105_c.jpeg
+![6F872544-E68E-48E2-BCC2-A52F0737C2BC_1_105_c](/about/about.assets/6F872544-E68E-48E2-BCC2-A52F0737C2BC_1_105_c.jpeg)
 
-![6F872544-E68E-48E2-BCC2-A52F0737C2BC_1_105_c](/about.assets/6F872544-E68E-48E2-BCC2-A52F0737C2BC_1_105_c.jpeg)
-
-![5B526328-72AF-4DDA-A2E8-10909837E3A1_1_105_c](/about.assets/5B526328-72AF-4DDA-A2E8-10909837E3A1_1_105_c.jpeg)
+![5B526328-72AF-4DDA-A2E8-10909837E3A1_1_105_c](/about/about.assets/5B526328-72AF-4DDA-A2E8-10909837E3A1_1_105_c.jpeg)
 
 ##### 2018-2019 本科毕业设计  《基于视觉的无人机自主着陆的相对位姿测量技术研究》（占比100%）
 
@@ -152,7 +150,7 @@ typora-copy-images-to: ../about/about.assets
 
 ​	针对现有位姿解算算法在提升精度的同时存在计算效率低的问题，本论文避开现有位姿解算算法中复杂的几何约束，研究了利用代数方式求解的EP3P算法，并证明了此算法相比于Gao的算法具有更高的计算效率和稳定性；实验过程中，为了精确评判本文设计的位姿测量系统的精度，设计了基于激光雷达的无线高度测量系统，其相比于传统无人机利用气压计和GPS测高方法（精度为10cm），测量精度提升一个数量级。
 
-##### 2018  江苏省TI杯电子设计竞赛  手势识别（D题）
+##### 2018  江苏省TI杯电子设计竞赛  手势识别（D题）（占比50%）
 
 ​	以STM32F103为MCU，基于FDC2214设计制作一个手势识别装置，实现对猜拳游戏和划拳游戏的判决。装置具有训练和判决两种工作模式。在判决模式下实验装置能对指定人员进行猜拳游戏和划拳游戏的判决。其中，这里猜拳游戏的判决是指对手势比划“石头”、“剪刀”和“布”的判定，划拳游戏的判定是指手势比划“1”、“2”、“3”、“4”和“5”的判定。在训练模式下能对任意人员进行猜拳游戏和划拳游戏的手势训练，经过有限次训练后，能进行正确的猜拳游戏和划拳游戏的手势判决。
 
@@ -164,9 +162,17 @@ typora-copy-images-to: ../about/about.assets
 
 ③增加双人的对决模式——两人相对站立，各用手势控制一块亚克力板，在双方做出猜拳手势后，系统会识别出所出手势，LCD会立即给出猜拳阶段，判断某一方胜利；双人对决阶段前，需要分别将其手势信息录入系统中，在学习完成后可永久使用，不需要再次进行学习。
 
-<img src="/about.assets/-7595b5df4ab89e98.jpg" alt="-7595b5df4ab89e98" style="zoom: 50%;" />
+<img src="/about/about.assets/-7595b5df4ab89e98.jpg" alt="-7595b5df4ab89e98" style="zoom: 50%;" />
 
 ##### 2019.6-2019.10 南京师大附中树人中学  《双纸锥自动释放、测量与可视化演示实验系统》（独自研发占比100%）；
+
+<img src="/about/about.assets/image-20200630203141085.png" alt="image-20200630203141085" style="zoom:50%;" /><img src="/about/about.assets/image-20200630203205208.png" alt="image-20200630203205208" style="zoom:50%;" />
+
+<img src="/about/about.assets/image-20200630203335044.png" alt="image-20200630203335044" style="zoom:50%;" />
+
+<img src="/about/about.assets/image-20200630203355279.png" alt="image-20200630203355279" style="zoom:50%;" />
+
+<img src="/about/about.assets/%E5%9B%BE%E7%89%87%207-2.jpg" alt="图片 7-2" style="zoom:50%;" />
 
 ### 专利申请：
 
@@ -196,32 +202,32 @@ typora-copy-images-to: ../about/about.assets
 
 ### 一些零碎的记忆：
 
-<img src="/about.assets/IMG_0276.JPG" alt="IMG_0276" style="zoom:33%;" />
+<img src="/about/about.assets/IMG_0276.JPG" alt="IMG_0276" style="zoom:33%;" />
 
-<img src="/about.assets/IMG_1110.JPG" alt="IMG_1110" style="zoom:33%;" />
+<img src="/about/about.assets/IMG_1110.JPG" alt="IMG_1110" style="zoom:33%;" />
 
-![IMG_1363](/about.assets/IMG_1363.JPG)
+![IMG_1363](/about/about.assets/IMG_1363.JPG)
 
-![IMG_1560 （已编辑）](/about.assets/IMG_1560%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
+![IMG_1560 （已编辑）](/about/about.assets/IMG_1560%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
 
-<img src="/about.assets/IMG_1890.JPG" alt="IMG_1890" style="zoom:33%;" />
+<img src="/about/about.assets/IMG_1890.JPG" alt="IMG_1890" style="zoom:33%;" />
 
-<img src="/about.assets/IMG_3178.JPG" alt="IMG_3178" style="zoom: 50%;" />
+<img src="/about/about.assets/IMG_3178.JPG" alt="IMG_3178" style="zoom: 50%;" />
 
-<img src="/about.assets/IMG_20180421_101325.jpg" alt="IMG_3405" style="zoom:50%;" />
+<img src="/about/about.assets/IMG_20180421_101325.jpg" alt="IMG_3405" style="zoom: 25%;" />
 
-![IMG_20181023_172147](/about.assets/IMG_20181023_172147.jpg)
+![IMG_20181023_172147](/about/about.assets/IMG_20181023_172147.jpg)
 
-![IMG_20181024_101253](/about.assets/IMG_20181024_101253.jpg)
+![IMG_20181024_101253](/about/about.assets/IMG_20181024_101253.jpg)
 
-<img src="/about.assets/IMG_3456.JPG" alt="IMG_3452" style="zoom: 67%;" />![IMG_3461](/about.assets/IMG_3461.JPG)
+<img src="/about/about.assets/IMG_3456.JPG" alt="IMG_3452" style="zoom: 67%;" />![IMG_3461](/about/about.assets/IMG_3461.JPG)
 
-![IMG_1939 （已编辑）](/about.assets/IMG_1939%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
+![IMG_1939 （已编辑）](/about/about.assets/IMG_1939%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
 
-![IMG_1944 （已编辑）](/about.assets/IMG_1944%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
+![IMG_1944 （已编辑）](/about/about.assets/IMG_1944%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
 
-![IMG_3254](/about.assets/IMG_3254.JPG)
+![IMG_3254](/about/about.assets/IMG_3254.JPG)
 
-![IMG_1136 （已编辑）](/about.assets/IMG_1136%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
+![IMG_1136 （已编辑）](/about/about.assets/IMG_1136%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
 
-![IMG_1281](/about.assets/IMG_1281.JPG)
+![IMG_1281](/about/about.assets/IMG_1281.JPG)
