@@ -70,7 +70,7 @@ typora-copy-images-to: ../about/about.assets
 
 整个硬件电路的设计与制作，主要包括：m序列发生器设计，无限增益多路负反馈二阶低通滤波器，放大器、比较器；
 
-<img src="/about/about.assets/IMG_0265.JPG" alt="IMG_0265" style="zoom:33%;" />
+<img src="/about/about.assets/IMG_0265-3526200.JPG" alt="IMG_0265" style="zoom:50%;" />
 
 ##### 2016-2017 校级创新训练项目《基于机器视觉的全自动抓取系统》（负责人  占比90%）；
 
@@ -94,9 +94,9 @@ typora-copy-images-to: ../about/about.assets
 
 ​	软件——本装置通过机载的STM32开发板实现对舵机的控制，通过图传将图像传回电脑，在上位机上完成对目标球的识别和选取，之后返回目标球的实时坐标，由开发板解算机构的运动路径并最终使装置到达目标球上方并完成抓取。
 
-<img src="/about/about.assets/image-20200630193427721.png" alt="image-20200630193427721" style="zoom:33%;" />
+<img src="/about/about.assets/image-20200630220921082.png" alt="image-20200630220921082" style="zoom:50%;" />
 
-<img src="/about/about.assets/image-20200630193448299.png" alt="image-20200630193448299" style="zoom:33%;" />
+<img src="/about/about.assets/image-20200630220941563.png" alt="image-20200630220941563" style="zoom:50%;" />
 
 ##### 2017-2018 省级创新训练项目《运载多旋翼全天候自主飞行系统》（负责人 占比90%）；
 
@@ -106,19 +106,17 @@ typora-copy-images-to: ../about/about.assets
 
 ​	项目虽然已经结题，但它的意义不仅仅在于只是补偿使飞机水平，目前可做的是在精确测定载物的重心的基础上，然后通过机械装置动态改变飞机的重心，以实现在电机相同转速状态下飞机水平方向的前后左右移动，以此提高飞机的飞行时间和电机的使用效率，这个对未来的多旋翼载物飞行具有重要意义。
 
-<img src="/about/about.assets/image-20200630193755739.png" alt="image-20200630193755739" style="zoom:33%;" />
+<img src="/about/about.assets/2222-3526242.png" alt="2222" style="zoom:50%;" />
 
-<img src="/about/about.assets/%E8%BF%90%E8%BD%BD%E5%A4%9A%E6%97%8B%E7%BF%BC%E8%87%AA%E4%B8%BB%E9%A3%9E%E8%A1%8C%E7%B3%BB%E7%BB%9F.jpg" alt="运载多旋翼自主飞行系统" style="zoom:33%;" />
+<img src="/about/about.assets/%E8%BF%90%E8%BD%BD%E5%A4%9A%E6%97%8B%E7%BF%BC%E8%87%AA%E4%B8%BB%E9%A3%9E%E8%A1%8C%E7%B3%BB%E7%BB%9F-3526259.jpg" alt="运载多旋翼自主飞行系统" style="zoom: 25%;" />
 
-<img src="/about/about.assets/image-20200630193946641.png" alt="image-20200630193946641" style="zoom:33%;" />
-
-
+<img src="/about/about.assets/IMG_20180415_105505.jpg" alt="IMG_20180415_105505" style="zoom:25%;" />
 
 ##### 2018-2019 校级创新训练项目《用于汽车防撞的激光雷达光学系统研究》（占比20%）；
 
 ​	主要贡献：利用Labview设计串口接收、数据滤波和存储等功能；
 
-<img src="/about/about.assets/image-20200630194043195.png" alt="image-20200630194043195" style="zoom:33%;" />
+<img src="/about/about.assets/image-20200630221319881.png" alt="image-20200630221319881" style="zoom:50%;" />
 
 ##### **2017.8-2017.12**  江苏富勒三维科技有限公司  FL001系列（多防护图形化编程）无人机（占比80%）
 
@@ -134,7 +132,7 @@ typora-copy-images-to: ../about/about.assets
 
 第二版：
 
-<img src="/about/about.assets/mmexport1538104790447.jpg" alt="mmexport1538104790447" style="zoom:50%;" />
+<img src="/about/about.assets/mmexport1538104790447.jpg" alt="mmexport1538104790447" style="zoom:100%;" />
 
 ![mmexport1538104801602](/about/about.assets/mmexport1538104801602.jpg)
 
@@ -166,11 +164,11 @@ typora-copy-images-to: ../about/about.assets
 
 ##### 2019.6-2019.10 南京师大附中树人中学  《双纸锥自动释放、测量与可视化演示实验系统》 江苏省科技创新一等奖（独自研发占比100%）；
 
-<center><img src="/about/about.assets/image-20200630203141085.png" alt="image-20200630203141085" style="zoom:50%;" /><center><img src="/about/about.assets/image-20200630203205208.png" alt="image-20200630203205208" style="zoom:50%;" /></center>
+<img src="/about/about.assets/image-20200630221619609.png" alt="image-20200630221619609" style="zoom:33%;" />
 
-<img src="/about/about.assets/image-20200630203335044.png" alt="image-20200630203335044" style="zoom:50%;" />
+<img src="/about/about.assets/image-20200630221705898.png" alt="image-20200630221705898" style="zoom: 33%;" />
 
-<img src="/about/about.assets/image-20200630203355279.png" alt="image-20200630203355279" style="zoom:50%;" />
+<img src="/about/about.assets/image-20200630221748936.png" alt="image-20200630221748936" style="zoom:50%;" />
 
 <img src="/about/about.assets/%E5%9B%BE%E7%89%87%207-2.jpg" alt="图片 7-2" style="zoom:50%;" />
 
@@ -202,9 +200,9 @@ typora-copy-images-to: ../about/about.assets
 
 ### 一些零碎的记忆：
 
-<img src="/about/about.assets/IMG_0276.JPG" alt="IMG_0276" style="zoom:33%;" />
+<img src="/about/about.assets/IMG_0276.JPG" alt="IMG_0276" style="zoom: 50%;" />
 
-<img src="/about/about.assets/IMG_1110.JPG" alt="IMG_1110" style="zoom:33%;" />
+<img src="/about/about.assets/IMG_1110.JPG" alt="IMG_1110" style="zoom:100%;" />
 
 ![IMG_1363](/about/about.assets/IMG_1363.JPG)
 
@@ -212,15 +210,15 @@ typora-copy-images-to: ../about/about.assets
 
 <img src="/about/about.assets/IMG_1890.JPG" alt="IMG_1890" style="zoom:33%;" />
 
-<img src="/about/about.assets/IMG_3178.JPG" alt="IMG_3178" style="zoom: 50%;" />
+<img src="/about/about.assets/IMG_3178.JPG" alt="IMG_3178" style="zoom: 100%;" />
 
 <img src="/about/about.assets/IMG_20180421_101325.jpg" alt="IMG_3405" style="zoom: 25%;" />
 
-![IMG_20181023_172147](/about/about.assets/IMG_20181023_172147.jpg)
+<img src="/about/about.assets/IMG_20181023_172147.jpg" alt="IMG_20181023_172147" style="zoom:33%;" />
 
 ![IMG_20181024_101253](/about/about.assets/IMG_20181024_101253.jpg)
 
-<img src="/about/about.assets/IMG_3456.JPG" alt="IMG_3452" style="zoom: 67%;" />![IMG_3461](/about/about.assets/IMG_3461.JPG)
+<img src="/about/about.assets/IMG_3456.JPG" alt="IMG_3452" style="zoom: 100%;" />![IMG_3461](/about/about.assets/IMG_3461.JPG)
 
 ![IMG_1939 （已编辑）](/about/about.assets/IMG_1939%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
 
