@@ -162,7 +162,7 @@ typora-copy-images-to: ../about/about.assets
 
 <img src="/about/about.assets/-7595b5df4ab89e98.jpg" alt="-7595b5df4ab89e98" style="zoom: 50%;" />
 
-##### 2019.6-2019.10 南京师大附中树人中学  《双纸锥自动释放、测量与可视化演示实验系统》 江苏省科技创新一等奖（独自研发占比100%）；
+##### 2019.6-2019.10 南京师大附中树人中学  《双纸锥自动释放、测量与可视化演示实验系统》 江苏省科技创新一等奖（占比100%）；
 
 <img src="/about/about.assets/image-20200630221619609.png" alt="image-20200630221619609" style="zoom:33%;" />
 
