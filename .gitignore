@@ -1,4 +1,5 @@
 .DS_Store
+.gitignore
 Thumbs.db
 db.json
 *.log
