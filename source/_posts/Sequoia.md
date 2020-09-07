@@ -1,4 +1,14 @@
-7.25 **曹曦，红杉资本中国基金合伙人**
+---
+title: 2020智能C端科创营--红杉资本
+typora-root-url: ../../source
+typora-copy-images-to: ../images/Sequoia.assets
+mathjax: true
+categories: 创业路上
+tags:
+- 训练营
+---
+
+ **曹曦，红杉资本中国基金合伙人** --2020.7.25
 
 上一波公司解决了什么需求，没有解决什么需求；
 
@@ -15,8 +25,6 @@
 理解竞合：
 
 理解客户：
-
- 
 
 好团队：
 
@@ -65,5 +73,7 @@
  目前的投资方向：
 
 中国的戴森，好的产品力，对产品宗教信仰的追随
+
+<img src="/images/Sequoia.assets/IMG_3595.jpeg" alt="IMG_3595" style="zoom:25%;" />
 
  

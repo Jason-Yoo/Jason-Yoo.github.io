@@ -1,3 +1,13 @@
+---
+title: 2020智能C端科创营--用户调研
+typora-root-url: ../../source
+typora-copy-images-to: ../images/Understanding User Needs.assets
+mathjax: true
+categories: 创业路上
+tags:
+- 科创营
+---
+
 ### Understanding User Needs   --University of Michigan
 
 #### Introduction to User Needs Assessment(用户需求评估简介)
