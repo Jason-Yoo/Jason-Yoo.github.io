@@ -41,7 +41,7 @@ tags:
 
 ##### [4].Jiang, Fangyuan, Kuang, Yubin, Solem, Jan Erik. A Minimal Solution to Relative Pose with Unknown Focal Length and Radial Distortion.[M]// Computer Vision -- ACCV 2014. Springer International Publishing, 2014.
 
-​	对未知焦距及畸变参数下的本质矩阵估计的最小问题进行了详细的研究, 提出了基于 Grbner 基的多项式求解方法 ， 该方法能够得到大量正确的匹配对应点并实现焦距及 畸变参数的同时精确估计 。
+​	对未知焦距及畸变参数下的本质矩阵估计的最小问题进行了详细的研究, 提出了基于 Grobner 基的多项式求解方法 ， 该方法能够得到大量正确的匹配对应点并实现焦距及 畸变参数的同时精确估计 。
 
 ##### [5]. KUKELOVA Z，HELLEＲ J，BUNJNAK M，et al． Efficient solution to the epipolar geometry for radially distorted cameras[C］. IEEE International Conference on Computer Vision，2015
 
@@ -49,7 +49,7 @@ tags:
 
 ##### [6]. KUKELOVA Z，HELLEＲ J，BUJNAK M，et al． Ｒadial distortion homography［C］．Computer Vision and Pattern Recognition， IEEE，2015： 639-647．
 
-​	研究了畸变情况下单应矩阵的最小求解方法（使用五个对应 点构建非线性方程组，并使用 Grbner 基进行快速稳定求解） 和非最小求解方法（是使用六个点构建二元二 次线性方程组，进行线性求解 ），上述畸变参数的求解都是建立在已知畸变中心（Center of Distortion，CoD），或者假定畸变中心为影像中心下进行的。实际上， 影像的畸变中心与影像中心并不重合 ．
+​	研究了畸变情况下单应矩阵的最小求解方法（使用五个对应点构建非线性方程组，并使用 Grobner 基进行快速稳定求解）和非最小求解方法（是使用六个点构建二元二次线性方程组，进行线性求解 ），上述畸变参数的求解都是建立在已知畸变中心（Center of Distortion，CoD），或者假定畸变中心为影像中心下进行的。实际上，影像的畸变中心与影像中心并不重合 ．
 
 
 
@@ -111,7 +111,7 @@ $$
 
 $(R_{ct},T_{ct})$为相机和经纬仪的变换参数，在实际装配过程中应尽量保证相机坐标系与经纬仪坐标系重合，使得$R_{ct}$的初始值为单位矩阵，$T_{ct}$的初始值为$[0,0,0]^{T}$
 $$
-\begin{array}{c}f\left(\boldsymbol{H}, \boldsymbol{R}_{\mathrm{ct}}, \boldsymbol{T}_{\mathrm{ct}}, \boldsymbol{R}_{1}, \boldsymbol{T}_{1}\right)_{\min }= \\ \sum_{i=1}^{N}\left\|\boldsymbol{p}_{i}\left(\boldsymbol{H}, \boldsymbol{R}_{\mathrm{ct}}, \boldsymbol{T}_{\mathrm{ct}}, \boldsymbol{R}_{1}, \boldsymbol{T}_{1}\right)-\boldsymbol{p}_{i}^{\prime}\right\|\end{array}
+\begin{array}{c}f\left(\boldsymbol{H}, \boldsymbol{R}_{\mathrm{ct}}, \boldsymbol{T}_{\mathrm{ct}}, \boldsymbol{R}_{1}, \boldsymbol{T}_{1}\right)_{\min }= \ \sum_{i=1}^{N}\left\|\boldsymbol{p}_{i}\left(\boldsymbol{H}, \boldsymbol{R}_{\mathrm{ct}}, \boldsymbol{T}_{\mathrm{ct}}, \boldsymbol{R}_{1}, \boldsymbol{T}_{1}\right)-\boldsymbol{p}_{i}^{\prime}\right\|\end{array}
 $$
 
 ##### [4]. 雷成, 吴福朝, 胡占义. 一种新的基于主动视觉系统的摄像机自标定方法[J]. 计算机学报, 2000(11):11-20.

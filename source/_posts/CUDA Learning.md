@@ -1,3 +1,13 @@
+---
+title: CUDA Learning
+typora-root-url: ../../source
+typora-copy-images-to: ../images/CUDA Learning.assets
+mathjax: true
+categories: CUDA
+tags:
+- CUDA
+---
+
 CUDA Learning
 
 ##### GpuMat
