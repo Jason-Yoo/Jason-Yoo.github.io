@@ -10,7 +10,7 @@ tags:
 
 7.19  高秉强 博通集成董事  
 
-<img src="/images/xbotpark0719.assets/131A8076.JPG" alt="131A8076" style="zoom:50%;" />
+<img src="/images/xbotpark0719.assets/131A8076.JPG" alt="131A8076" width ="50%" style="zoom:50%;" />
 
 01～07年风投芯片，与国外差距太大，研发周期太长，很难看到盈利点，还是要做同一起跑线的东西；
 

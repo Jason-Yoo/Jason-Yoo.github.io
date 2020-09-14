@@ -74,4 +74,4 @@ tags:
 
 中国的戴森，好的产品力，对产品宗教信仰的追随
 
-<img src="/images/Sequoia.assets/IMG_3595-9620181.jpeg" alt="IMG_3595" style="zoom:25%;"/>
+<img src="/images/Sequoia.assets/IMG_3595-9620181.jpeg" alt="IMG_3595" width ="50%" style="zoom:25%;"/>

@@ -10,7 +10,7 @@ tags:
 
 云鲸CEO 张俊斌 
 
-<img src="/images/xbotpark0720.assets/131A8130.JPG" alt="131A8130" style="zoom:33%;" />
+<img src="/images/xbotpark0720.assets/131A8130.JPG" alt="131A8130" width="50%" height ="50%" style="zoom:33% ;" />
 
 1.公司本身就是一个产品，好的公司不依赖某个人；
 
@@ -36,7 +36,7 @@ tags:
 
 未知星球CEO 唐文轩
 
-<img src="/images/xbotpark0720.assets/131A8265.JPG" alt="131A8265" style="zoom:33%;" />
+<img src="/images/xbotpark0720.assets/131A8265.JPG" alt="131A8265"  width ="50%" style="zoom:33%;" />
 
 1.提前熟知产品开发的每个环节：时间成本、资金成本；
 
