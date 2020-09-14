@@ -1,5 +1,5 @@
 ---
-title: 2020智能C端科创营--红杉资本
+title: 关于智能C端创业--红杉资本
 typora-root-url: ../../source
 typora-copy-images-to: ../images/Sequoia.assets
 mathjax: true
