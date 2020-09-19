@@ -10,6 +10,10 @@ tags:
 
  **曹曦，红杉资本中国基金合伙人** --2020.7.25
 
+<img src="/images/Sequoia.assets/IMG_3595-9620181.jpeg" alt="IMG_3595" width ="50%" style="zoom:25%;"/>
+
+<!--more-->
+
 上一波公司解决了什么需求，没有解决什么需求；
 
 中国的行业发展三维交叉推动的进步，需求端，供给端，渠道端；
@@ -74,4 +78,3 @@ tags:
 
 中国的戴森，好的产品力，对产品宗教信仰的追随
 
-<img src="/images/Sequoia.assets/IMG_3595-9620181.jpeg" alt="IMG_3595" width ="50%" style="zoom:25%;"/>

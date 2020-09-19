@@ -12,6 +12,8 @@ tags:
 
 <img src="/images/xbotpark0720.assets/131A8130.JPG" alt="131A8130" width="50%" height ="50%" style="zoom:33% ;" />
 
+<!--more-->
+
 1.公司本身就是一个产品，好的公司不依赖某个人；
 
 2.MPS 用户主动推荐率 检验产品的好坏；
