@@ -1,4 +1,5 @@
 .DS_Store
+.gitignore
 Thumbs.db
 package-lock.json
 package.json
