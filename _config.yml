@@ -98,5 +98,7 @@ jsonContent:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com:/Jason-Yoo/Jason-Yoo.github.io.git  
+  repo: 
+    github: https://github.com:/Jason-Yoo/Jason-Yoo.github.io.git  
+    coding: https://e.coding.net/dc-galaxy/dc-galaxy/dc-galaxy.git
   branch: master
