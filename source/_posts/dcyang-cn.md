@@ -1,7 +1,6 @@
 ---
 
-title: 用Github和Coding双线绑定自定义域名
-urlname: using-GitHub-and-coding-for-own-adress
+title: 用Github和Coding双线绑定购买的域名
 typora-root-url: ../../source
 typora-copy-images-to: ../images/dcyang cn.assets
 mathjax: true
