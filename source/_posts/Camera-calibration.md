@@ -11,7 +11,11 @@ tags:
 
 #### Camera calibration
 
+研究现有相机标定的方法的步骤和机理，探讨主动视觉的标定新方法；
+
 ##### 张正友法
+
+<!--more-->
 
 1）标定模型的建立
 $$
@@ -94,4 +98,25 @@ $$
 相机不同位置拍摄同一个点时，这两幅图存在如下约束：
 $$
 x_{1}^{T}\left(t \times d_{1} x_{1}\right)=x_{1}^{T} t \times R d_{0} x_{0}
+$$
+
+##### 同一特征点点变焦距成像模型：
+
+<img src="/images/Camera-calibration.assets/image-20200924092818130.png" alt="image-20200924092818130" style="zoom:67%;" />
+
+该模型包括 5 个坐标系：世界坐标系$O_wX_wY_wZ_w$ 、变焦相机基坐标系${O}_{c0}X_{c0}Y_{c0}Z_{c0}$ 、变焦相机动坐标系${O}_{cn}X_{cn}Y_{cn}Z_{cn}$、图像物理坐标$O_{1xy}$、图像像素坐标系$O_{0uv}$；
+
+当变焦相机的焦距位于任意位置fn时，物体的三维空间点P通过变焦相机的动坐标系光心$O_{cn}$，并映射到变焦相机的像平面上点$p_{cn}$位置。当变焦相机的焦距位于$f_0$时，点P通过变焦相机的基坐标系光心$O_{c0}$，并映射到变焦相机的像平面上点$p_{c0}$位置。
+
+变焦相机动坐标系${O}_{cn}X_{cn}Y_{cn}Z_{cn}$的$Z_c$轴与相机的光轴 $Z_{c0}$重合，它垂直于图像平面并通过图像坐标系的中心，$X_{cn}$轴和$Y_{cn}$轴分别平行于图像坐标系的u轴和v轴，光心到图像平面的距离 $O_{cn}O_1$称为变焦相机的实时焦距$f_n$，设变焦相机坐标系${O}_{cn}X_{cn}Y_{cn}Z_{cn}$中的物体空间点 P 在图像物理坐标系$O_{1xy}$下的成像像点为$p_{cn}=[x,y]T$ ，则可以得到：
+$$
+\left\{\begin{array}{l}u=u_{0}+\frac{f_{n}}{d x} \frac{X_{c n}}{Z_{c n}} \\ v=v_{0}+\frac{f_{n}}{d y} \frac{Y_{c n}}{Z_{c n}}\end{array}\right.
+$$
+根据相机坐标系下空间点和图像点之间的转换关系，相机的内参数矩阵由式中矩阵 M1 表示。当空间变焦相机的焦距位于基准焦距 f0 时，可以得到：
+$$
+\left[\begin{array}{l}u \\ v \\ 1\end{array}\right]=\left[\begin{array}{ccc}\frac{f_{0}}{d x} & 0 & u_{0} \\ 0 & \frac{f_{0}}{d y} & v_{0} \\ 0 & 0 & 1\end{array}\right]\left[\begin{array}{c}\frac{X_{c 0}}{Z_{c 0}} \\ \frac{Y_{C 0}}{Z_{c 0}} \\ 1\end{array}\right]=\mathbf{M}_{1}\left[\begin{array}{c}\frac{X_{c 0}}{Z_{c 0}} \\ \frac{Y_{c 0}}{Z_{c 0}} \\ 1\end{array}\right]
+$$
+当相机的焦距发生改变，$\alpha_{x}=\frac{f_{c n}}{d x}$为u轴上的放大系数,$\alpha_{y}=\frac{f_{c n}}{d y}$为v轴上的放大系数，相机的外参数矩阵用$M_2$表示，$T_{wen}$为3×1平移矩阵，$R_{wen}$为3×3为正交旋转矩阵,则三维空间点与二维图像点之间的映射关系可以通过下式进行描述：
+$$
+Z_{c n}\left[\begin{array}{l}u \\ v \\ 1\end{array}\right]=\left[\begin{array}{cccc}\alpha_{x} & 0 & u_{0} & \\ 0 & \alpha_{y} & v_{0} & 0 \\ 0 & 0 & 1 & 0\end{array}\right]\left[\begin{array}{cc}X_{w} & \\ 0 & 1\end{array}\right]\left[\begin{array}{c}\mathbf{R}_{\mathrm{wen}} \mathbf{T}_{\mathrm{wen}} \\ Y_{w} \\ Z_{w} \\ 1\end{array}\right]=\mathbf{M}_{1} \mathbf{M}_{2}\left[\begin{array}{c}X_{w} \\ Y_{w} \\ Z_{w} \\ 1\end{array}\right]=\mathbf{M}\left[\begin{array}{c}X_{w} \\ Y_{w} \\ Z_{w} \\ 1\end{array}\right]
 $$
