@@ -17,6 +17,8 @@ tags:
 
 这篇论文主要研究减少闭环检验约束条件和闭环计算检验的计算量，提高计算效率，达到实时闭环检测和大平面地图的构建。
 
+<!--more-->
+
 研究方法：
 
  当一个新的laser scan加入到地图中时，如果该laser scan的估计位姿与地图中某个submap的某个laser scan的位姿比较接近的话，那么通过某种 scan match策略就会找到该闭环（submap和Laser scan的位姿的原始数据是怎么来的呢？人为的存进去的吗？）
@@ -25,15 +27,15 @@ tags:
 
   We achieve this by using a branch-and-bound approach and several precomputed grids per finished submap.（分支上界法和预处理网格，预处理网格是什么？）
 
-1． Scans
+1.Scans
 
 每个点的角度是相对于那条线的角度呢？（代码中得到答案：原始的激光扫描是由浮点的（角度，距离值）组成，离散化后变成整型的（地图索引x，地图索引y））
 
-2. Submaps
+2.Submaps
 
 这个概率网络是怎么映射的呢？Submap是由多个Scans 建立起来的，包含的信息也只有距离值和角度值，概率网络的P怎么得到？
 
-3、Ceres scan matching
+3.Ceres scan matching
 
 在将一个scan点集插入submap中之前，这个scan点集的位置必须使用Ceres-based的scan matcher的方法进行优化（这个优化是相对于submap的位置）。这个scan matcher目的是为了找到一个点集位置，这个点集的位置在submap中的概率最大。   
 
