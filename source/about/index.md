@@ -16,51 +16,39 @@ typora-copy-images-to: ../about/about.assets
 
 2019.09 - 2022.04  南京航空航天大学 测试计量技术及仪器  硕士  （保送）
 
-### 获奖情况：
+### 硕士期间获奖情况：
 
-2016 校电子电路设计竞赛二等奖
+2020 科研创新先进个人
 
-2016 江苏省TI杯电子设计竞赛二等奖
+2020 第七届国际无人飞行器创新大奖赛旋翼竞技项目冠军
 
-2017 校机器人大赛二等奖
+### 本科期间获奖情况：
 
-2017 江苏省机器人大赛一等奖
+2016 校电子电路设计竞赛二等奖  江苏省TI杯电子设计竞赛二等奖
 
-2017 中国国际飞行器设计挑战赛二等奖
+2017 校机器人大赛二等奖 江苏省机器人大赛一等奖 中国国际飞行器设计挑战赛二等奖 全国大学生FPGA创新设计邀请赛三等奖
 
-2017 全国大学生FPGA创新设计邀请赛三等奖
+2018 校PLD电子设计竞赛一等奖 江苏省TI杯电子设计竞赛二等奖
 
-2018 校PLD电子设计竞赛一等奖
+2015-2016 “校优秀团干部” 荣誉称号
 
-2018江苏省TI杯电子设计竞赛二等奖
+2016-2017 “校优秀团干部” 荣誉称号 暑期社会实践“实践先锋” 荣誉称号 自动化学院科创培训“优秀讲师” 优秀学生奖学金三等奖 园丁励志二等奖学金 少数民族精进奖学金
 
-2015-2016“校优秀团干部” 荣誉称号
-
-2016-2017“校优秀团干部” 荣誉称号
-
-2016-2017 暑期社会实践“实践先锋” 荣誉称号
-
-2016-2017 自动化学院科创培训“优秀讲师”
-
-2016-2017 优秀学生奖学金三等奖
-
-2016-2017 园丁励志二等奖学金
-
-2016-2017 少数民族精进奖学金
-
-2017-2018 优秀学生奖学金二等奖
-
-2017-2018 校学业二等奖学金
-
-2017-2018 “三好学生”荣誉称号
-
-2017-2018 “校优秀学生干部” 荣誉称号
-
-2017-2018 国家励志奖学金
+2017-2018 优秀学生奖学金二等奖  校学业二等奖学金  “三好学生”荣誉称号  “校优秀学生干部” 荣誉称号 国家励志奖学金
 
 2018-2019 校优秀毕业生
 
-### 参加科研项目情况：
+### 硕士参加科研项目情况：
+
+国家自然科学基金：中远距离视觉位姿测量系数矩阵奇异性机理和“视野角”参数化新方法研究 
+
+项目类型：面上项目  项目起止年月：2021 年 01 月至 2024 年 12 月 
+
+提出合作特征布局对视觉位姿测量精度与稳定性影响的优化研究，负责内容撰写与仿真研究； 
+
+提出基于 RTK 无人机的和激光全站仪相结合的中远距离位姿测量实验新方法，负责研究撰写；
+
+### 本科参加科研项目情况：
 
 ##### 2016  江苏省TI杯电子设计竞赛  位同步时钟提取电路（F题）（占比50%）
 
@@ -68,9 +56,9 @@ typora-copy-images-to: ../about/about.assets
 
 主要贡献：
 
-整个硬件电路的设计与制作，主要包括：m序列发生器设计，无限增益多路负反馈二阶低通滤波器，放大器、比较器；
+<img src="/about/about.assets/IMG_0265.JPG" alt="IMG_0265" style="zoom: 25%;" />
 
-<img src="/about/about.assets/IMG_0265-3526200.JPG" alt="IMG_0265" style="zoom:50%;" />
+整个硬件电路的设计与制作，主要包括：m序列发生器设计，无限增益多路负反馈二阶低通滤波器，放大器、比较器；
 
 ##### 2016-2017 校级创新训练项目《基于机器视觉的全自动抓取系统》（负责人  占比90%）；
 
@@ -132,9 +120,9 @@ typora-copy-images-to: ../about/about.assets
 
 ![mmexport1538104801602](/about/about.assets/mmexport1538104801602.jpg)
 
-![6F872544-E68E-48E2-BCC2-A52F0737C2BC_1_105_c](/about/about.assets/6F872544-E68E-48E2-BCC2-A52F0737C2BC_1_105_c.jpeg)
+<img src="/about/about.assets/6F872544-E68E-48E2-BCC2-A52F0737C2BC_1_105_c.jpeg" alt="6F872544-E68E-48E2-BCC2-A52F0737C2BC_1_105_c" style="zoom:50%;" />
 
-![5B526328-72AF-4DDA-A2E8-10909837E3A1_1_105_c](/about/about.assets/5B526328-72AF-4DDA-A2E8-10909837E3A1_1_105_c.jpeg)
+<img src="/about/about.assets/5B526328-72AF-4DDA-A2E8-10909837E3A1_1_105_c.jpeg" alt="5B526328-72AF-4DDA-A2E8-10909837E3A1_1_105_c" style="zoom:50%;" />
 
 ##### 2018-2019 本科毕业设计  《基于视觉的无人机自主着陆的相对位姿测量技术研究》 --优秀毕业论文（占比100%）
 
@@ -202,7 +190,7 @@ typora-copy-images-to: ../about/about.assets
 
 ![IMG_1363](/about/about.assets/IMG_1363.JPG)
 
-![IMG_1560 （已编辑）](/about/about.assets/IMG_1560%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
+<img src="/about/about.assets/IMG_1560%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG" alt="IMG_1560 （已编辑）" style="zoom:50%;" />
 
 <img src="/about/about.assets/IMG_1890.JPG" alt="IMG_1890" style="zoom:33%;" />
 
@@ -212,15 +200,15 @@ typora-copy-images-to: ../about/about.assets
 
 <img src="/about/about.assets/IMG_20181023_172147.jpg" alt="IMG_20181023_172147" style="zoom:33%;" />
 
-![IMG_20181024_101253](/about/about.assets/IMG_20181024_101253.jpg)
+<img src="/about/about.assets/IMG_20181024_101253.jpg" alt="IMG_20181024_101253" style="zoom:50%;" />
 
 <img src="/about/about.assets/IMG_3456.JPG" alt="IMG_3452" style="zoom: 100%;" />![IMG_3461](/about/about.assets/IMG_3461.JPG)
 
-![IMG_1939 （已编辑）](/about/about.assets/IMG_1939%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
+<img src="/about/about.assets/IMG_1939%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG" alt="IMG_1939 （已编辑）" style="zoom:33%;" />
 
-![IMG_1944 （已编辑）](/about/about.assets/IMG_1944%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
+<img src="/about/about.assets/IMG_1944%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG" alt="IMG_1944 （已编辑）" style="zoom:50%;" />
 
-![IMG_3254](/about/about.assets/IMG_3254.JPG)
+<img src="/about/about.assets/IMG_3254.JPG" alt="IMG_3254" style="zoom:33%;" />
 
 ![IMG_1136 （已编辑）](/about/about.assets/IMG_1136%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG)
 

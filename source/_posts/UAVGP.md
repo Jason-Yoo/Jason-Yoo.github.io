@@ -12,6 +12,8 @@ tags:
 
 <img src="/images/UAVGP.assets/WechatIMG27.jpeg" alt="WechatIMG27" style="zoom:33%;" />
 
+<!--more-->
+
 <img src="/images/UAVGP.assets/WechatIMG26.jpeg" alt="WechatIMG26" style="zoom:33%;" />
 
 包揽旋翼竞技组冠亚军，成为此届大赛的唯一一等奖。
@@ -33,6 +35,12 @@ tags:
 主要贡献：
 
 1.实现了箱子搭建状态的位姿估计与无人机的末端抓取机构的视觉导航；
+
+实现方法：
+
+箱子识别检测--基于HSV空间的二值化与最小外接矩形获取ROI，在ROI利用Shi-Tomasi算法做角点提取，获取箱子的角点左边；
+
+位姿估计--基于SRPNP算法计算箱子最大面与相机的位姿关系，然后将其转换到无人机机体坐标系下
 
 2.实现了双机协同的状态机设计与交互任务逻辑；
 
