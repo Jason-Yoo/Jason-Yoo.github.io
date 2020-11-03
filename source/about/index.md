@@ -156,11 +156,15 @@ typora-copy-images-to: ../about/about.assets
 
 <img src="/about/about.assets/%E5%9B%BE%E7%89%87%207-2.jpg" alt="图片 7-2" style="zoom:50%;" />
 
-### 专利申请：
+
+
+### 发明专利申请情况：
 
 国家发明专利“一种单目视觉SLAM方法及系统” 专利号：201910279226 
 
 国家发明专利“一种单目视觉里程计定位方法” 专利号：201910279238
+
+
 
 ### 任职及参与活动情况：
 
@@ -182,7 +186,11 @@ typora-copy-images-to: ../about/about.assets
 
 在校期间，累计授课20余次，授课时常达50个小时，受众学生500余人，授课内容涵盖无人机，模电，数电，信号等； 
 
-### 一些零碎的记忆：
+
+
+### 一些零碎的照片：
+
+
 
 <img src="/about/about.assets/IMG_0276.JPG" alt="IMG_0276" style="zoom: 50%;" />
 
@@ -192,7 +200,7 @@ typora-copy-images-to: ../about/about.assets
 
 <img src="/about/about.assets/IMG_1560%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG" alt="IMG_1560 （已编辑）" style="zoom:50%;" />
 
-<img src="/about/about.assets/IMG_1890.JPG" alt="IMG_1890" style="zoom:33%;" />
+
 
 <img src="/about/about.assets/IMG_3178.JPG" alt="IMG_3178" style="zoom: 100%;" />
 
@@ -204,7 +212,7 @@ typora-copy-images-to: ../about/about.assets
 
 <img src="/about/about.assets/IMG_3456.JPG" alt="IMG_3452" style="zoom: 100%;" />![IMG_3461](/about/about.assets/IMG_3461.JPG)
 
-<img src="/about/about.assets/IMG_1939%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG" alt="IMG_1939 （已编辑）" style="zoom:33%;" />
+
 
 <img src="/about/about.assets/IMG_1944%20%EF%BC%88%E5%B7%B2%E7%BC%96%E8%BE%91%EF%BC%89.JPG" alt="IMG_1944 （已编辑）" style="zoom:50%;" />
 
