@@ -111,9 +111,9 @@ s_{r} x^{T}_{r} t^{\wedge} x_{r}=s_{l} x^{T}_{r} t^{\wedge} R x_{l} \tag{4}
 $$
 上式左侧中，$ t $ 与 $ x_{r}$ 的外积$t^{\wedge} x_{r}$ 是一个与$ t $ 和 $ x_{r} $都垂直的向量，所以，再将$x^{T}_{r}$ 与 $t^{\wedge} x_{r}$做内积，其结果必为0，从而有：
 $$
-\color{#F00} s_{l} x_{r}^{\mathrm{T}} t^{\wedge} R x_{l}=0 \Longrightarrow s_{l}\left(K^{-1} p_{r}\right)^{\mathrm{T}} t^{\wedge} R\left(K^{-1} p_{l}\right)=0 \Longrightarrow p_{r}^{\mathrm{T}} K^{-\mathrm{T}} t^{\wedge} R K^{-1} p_{l}=0 \tag{5}
+ s_{l} x_{r}^{\mathrm{T}} t^{\wedge} R x_{l}=0 \Longrightarrow s_{l}\left(K^{-1} p_{r}\right)^{\mathrm{T}} t^{\wedge} R\left(K^{-1} p_{l}\right)=0 \Longrightarrow p_{r}^{\mathrm{T}} K^{-\mathrm{T}} t^{\wedge} R K^{-1} p_{l}=0 \tag{5}
 $$
-(5)式以非常简洁的形式描述了两幅图像中匹配点对$ p_l$和$ p_r$之间存在的数学关系，这种关系就叫**对极约束**。另外，我们称$\color{#F00}E = t^\wedge R$ 为**本质矩阵**（[Essential Matrix](https://en.wikipedia.org/wiki/Essential_matrix)），称$\color{#F00} F = K^{-T} t^\wedge  R K^{-1} = K^{-T} E K^{-1}$为**基础矩阵**（[Fundamental Matrix](https://en.wikipedia.org/wiki/Fundamental_matrix_(computer_vision))），于是(5)式可以进一步简化为：
+(5)式以非常简洁的形式描述了两幅图像中匹配点对$ p_l$和$ p_r$之间存在的数学关系，这种关系就叫**对极约束**。另外，我们称$E = t^\wedge R$ 为**本质矩阵**（[Essential Matrix](https://en.wikipedia.org/wiki/Essential_matrix)），称$ F = K^{-T} t^\wedge  R K^{-1} = K^{-T} E K^{-1}$为**基础矩阵**（[Fundamental Matrix](https://en.wikipedia.org/wiki/Fundamental_matrix_(computer_vision))），于是(5)式可以进一步简化为：
 $$
 x_r^{\text T}Ex_l=p_r^{\text T}Fp_l=0\tag{6}
 $$

@@ -8,11 +8,13 @@ tags:
 - Robotics
 ---
 
-关于ROS的一些笔记
-
-<img src="/images/ROS_learning.assets/image-20201105192111214.png" alt="image-20201105192111214" style="zoom: 25%;" />
+#### 关于ROS的一些笔记
 
 **图概念概述**
+
+<!--more-->
+
+<img src="/images/ROS_learning.assets/image-20201105192111214.png" alt="image-20201105192111214" style="zoom: 25%;" />
 
 - Nodes:节点,一个节点即为一个可执行文件，它可以通过ROS与其它节点进行通信。
 - Messages:消息，消息是一种ROS数据类型，用于订阅或发布到一个话题。
