@@ -2,6 +2,7 @@
 title: Hand-Eye-Calibration
 typora-root-url: ../../source
 typora-copy-images-to: ../images/Calibration in robot.assets
+mathjax: true
 categories: Computer Vision
 tags:
 - 视觉测量

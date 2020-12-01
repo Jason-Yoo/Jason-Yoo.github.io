@@ -13,7 +13,7 @@ tags:
 
 研究现有相机标定的方法的步骤和机理，探讨主动视觉的标定新方法，张正友法，相机纯旋转运动，相机平移运动的对极几何约束，三角测量方法，变焦距成像模型；
 
-#### 张正友法
+#### 张正友法机理
 
 <!--more-->
 
@@ -65,17 +65,27 @@ $$
 $$
 \left[\begin{array}{c}V_{12}^{T} \\ \left(V_{11}-V_{22}\right)^{T}\end{array}\right] b=0 \tag{11}
 $$
+其中：
+$$
+\begin{array}{l}V_{12}=\left[\begin{array}{lllcc}h_{1} h_{2} & h_{4} h_{5}+h_{2} h_{4} & h_{4} h_{5} & h_{2} h_{7}+h_{1} h_{8} & h_{7} h_{8}+h_{2} h_{6} & h_{3} h_{6}\end{array}\right]^{T} \\ V_{11}=\left[\begin{array}{lllll}h_{1}^{2} & h_{2} h_{4}+h_{1} h_{4} & h_{4}^{2} & 2 h_{1} h_{7} & h_{7}^{2}+h_{2} h_{3} & h_{3}^{2}\end{array}\right]^{T} \\ V_{22}=\left[\begin{array}{lllll}h_{2}^{2} & h_{5}^{2}+h_{2} h_{5} & h_{5}^{2} & 2 h_{2} h_{8} & h_{8}^{2}+h_{5} h_{6} & h_{6}^{2}\end{array}\right]^{T}\end{array} \tag{12}
+$$
+Extraction of the Intrinsic Parameters from Matrix B：$B = λK^{−T}K$
+$$
+\begin{aligned} v_{0} &=\left(B_{12} B_{13}-B_{11} B_{23}\right) /\left(B_{11} B_{22}-B_{12}^{2}\right) \\ \lambda &=B_{33}-\left[B_{13}^{2}+v_{0}\left(B_{12} B_{13}-B_{11} B_{23}\right)\right] / B_{11} \\ \alpha &=\sqrt{\lambda / B_{11}} \\ \beta &=\sqrt{\lambda B_{11} /\left(B_{11} B_{22}-B_{12}^{2}\right)} \\ \gamma &=-B_{12} \alpha^{2} \beta / \lambda \\ u_{0} &=\gamma v_{0} / \beta-B_{13} \alpha^{2} / \lambda \end{aligned} \tag{13}
+$$
+
+
 4）内外参数的优化求解
 
 以上步骤得到的相机参数是从数值意义上得到的（即为数值解），并不具有物理意义。因此，Zhang 的方法接下来利用最大似然估计的方法，从物理意义上进一步优化求解以上参数。 对于拍摄的n幅图像（每幅图像上选择 m 个特征点），建立以空间特征点实际投影和理想投影误差最小为目标的代价函数：
 $$
-K, R, t=\arg \min \left(\sum_{i=1}^{n} \sum_{j=1}^{m} \| p_{i j}-\left.\hat{p}\left(K, R, t, P_{i j}\right)\right|^{2}\right) \tag{12}
+K, R, t=\arg \min \left(\sum_{i=1}^{n} \sum_{j=1}^{m} \| p_{i j}-\left.\hat{p}\left(K, R, t, P_{i j}\right)\right|^{2}\right) \tag{14}
 $$
 通过将步骤 3）中计算得到的结果作为初值，带上式 ，利用 Levenberg-Marquardt 迭代 算法优化求解得到最终的相机内外参数。
 
 通常情况下，相机的镜头是包含畸变的。因此，在综合考虑畸变和噪声的影响后：
 $$
-K, R, t, k_{1}, k_{2}, p_{1}, p_{2}=\arg \min \left(\sum_{i=1}^{n} \sum_{j=1}^{m} \| p_{i j}-\left.\hat{p}\left(K, R, t, k_{1}, k_{2}, p_{1}, p_{2}, P_{i j}\right)\right|^{2}\right) \tag{13}
+K, R, t, k_{1}, k_{2}, p_{1}, p_{2}=\arg \min \left(\sum_{i=1}^{n} \sum_{j=1}^{m} \| p_{i j}-\left.\hat{p}\left(K, R, t, k_{1}, k_{2}, p_{1}, p_{2}, P_{i j}\right)\right|^{2}\right) \tag{15}
 $$
 
 ##### 加入相机二维纯旋转运动（俯仰运动和偏航运动）约束后：

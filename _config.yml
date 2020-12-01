@@ -89,7 +89,7 @@ jsonContent:
       slug: false
       updated: false
       comments: false
-      link: false
+      link: true
       permalink: false
       excerpt: false
       categories: true
@@ -102,4 +102,5 @@ deploy:
   repo: 
     github: https://github.com:/Jason-Yoo/Jason-Yoo.github.io.git  
     coding: https://e.coding.net/dc-galaxy/dc-galaxy/dc-galaxy.git
+    csdn: https://blog.csdn.net/Reign_Man?spm=1011.2124.3001.5113
   branch: master

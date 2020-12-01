@@ -1,0 +1,8 @@
+- name: Geniucker #友链名称
+  avatar: https://cdn.jsdelivr.net/gh/geniucker/source/avatar.jpg #友链头像
+  site: https://geniucker.js.org #友链地址
+  info: 崇尚技术 #友链说明
+- name: cyc's blog
+  avatar: https://q1.qlogo.cn/g?b=qq&nk=2516803593&s=640
+  site: https://cyc2004.baklib.com
+  info: 暂无介绍~
