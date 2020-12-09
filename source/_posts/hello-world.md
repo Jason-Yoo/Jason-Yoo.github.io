@@ -3,7 +3,7 @@ title: Hello Word
 top: 3
 typora-root-url: ../../source
 typora-copy-images-to: ../images/hello-world.assets
-categories: blog
+categories: Blog
 tags:
 - 博客搭建
 ---
