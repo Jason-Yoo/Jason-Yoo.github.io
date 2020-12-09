@@ -4,7 +4,7 @@ top: 1
 typora-root-url: ../../source
 typora-copy-images-to: ../images/handware01.assets
 mathjax: true
-categories: 创新创业
+categories: entrepreneurship
 tags:
 - 硬件创新
 ---

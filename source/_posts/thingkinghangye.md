@@ -4,7 +4,7 @@ top: 2
 typora-root-url: ../../source
 typora-copy-images-to: ../images/thingkinghangye.assets
 mathjax: true
-categories: 创新创业
+categories: entrepreneurship
 tags:
 - 大局观
 ---
