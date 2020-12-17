@@ -181,3 +181,8 @@ $$
 基于正交的两组平行直线形成的消隐点的几何特性，提出了一种摄像机内外参数的自标定方法。 该方法利用连接光心与消隐点向量的正交性质，建立关于相机内参数的约束方程，并给出了约束方程的线性解法；
 
 针对现有自标定方法未能标定畸变系数的现状，提出了一种考虑畸变的非线性最优化算法，该算法以线性求解得到的内参数为初值，利用非线性单纯型法寻优标定畸变；建立消隐点坐标系，给出了摄像机外参数的求解算法。
+
+##### [8].Agapito, L., Hayman, E., Reid, I.: Self-calibration of rotating and zooming cameras. Int. J. Comput. Vis. 45(2), 107–127 (2001)
+
+they reported both linear and the nonlinear calibration methods (based on the LM algorithm) for selfcalibrating rotating and zooming cameras. Their approach was based on the inﬁnite-homography constraint and considered f, C x , C y , and k 1 as variable parameters. To increase the accuracy of the camera’s parameters, they utilized a maximum likelihood estimation (MLE) and a maximum a posteriori estimation (MAP). They reported results that are more accurate by keeping the principle point constant. They also analyzed the effects of radial distortion on selfcalibration and modeled a variation of the ﬁrst coefﬁcient of radial distortion using polynomial ﬁtting. A precisely manufactured calibration grid was used to get the ground truth data for evaluation purposes.
+

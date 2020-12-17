@@ -74,7 +74,6 @@ $$
 \begin{aligned} v_{0} &=\left(B_{12} B_{13}-B_{11} B_{23}\right) /\left(B_{11} B_{22}-B_{12}^{2}\right) \\ \lambda &=B_{33}-\left[B_{13}^{2}+v_{0}\left(B_{12} B_{13}-B_{11} B_{23}\right)\right] / B_{11} \\ \alpha &=\sqrt{\lambda / B_{11}} \\ \beta &=\sqrt{\lambda B_{11} /\left(B_{11} B_{22}-B_{12}^{2}\right)} \\ \gamma &=-B_{12} \alpha^{2} \beta / \lambda \\ u_{0} &=\gamma v_{0} / \beta-B_{13} \alpha^{2} / \lambda \end{aligned} \tag{13}
 $$
 
-
 4）内外参数的优化求解
 
 以上步骤得到的相机参数是从数值意义上得到的（即为数值解），并不具有物理意义。因此，Zhang 的方法接下来利用最大似然估计的方法，从物理意义上进一步优化求解以上参数。 对于拍摄的n幅图像（每幅图像上选择 m 个特征点），建立以空间特征点实际投影和理想投影误差最小为目标的代价函数：
@@ -98,6 +97,21 @@ $$
 $$
 \boldsymbol{R}_{Ti}=\left[\begin{array}{ccc}\cos \varphi_{i} & 0 & -\sin \varphi_{i} \\ 0 & 1 & 0 \\ \sin \varphi_{i} & 0 & \cos \varphi_{i}\end{array}\right]\left[\begin{array}{ccc}1 & 0 & 0 \\ 0 & \cos \psi_{i} & \sin \psi_{i} \\ 0 & -\sin \psi_{i} & \cos \psi_{i}\end{array}\right]
 $$
+
+非线性优化：Levenberg-Marquardt algorithm
+
+初始值：像素尺寸dx和dy、焦距f、分辨率W*H；外参初始矩阵可以通过P3P算法求解得到；
+$$
+\boldsymbol{H}=\left[\begin{array}{ccc}\frac{f}{d x} & 0 & \frac{W}{2} \\ 0 & \frac{f}{d y} & \frac{H}{2} \\ 0 & 0 & 1\end{array}\right]
+$$
+优化函数：
+
+$(R_{ct},T_{ct})$为相机和经纬仪的变换参数，在实际装配过程中应尽量保证相机坐标系与经纬仪坐标系重合，使得$R_{ct}$的初始值为单位矩阵，$T_{ct}$的初始值为$[0,0,0]^{T}$
+$$
+\begin{array}{c}f\left(\boldsymbol{H}, \boldsymbol{R}_{\mathrm{ct}}, \boldsymbol{T}_{\mathrm{ct}}, \boldsymbol{R}_{1}, \boldsymbol{T}_{1}\right)_{\min }= \ \sum_{i=1}^{N}\left\|\boldsymbol{p}_{i}\left(\boldsymbol{H}, \boldsymbol{R}_{\mathrm{ct}}, \boldsymbol{T}_{\mathrm{ct}}, \boldsymbol{R}_{1}, \boldsymbol{T}_{1}\right)-\boldsymbol{p}_{i}^{\prime}\right\|\end{array}
+$$
+
+##### 
 
 ##### 加入相机纯平移运动约束后：
 
@@ -175,3 +189,10 @@ $$
 $$
 Z_{c n}\left[\begin{array}{l}u \\ v \\ 1\end{array}\right]=\left[\begin{array}{cccc}\alpha_{x} & 0 & u_{0} & \\ 0 & \alpha_{y} & v_{0} & 0 \\ 0 & 0 & 1 & 0\end{array}\right]\left[\begin{array}{cc}X_{w} & \\ 0 & 1\end{array}\right]\left[\begin{array}{c}\mathbf{R}_{\mathrm{wen}} \mathbf{T}_{\mathrm{wen}} \\ Y_{w} \\ Z_{w} \\ 1\end{array}\right]=\mathbf{M}_{1} \mathbf{M}_{2}\left[\begin{array}{c}X_{w} \\ Y_{w} \\ Z_{w} \\ 1\end{array}\right]=\mathbf{M}\left[\begin{array}{c}X_{w} \\ Y_{w} \\ Z_{w} \\ 1\end{array}\right]
 $$
+
+### 标定存在的一些问题：
+
+the assumption of pure rotation is often violated because the optic centre of the camera and the rotation centre do not completely coincide.
+
+
+
