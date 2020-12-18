@@ -2,7 +2,7 @@
 title: 围炉碎语
 top: 2
 typora-root-url: ../../source
-typora-copy-images-to: ../images/thingkinghangye.assets
+typora-copy-images-to: ../images/talkhangye.assets
 mathjax: true
 categories: Entrepreneurship
 tags:
