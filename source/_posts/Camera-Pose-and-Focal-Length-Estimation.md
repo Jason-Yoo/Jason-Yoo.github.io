@@ -184,5 +184,5 @@ $$
 
 ##### [8].Agapito, L., Hayman, E., Reid, I.: Self-calibration of rotating and zooming cameras. Int. J. Comput. Vis. 45(2), 107–127 (2001)
 
-they reported both linear and the nonlinear calibration methods (based on the LM algorithm) for selfcalibrating rotating and zooming cameras. Their approach was based on the inﬁnite-homography constraint and considered f, C x , C y , and k 1 as variable parameters. To increase the accuracy of the camera’s parameters, they utilized a maximum likelihood estimation (MLE) and a maximum a posteriori estimation (MAP). They reported results that are more accurate by keeping the principle point constant. They also analyzed the effects of radial distortion on selfcalibration and modeled a variation of the ﬁrst coefﬁcient of radial distortion using polynomial ﬁtting. A precisely manufactured calibration grid was used to get the ground truth data for evaluation purposes.
+他们报告了线性和非线性校准方法（基于LM算法），用于自校准旋转和变焦相机。 他们的方法基于无限单应性约束，并将f，C x，C y和k 1视为变量参数。 为了提高相机参数的准确性，他们使用了最大似然估计（MLE）和最大后验估计（MAP）。 他们报告了通过保持原理点不变而更准确的结果。 他们还分析了径向畸变对自校准的影响，并使用多项式拟合对径向畸变的第一系数的变化进行了建模。 精确制造的校准网格用于获取地面真实数据，以进行评估。
 
