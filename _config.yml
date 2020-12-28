@@ -102,4 +102,5 @@ deploy:
   repo: 
     github: https://github.com:/Jason-Yoo/Jason-Yoo.github.io.git  
     coding: https://e.coding.net/dc-galaxy/dc-galaxy/dc-galaxy.git
+    repo: git@106.52.42.243:/home/duocai/blog.git
   branch: master
