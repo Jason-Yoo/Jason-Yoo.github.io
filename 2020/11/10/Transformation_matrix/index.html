@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en-hk">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=微软雅黑:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="三维坐标系之间的转换关系：R(旋转矩阵) 、T（平移矩阵）&amp;emsp;&amp;emsp;在大地测量、工程测量、摄影测量等领域中，坐标系之间的转换是必不可少的。空间坐标转换的实质是用公共点的２套坐标和非公共点的１套坐标推估非公共点的另１套坐标。 &amp;emsp;&amp;emsp;坐标转换过程通常分２步，先由公共点坐标解算转换参数，再由转换参数转换非公共点。转换参数通常分为旋转、平移和尺度参数，其中旋转参数的确定是坐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coordinate Transformation Matrix">
+<meta property="og:url" content="http://yoursite.com/2020/11/10/Transformation_matrix/index.html">
+<meta property="og:site_name" content="DC">
+<meta property="og:description" content="三维坐标系之间的转换关系：R(旋转矩阵) 、T（平移矩阵）&amp;emsp;&amp;emsp;在大地测量、工程测量、摄影测量等领域中，坐标系之间的转换是必不可少的。空间坐标转换的实质是用公共点的２套坐标和非公共点的１套坐标推估非公共点的另１套坐标。 &amp;emsp;&amp;emsp;坐标转换过程通常分２步，先由公共点坐标解算转换参数，再由转换参数转换非公共点。转换参数通常分为旋转、平移和尺度参数，其中旋转参数的确定是坐">
+<meta property="og:locale" content="en_HK">
+<meta property="og:image" content="https://picture-share-1303204700.cos.ap-nanjing.myqcloud.com/uPic/WzYxlM.png">
+<meta property="article:published_time" content="2020-11-10T11:51:19.452Z">
+<meta property="article:modified_time" content="2021-01-05T14:16:37.840Z">
+<meta property="article:author" content="Jason Yang">
+<meta property="article:tag" content="视觉测量">
+<meta property="article:tag" content="位姿估计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picture-share-1303204700.cos.ap-nanjing.myqcloud.com/uPic/WzYxlM.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/10/Transformation_matrix/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Coordinate Transformation Matrix | DC</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DC</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">永远年轻，永远热泪盈眶。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-link"></i>links</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/10/Transformation_matrix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Coordinate Transformation Matrix
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-10 19:51:19" itemprop="dateCreated datePublished" datetime="2020-11-10T19:51:19+08:00">2020-11-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-05 22:16:37" itemprop="dateModified" datetime="2021-01-05T22:16:37+08:00">2021-01-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Vision</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="三维坐标系之间的转换关系：R-旋转矩阵-、T（平移矩阵）"><a href="#三维坐标系之间的转换关系：R-旋转矩阵-、T（平移矩阵）" class="headerlink" title="三维坐标系之间的转换关系：R(旋转矩阵) 、T（平移矩阵）"></a>三维坐标系之间的转换关系：R(旋转矩阵) 、T（平移矩阵）</h3><p>&emsp;&emsp;在大地测量、工程测量、摄影测量等领域中，坐标系之间的转换是必不可少的。空间坐标转换的实质是用公共点的２套坐标和非公共点的１套坐标推估非公共点的另１套坐标。</p>
+<p>&emsp;&emsp;坐标转换过程通常分２步，先由公共点坐标解算转换参数，再由转换参数转换非公共点。转换参数通常分为旋转、平移和尺度参数，其中旋转参数的确定是坐标转换的核心。</p>
+<p>&emsp;&emsp;传统的三维坐标转换模型是用３个旋转角作为旋转参数，建立的模型是非线性的，常需要用泰勒级数展开的方法将模型线性化，计算比较繁杂。</p>
+<p>&emsp;&emsp;在小角度旋转情况下，可对旋转矩阵作近似处理，得到线性模型，如常用的布尔莎模型。</p>
+<p>&emsp;&emsp;针对大旋角的坐标转换问题，多采用罗德里格矩阵表示旋转矩阵的坐标转换方法，仅有３个旋转参数，计算过程无需线性化，且能适用大旋角转换。</p>
+<p><img data-src="https://picture-share-1303204700.cos.ap-nanjing.myqcloud.com/uPic/WzYxlM.png" style="zoom:50%;" /></p>
+<a id="more"></a>
+<h3 id="数学模型描述"><a href="#数学模型描述" class="headerlink" title="数学模型描述"></a>数学模型描述</h3><h5 id="布尔莎模型-前提是旋转角为微小旋转角"><a href="#布尔莎模型-前提是旋转角为微小旋转角" class="headerlink" title="布尔莎模型:前提是旋转角为微小旋转角"></a>布尔莎模型:前提是旋转角为微小旋转角</h5><p>设矩阵 A 为 A 坐标系下公共点的三维坐标，矩阵B为B坐标系下公共点的三维坐标。由三维坐标转换模型可得，A、B 两坐标系的三维坐标转换方程如下所示：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{l}x \\ y \\ z\end{array}\right]_{B}=\left[\begin{array}{l}\Delta x \\ \Delta y \\ \Delta z\end{array}\right]+(1+k) \boldsymbol{R}\left[\begin{array}{l}x \\ y \\ z\end{array}\right]_{A}\tag{1}</script><p>式中：$Δx、Δy、Δz$ 表示坐标原点的平移量，$k$ 为尺度因子，$R$ 为 A 站位到 B 站位的旋转矩阵。为了对坐标转换精度进行分析，将三维坐标转换模型作如下简化:</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{c}x \\ y \\ z\end{array}\right]_{B}=k\left[\begin{array}{c}x \\ y \\ z\end{array}\right]_{A}+\left[\begin{array}{ccc}0 & -\varepsilon_{z} & \varepsilon_{y} \\ \varepsilon_{z} & 0 & -\varepsilon_{x} \\ -\varepsilon_{y} & \varepsilon_{x} & 0\end{array}\right] \cdot\left[\begin{array}{l}x \\ y \\ z\end{array}\right]_{A}+\left[\begin{array}{c}\Delta x \\ \Delta y \\ \Delta z\end{array}\right]  \tag{2}</script><p>应注意到，式(2)中 $ε_x 、ε_y 、ε_z$ 均为微小角，则$sin{x} = x ,cos{x}=1 $因此，应在利用坐标转换模型前通过初步的坐标系转换得到一组转站参数的初值，使 A、B 两坐标系之间的转换满足微小角近似。式(2)可进一步写成：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{l}x \\ y \\ z\end{array}\right]_{B}=\left[\begin{array}{lllllll}1 & 0 & 0 & 0 & z & -y & x \\ 0 & 1 & 0 & -z & 0 & x & y \\ 0 & 0 & 1 & y & -x & 0 & z\end{array}\right]_{A} \cdot\left[\begin{array}{l}\Delta x \\ \Delta y \\ \Delta z \\ \varepsilon_{x} \\ \varepsilon_{y} \\ \varepsilon_{z} \\ k\end{array}\right] \tag{3}</script><p>根据式(3)，可将 n 个公共点的坐标转换写为$ B=AX$ 的形式，其中：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}=\left(\begin{array}{ccccccc}1 & 0 & 0 & 0 & z_{1} & -y_{1} & x_{1} \\ 0 & 1 & 0 & -z_{1} & 0 & x_{1} & y_{1} \\ 0 & 0 & 1 & y_{1} & -x_{1} & 0 & z_{1} \\ 1 & 0 & 0 & 0 & z_{2} & -y_{2} & x_{2} \\ 0 & 1 & 0 & -z_{2} & 0 & x_{2} & y_{2} \\ 0 & 0 & 1 & y_{2} & -x_{2} & 0 & z_{2} \\ 1 & 0 & 0 & 0 & z_{n} & -y_{n} & x_{n} \\ 0 & 1 & 0 & -z_{n} & 0 & x_{n} & y_{n} \\ 0 & 0 & 1 & y_{n} & -x_{n} & 0 & z_{n}\end{array}\right)_{A}</script><p>利用最小二乘法对转换参数进行参数估计，可得转换参数 $X$ 的估值为:</p>
+<script type="math/tex; mode=display">
+\boldsymbol{X}=\left(\boldsymbol{A}^{\mathrm{T}} \boldsymbol{Q}^{-1} \boldsymbol{A}\right)^{-1} \boldsymbol{A}^{\mathrm{T}} \boldsymbol{Q} \boldsymbol{B}</script><p>式中：$Q$ 为B 坐标系下$ n$ 个公共点坐标测量误差的协方差矩阵,则得转换参数方差阵为：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{Q}_{x}=\left(\boldsymbol{A}^{\mathrm{T}} \boldsymbol{Q}^{-1} \boldsymbol{A}\right)^{-1}=\left[\begin{array}{cccc}q_{11} & q_{12} & \cdots & q_{17} \\ q_{21} & q_{22} & \cdots & q_{27} \\ & & \vdots & \\ q_{71} & q_{72} & \cdots & q_{77}\end{array}\right]</script><p>对于空间任意一点 $P$，其坐标转换误差方差阵为:</p>
+<script type="math/tex; mode=display">
+\boldsymbol{Q}_{P}=\boldsymbol{B}_{P} \boldsymbol{Q}_{x} \boldsymbol{B}_{P}^{\mathrm{T}}=\left[\begin{array}{lll}q_{x x} & q_{x y} & q_{x z} \\ q_{y x} & q_{y y} & q_{y z} \\ q_{z x} & q_{z y} & q_{z z}\end{array}\right]</script><h5 id="罗德里格矩阵模型"><a href="#罗德里格矩阵模型" class="headerlink" title="罗德里格矩阵模型"></a>罗德里格矩阵模型</h5><p><strong>空间直角坐标系转换模型</strong></p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{l}X \\ Y \\ Z\end{array}\right]=\lambda \boldsymbol{R}\left[\begin{array}{l}x \\ y \\ z\end{array}\right]+\left[\begin{array}{l}\Delta X \\ \Delta Y \\ \Delta Z\end{array}\right] \tag{1}</script><p>$\lambda$为尺度比例因子，假设其初值是１；$R$ 为$3×3$的旋转矩阵；</p>
+<p>引入一个具有３个独立元素的反对称矩阵:</p>
+<script type="math/tex; mode=display">
+S=\left[\begin{array}{rrr}0 & -c & -b \\ c & 0 & -a \\ b & a & 0\end{array}\right]    \tag{2}</script><p>式中 $ a,b,c$ 相互独立，则罗德里格矩阵可由反对称矩阵构建为：</p>
+<script type="math/tex; mode=display">
+R=(I+S)(I-S)^{-1} \tag{3}</script><p>式中$R$是个正交矩阵，其中 $I$ 是 ３ 阶单位阵,将 $R$ 展开为:</p>
+<script type="math/tex; mode=display">
+\begin{array} & R=\frac{1}{1+a^{2}+b^{2}+c^{2}}  {\left[\begin{array}\\1+a^{2}-b^{2}-c^{2} & -2 c-2 a b & -2 b+2 a c \\ 2 c-2 a b & 1-a^{2}+b^{2}-c^{2} & -2 a-2 b c \\ 2 b+2 a c & 2 a-2 b c & 1-a^{2}-b^{2}+c^{2}\end{array}\right]}\end{array} \tag{4}</script><p>将旋转矩阵带入式（1）可解得平移矢量:</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{c}X_{i} \\ Y_{i} \\ Z_{i}\end{array}\right]=\frac{\lambda}{1+a^{2}+b^{2}+c^{2}}\left[\begin{array}{ccc}1+a^{2}-b^{2}-c^{2} & -2 a b-2 c & -2 b+2 a c \\ 2 c-2 a b & 1-a^{2}+b^{2}-c^{2} & -2 a-2 b c \\ 2 a c+2 b & 2 a-2 b c & 1-a^{2}-b^{2}+c^{2}\end{array}\right]\left[\begin{array}{c}x_{i} \\ y_{i} \\ z_{i}\end{array}\right]+\left[\begin{array}{c}\Delta X \\ \Delta Y \\ \Delta Z\end{array}\right]\tag{5}</script><p>式（5）中未知参数共有 ７ 个，即 $λ 、ａ 、 ｂ 、 ｃ 、 ΔＸ 、  Δ Ｙ 、 ΔＺ $，进行线性化处理得到误差方程：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{v}=\boldsymbol{A} \Delta \boldsymbol{x}+\boldsymbol{l} \tag{6}</script><p>对式（6）,利用最小二乘法可得到：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{\Delta} \boldsymbol{x}=\left(\boldsymbol{A}^{\mathrm{T}} \boldsymbol{P} \boldsymbol{A}\right)^{-1}\left(\boldsymbol{A}^{\mathrm{T}} \boldsymbol{P} \boldsymbol{l}\right) \tag{7}</script><p>式（7）中，$P$位单位矩阵；</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}=\left[\begin{array}{ccccccc}\frac{\partial X_{i}}{\partial \lambda} & \frac{\partial X_{i}}{\partial a} & \frac{\partial X_{i}}{\partial b} & \frac{\partial X_{i}}{\partial c} & \frac{\partial X_{i}}{\partial \Delta X} & \frac{\partial X_{i}}{\partial \Delta Y} & \frac{\partial X_{i}}{\partial \Delta Z} \\ \frac{\partial Y_{i}}{\partial \lambda} & \frac{\partial Y_{i}}{\partial a} & \frac{\partial Y_{i}}{\partial b} & \frac{\partial Y_{i}}{\partial c} & \frac{\partial Y_{i}}{\partial \Delta X} & \frac{\partial Y_{i}}{\partial \Delta Y} & \frac{\partial Y_{i}}{\partial \Delta Z} \\ \frac{\partial Z_{i}}{\partial \lambda} & \frac{\partial Z_{i}}{\partial a} & \frac{\partial Z_{i}}{\partial b} & \frac{\partial Z_{i}}{\partial c} & \frac{\partial Z_{i}}{\partial \Delta X} & \frac{\partial Z_{i}}{\partial \Delta Y} & \frac{\partial Z_{i}}{\partial \Delta Z}\end{array}\right]</script><script type="math/tex; mode=display">
+\Delta \boldsymbol{x}=\left[\begin{array}{llllll}\Delta \lambda & \Delta a & \Delta b & \Delta c & \Delta  X & \Delta  Y & \Delta Z\end{array}\right]^{\mathrm{T}}</script><script type="math/tex; mode=display">
+\boldsymbol{l}=\left[\begin{array}{lll}l_{1} & l_{2} & l_{3}\end{array}\right]^{\mathrm{T}}</script><p><strong>转换参数求解</strong></p>
+<p>参数解算过程可分３步，先求尺度参数，再求旋转参数，最后求平移参数。 尺度参数可由２个公共点在不同坐标系下的距离之比算出：</p>
+<script type="math/tex; mode=display">
+\lambda=\frac{\sqrt{\left(X_{2}-X_{1}\right)^{2}+\left(Y_{2}-Y_{1}\right)^{2}+\left(Z_{2}-Z_{1}\right)^{2}}}{\sqrt{\left(x_{2}-x_{1}\right)^{2}+\left(y_{2}-y_{1}\right)^{2}+\left(z_{2}-z_{1}\right)^{2}}}</script><p>公共点较多时，可求出各点间多个距离比，再取平均值；</p>
+<p>在解算旋转参数 $ａ,b，c $时，可以先消去平移参数，将２个公共点的坐标代入式（ 1）,分别按照式（1） 做差得:</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{l}X_{2}-X_{1} \\ Y_{2}-Y_{1} \\ Z_{2}-Z_{1}\end{array}\right]=\lambda \boldsymbol{R}\left[\begin{array}{l}x_{2}-x_{1} \\ y_{2}-y_{1} \\ z_{2}-z_{1}\end{array}\right]</script><p>联系式（2）式（3） 可得：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{ccc}0 & \lambda z_{21}+Z_{21} & \lambda y_{21}+Y_{21} \\ \lambda z_{21}+Z_{21} & 0 & -\lambda x_{21}-X_{21} \\ -\lambda y_{21}-Y_{21} & -\lambda x_{21}-X_{21} & 0\end{array}\right]\left[\begin{array}{l}a \\ b \\ c\end{array}\right]=\left[\begin{array}{l}\lambda x_{21}-X_{21} \\ \lambda y_{21}-Y_{21} \\ \lambda z_{21}-Z_{21}\end{array}\right]</script><p>式中：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}x_{21}=x_{2}-x_{1} ; y_{21}=y_{2}-y_{1} ; z_{21}=z_{2}-z_{1} \\ X_{21}=X_{2}-X_{1} ; Y_{21}=Y_{2}-Y_{1} ; Z_{21}=Z_{2}-Z_{1}\end{array}</script><p>这个方程组左边的系数矩阵为奇异阵，３个方程里仅有２个独立，需要至少２个这样的方程组才能解算出ａ，ｂ，ｃ，也就是至少需要 ３ 个公共点。 当有ｎ个公共点时，可列出（ n－１）个形如上式的方程 ，共有 3（n-1）个方程，其总误差方程为：</p>
+<script type="math/tex; mode=display">
+V=\underset{3(n-1) \times 3} {A} {\space\space} \underset{3  \times 1}{X}-\underset{3(n-1) \times 1}{L}</script><p> 式中：</p>
+<script type="math/tex; mode=display">
+A=\left[\begin{array}{ccc}0 & -\lambda z_{21}-Z_{21} & -\lambda y_{21}-Y_{21} \\ -\lambda z_{21}-Z_{21} & 0 & \lambda x_{21}+X_{21} \\ \lambda y_{21}+Y_{21} & \lambda x_{21}+X_{21} & 0 \\ \vdots & \vdots & \vdots \\ 0 & -\lambda z_{n 1}-Z_{n 1} & -\lambda y_{n 1}-Y_{n 1} \\ -\lambda z_{n 1}-Z_{n 1} & 0 & \lambda x_{n 1}+X_{n 1} \\ \lambda y_{n 1}+Y_{n 1} & \lambda x_{n 1}+X_{n 1} & 0\end{array}\right]</script><script type="math/tex; mode=display">
+X=[a, b, c]^{\mathrm{T}}</script><script type="math/tex; mode=display">
+\begin{array}{cccc}L= & {\left[X_{21}-\lambda x_{21}\right.} & Y_{21}-\lambda y_{21} & Z_{21}-\lambda z_{21} & \cdots \\ X_{n 1}-\lambda x_{n 1} & Y_{n 1}-\lambda y_{n 1} & \left.Z_{n 1}-\lambda z_{n 1}\right]^{\mathrm{T}}\end{array}</script><p>按最小二乘法间接平差原理求解未知数:</p>
+<script type="math/tex; mode=display">
+X=\left(A^{\mathrm{T}} A\right)^{-1} A^{\mathrm{T}} L</script><p>计算出 $ａ,b，c $后，即可求出旋转矩阵，然后按下式求解平移参数：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{l}\Delta X \\ \Delta Y \\ \Delta Z\end{array}\right]=\left[\begin{array}{l}X_{i} \\ Y_{i} \\ Z_{i}\end{array}\right]-\lambda R\left[\begin{array}{l}x_{i} \\ y_{i} \\ z_{i}\end{array}\right]</script><h3 id="尺度相同"><a href="#尺度相同" class="headerlink" title="尺度相同:"></a>尺度相同:</h3><p>&emsp;&emsp;三维重建方法通常会自己估计相机的$R,T $矩阵，这些矩阵定义了一个世界坐标系，在使用客观的评估方法如<a target="_blank" rel="noopener" href="http://vision.middlebury.edu/mview/eval/">Middlebury</a>来评估精度时，需要使用评估方法提供的相机的$R,T$矩阵，这些矩阵定义了另外一个世界坐标系，两者通常会有<strong>尺度、旋转、平移</strong>的差别，这就需要在坐标系之间进行转换。</p>
+<p>&emsp;&emsp;两个相同尺度的世界坐标系可以通过$R,T$进行转换，计算转换关系需要知道双方$N$个对应点的坐标，设为$A$,$B$，则求解$B=R∗A+T$即可。由于$N$可能比较大，因此此方程通常为<strong>超定方程</strong>，可使用<strong>奇异值分解</strong>(Singular Value Decomposition (SVD))进行计算，其内部原理是最小二乘法。</p>
+<p>对公共点坐标进行重心化处理:</p>
+<script type="math/tex; mode=display">
+centroid_A =\frac{1}{N} ∑^N_{i=1}(A)</script><script type="math/tex; mode=display">
+centroid_B =\frac{1}{N} ∑^N_{i=1}(B)</script><p>求：</p>
+<script type="math/tex; mode=display">
+H=∑^N_{i=1}(P^{i}_{A}−centroid_A)(P^i_B−centroid_B)^T</script><script type="math/tex; mode=display">
+[U,S,V]=SVD(H)</script><script type="math/tex; mode=display">
+R=V U^T</script><script type="math/tex; mode=display">
+T=−R∗centroid_A+centroid_B</script><p>&emsp;&emsp;其中$centroid_A$和$centroid_B$是$A,B$的<strong>平均中心</strong>。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%计算平均中心点</span></span><br><span class="line">  centroid_A = <span class="built_in">mean</span>(A);</span><br><span class="line">  centroid_B = <span class="built_in">mean</span>(B);</span><br><span class="line"></span><br><span class="line">  N = <span class="built_in">size</span>(A,<span class="number">1</span>);</span><br><span class="line">  H = (A - <span class="built_in">repmat</span>(centroid_A, N, <span class="number">1</span>))&#x27; * (B - <span class="built_in">repmat</span>(centroid_B, N, <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">  [U,S,V] = svd(H);</span><br><span class="line"></span><br><span class="line">  R = V*U&#x27;;</span><br><span class="line">  <span class="keyword">if</span> det(R) &lt; <span class="number">0</span></span><br><span class="line">  	printf(<span class="string">&#x27;Reflection detected\n&#x27;</span>);</span><br><span class="line">  	V(:,<span class="number">3</span>) = <span class="number">-1</span>*V(:,<span class="number">3</span>);</span><br><span class="line">  	R = V*U&#x27;;</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  t = -R*centroid_A&#x27; + centroid_B&#x27;;</span><br><span class="line">  detr=det(R)</span><br></pre></td></tr></table></figure>
+<h3 id="存在的一些问题："><a href="#存在的一些问题：" class="headerlink" title="存在的一些问题："></a>存在的一些问题：</h3><p>&emsp;&emsp;转换模型精度与公共控制点的数量的关系值得探讨；目前坐标转换精度的评价方式通常是利用转站前后公共点坐标差值的均方根值来进行评价。该方法只能获得用于计算的公共点坐标转换精度，并不能得到空间中任意被测点的转换精度分布情况，对于提高整体测量精度以及改进公共点布设方案缺乏指导意义。</p>
+<h3 id="主要参考来源："><a href="#主要参考来源：" class="headerlink" title="主要参考来源："></a>主要参考来源：</h3><p> 刘猛奎, 赵明金, 石波, 等. 基于 RANSAC 的坐标系转换抗差算法研究[J]. 全球定位系统, 2019, 44(1): 39-47.</p>
+<p>韩梦泽, 李克昭. 基于罗德里格矩阵的空间坐标转换[J]. 测绘工程, 2016 (4): 25-27.</p>
+<p>张皓琳, 林嘉睿, 邾继贵. 三维坐标转换精度及其影响因素的研究[J]. 光电工程, 2012, 39(10): 26-31.</p>
+<p><a target="_blank" rel="noopener" href="https://proj.org/operations/transformations/index.html；">https://proj.org/operations/transformations/index.html；</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jason Yang
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://yoursite.com/2020/11/10/Transformation_matrix/" title="Coordinate Transformation Matrix">http://yoursite.com/2020/11/10/Transformation_matrix/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%A7%86%E8%A7%89%E6%B5%8B%E9%87%8F/" rel="tag"># 视觉测量</a>
+              <a href="/tags/%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/" rel="tag"># 位姿估计</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/05/ROS_learning/" rel="prev" title="ROS">
+      <i class="fa fa-chevron-left"></i> ROS
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/09/handware01/" rel="next" title="关于硬件创新">
+      关于硬件创新 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%BB%B4%E5%9D%90%E6%A0%87%E7%B3%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2%E5%85%B3%E7%B3%BB%EF%BC%9AR-%E6%97%8B%E8%BD%AC%E7%9F%A9%E9%98%B5-%E3%80%81T%EF%BC%88%E5%B9%B3%E7%A7%BB%E7%9F%A9%E9%98%B5%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">三维坐标系之间的转换关系：R(旋转矩阵) 、T（平移矩阵）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">数学模型描述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E8%8E%8E%E6%A8%A1%E5%9E%8B-%E5%89%8D%E6%8F%90%E6%98%AF%E6%97%8B%E8%BD%AC%E8%A7%92%E4%B8%BA%E5%BE%AE%E5%B0%8F%E6%97%8B%E8%BD%AC%E8%A7%92"><span class="nav-number">2.0.1.</span> <span class="nav-text">布尔莎模型:前提是旋转角为微小旋转角</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BD%97%E5%BE%B7%E9%87%8C%E6%A0%BC%E7%9F%A9%E9%98%B5%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.0.2.</span> <span class="nav-text">罗德里格矩阵模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%BA%E5%BA%A6%E7%9B%B8%E5%90%8C"><span class="nav-number">3.</span> <span class="nav-text">尺度相同:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%9C%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">存在的一些问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8F%82%E8%80%83%E6%9D%A5%E6%BA%90%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">主要参考来源：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Yang"
+      src="/images/head.jpeg">
+  <p class="site-author-name" itemprop="name">Jason Yang</p>
+  <div class="site-description" itemprop="description">Coding,Reading,Learning</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Jason-Yoo" title="GitHub → https://github.com/Jason-Yoo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiduocaiyang@gmail.com" title="E-Mail → mailto:jiduocaiyang@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/Reign_Man" title="CSDN → https://blog.csdn.net/Reign_Man" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason Yang</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+</body>
+</html>

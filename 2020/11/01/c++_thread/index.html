@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en-hk">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=微软雅黑:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="互斥量：Mutex类&amp;emsp;&amp;emsp;lock unlock 成对使用，Lock是阻塞式的，有一个地方lock, 第二个地方的lock会一直卡在lock里，直到lock成功； &amp;emsp;&amp;emsp;Lock_guard类模版（推荐使用），直接取代lock和unlock；Lock_guard的构造函数里执行了lock，Lock_guard的析构函数里执行了unlock；局部变量超出作用域名时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++多线程并发笔记">
+<meta property="og:url" content="http://yoursite.com/2020/11/01/c++_thread/index.html">
+<meta property="og:site_name" content="DC">
+<meta property="og:description" content="互斥量：Mutex类&amp;emsp;&amp;emsp;lock unlock 成对使用，Lock是阻塞式的，有一个地方lock, 第二个地方的lock会一直卡在lock里，直到lock成功； &amp;emsp;&amp;emsp;Lock_guard类模版（推荐使用），直接取代lock和unlock；Lock_guard的构造函数里执行了lock，Lock_guard的析构函数里执行了unlock；局部变量超出作用域名时">
+<meta property="og:locale" content="en_HK">
+<meta property="article:published_time" content="2020-11-01T12:00:10.447Z">
+<meta property="article:modified_time" content="2021-01-02T07:24:41.753Z">
+<meta property="article:author" content="Jason Yang">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/01/c++_thread/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>c++多线程并发笔记 | DC</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DC</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">永远年轻，永远热泪盈眶。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-link"></i>links</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/01/c++_thread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          c++多线程并发笔记
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-01 20:00:10" itemprop="dateCreated datePublished" datetime="2020-11-01T20:00:10+08:00">2020-11-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-02 15:24:41" itemprop="dateModified" datetime="2021-01-02T15:24:41+08:00">2021-01-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c/" itemprop="url" rel="index">
+                    <span itemprop="name">c++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="互斥量：Mutex类"><a href="#互斥量：Mutex类" class="headerlink" title="互斥量：Mutex类"></a>互斥量：Mutex类</h4><p>&emsp;&emsp;lock unlock 成对使用，Lock是阻塞式的，有一个地方lock, 第二个地方的lock会一直卡在lock里，直到lock成功；</p>
+<p>&emsp;&emsp;Lock_guard类模版（推荐使用），直接取代lock和unlock；Lock_guard的构造函数里执行了lock，Lock_guard的析构函数里执行了unlock；局部变量超出作用域名时，生命周期结束并执行析构函数；</p>
+<a id="more"></a>
+<p>加 { } 可以提前结束里面的局部变量，提前执行循环里所定义局部变量的析构函数；</p>
+<p>锁住的代码的多少称为锁的粒度，粒度一般用粗细来描述，锁住的越少，执行的效率越高； </p>
+<h5 id="死锁：两个线程争夺资源的过程中，两个互斥量嵌套使用，且使用的顺序不一致；"><a href="#死锁：两个线程争夺资源的过程中，两个互斥量嵌套使用，且使用的顺序不一致；" class="headerlink" title="死锁：两个线程争夺资源的过程中，两个互斥量嵌套使用，且使用的顺序不一致；"></a>死锁：两个线程争夺资源的过程中，两个互斥量嵌套使用，且使用的顺序不一致；</h5><p>产生条件：必须有两个互斥量（这里比作金锁，银锁），保护不同的数据共享块；</p>
+<p>线程A和B，线程A先锁金锁，后锁银锁；线程B先锁银锁，后锁金锁；</p>
+<p>&emsp;&emsp;当线程A，金锁lock 成功后，开始进行银锁的lock,这时候，线程后台切换到了线程B，导致银锁lock , 线程B开始执行金锁lock，卡在了金锁lock，这时候线程管理又切换到线程A，线程A开在了银锁lock，这样就造成了死锁，两个线程都卡在了lock函数里，无法解开；</p>
+<h5 id="死锁的一般解决方案："><a href="#死锁的一般解决方案：" class="headerlink" title="死锁的一般解决方案："></a>死锁的一般解决方案：</h5><p>保证互斥量的调用顺序一致；</p>
+<p>&emsp;&emsp;std::lock函数模版:一次锁住两个或者两个以上的互斥量，要么锁住两个，要么两个都没锁住 ，只锁住一个的时候会主动放开，不会造成死锁问题；（至少两个）</p>
+<h4 id="Unique-lock取代Lock-guard："><a href="#Unique-lock取代Lock-guard：" class="headerlink" title="Unique_lock取代Lock_guard："></a>Unique_lock取代Lock_guard：</h4><p>第二个参数（和Lock_guard一样）：adopt_lock 起到标记作用，标记互斥量已经锁过了，不需要构造函数中再lock；</p>
+<p> try_to_lock：不能之前lock，尝试用mutex的lock去锁定，但如果没有锁定成功，我也会立即返回，不会阻塞在哪里等待，没有拿到锁可以干其他的事情，不会使线程阻塞在那里傻等；</p>
+<p>defer_lock：不能之前lock，初始化了一个没加锁的mutex;</p>
+<p>成员：lock，unlock，try_lock（）；</p>
+<p>release（）： 返回所管理的mutex对象指针，并释放所有权；</p>
+<h5 id="所有权传递问题："><a href="#所有权传递问题：" class="headerlink" title="所有权传递问题："></a>所有权传递问题：</h5><p>&emsp;&emsp;Unique_lock是在管理mutex指针对象，只和一个mutex绑定到一起，拥有mutex的所有权，可以讲所有权转移给其她的unique_lock，可以移动所有权但不能复制， </p>
+<h3 id="单例设计模式："><a href="#单例设计模式：" class="headerlink" title="单例设计模式："></a>单例设计模式：</h3><p>单例类：整个项目中，有某个或者某些特殊的类，属于该类的对象，我只能创建一个，多了创建不了；</p>
+<p>方法：把构造函数私有化；</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::mutex resource_mutex;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">mycas</span>&#123;</span>  <span class="comment">//单例类</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">				mycas() &#123;&#125;<span class="comment">//私有化了构造函数 </span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">static</span> mycas *m_Instance;<span class="comment">//静态成员变量</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">static</span> mycas *<span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_Instance == <span class="literal">NULL</span> )<span class="comment">//双重锁定，解决多个线程创建单例类时的临界不安全问题，提高效率</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">std</span>::unique_lock&lt;<span class="built_in">std</span>::mutex&gt;mymutex(resource_mutex);<span class="comment">//自动加锁</span></span><br><span class="line">      <span class="keyword">if</span>(m_Instance == <span class="literal">NULL</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        m_Instance = <span class="keyword">new</span> mycas();</span><br><span class="line">        <span class="keyword">static</span> cGarhuishou cl; <span class="comment">//为了释放m_Instance所指的内存空间</span></span><br><span class="line">      &#125; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>  </span><br><span class="line">      <span class="keyword">return</span>  m_Instance;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">cGarhuishou</span> //类中套类，用来释放<span class="title">new</span>的<span class="title">mycas</span></span></span><br><span class="line"><span class="class">  &#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    ~cGarhuishou() <span class="comment">//类的析构函数</span></span><br><span class="line">    &#123;</span><br><span class="line">       <span class="keyword">if</span>（mycas::m_Instance）<span class="comment">//如果类对象指针不为空</span></span><br><span class="line">       &#123;</span><br><span class="line">         <span class="keyword">delete</span> mycas::m_Instance;</span><br><span class="line">         mycas::m_Instance = <span class="literal">NULL</span>;</span><br><span class="line">       &#125;     </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//类静态变量初始化</span></span><br><span class="line">mycas *mycas::m_Instance = <span class="literal">NULL</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  mycas *p_A = mycas::getInstance();<span class="comment">//创建一个单例类对象，且只能创建一次</span></span><br><span class="line">  mycas *p_B = mycas::getInstance();<span class="comment">//其实是与p_A指向的空间相同的；</span></span><br><span class="line">  <span class="comment">// mycas p_A  的方式是无法创建的；</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="单例设计模式共享数据问题分析与解决"><a href="#单例设计模式共享数据问题分析与解决" class="headerlink" title="单例设计模式共享数据问题分析与解决"></a>单例设计模式共享数据问题分析与解决</h4><p>在自己或者其他线程中需要创建使用单例类对象，我们可能会面临getInstance（）这种成员函数要互斥；</p>
+<p>两个线程都要创建单例类等时候，存在调用getInstance（）时判断条件由于线程自动切换产生歧义，导致创建了两个单例类，这个时候采用互斥量可以解决；</p>
+<p>std::call_once(); 功能：保证函数只被调用一次，具备互斥量的能力，且效率上比互斥量消耗的资源更少(据说)，需要与一个标记结合使用，这个标记std::once_flag;</p>
+<h4 id="条件变量-condition-variable、wait、notify-one、notify-all"><a href="#条件变量-condition-variable、wait、notify-one、notify-all" class="headerlink" title="条件变量 condition_variable、wait、notify_one、notify_all"></a>条件变量 condition_variable、wait、notify_one、notify_all</h4><p>std::condition_variable是个类，他会生成一个条件变量对象，但要与互斥量配合使用;</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">condition_variable my_condvar;</span><br><span class="line"><span class="built_in">std</span>::unique_lock&lt;<span class="built_in">std</span>::mutex&gt;mymutex(resource_mutex);<span class="comment">//自动加锁</span></span><br><span class="line"><span class="comment">//如果第二个参数返回false ，则wait()将解锁互斥量，并堵塞到本行；</span></span><br><span class="line"><span class="comment">//堵塞到什么时候为止呢？堵塞到其他某个线程调用notify_one（）成员函数为止；</span></span><br><span class="line"><span class="comment">//如果第二个参数什么都不填，第一次调用默认条件不成立，那么默认就是false；</span></span><br><span class="line"><span class="comment">//当其他线程调用notify_one（）成员函数时，那么这里的my_condvar.wait将会被唤醒（原本是堵塞的状态）</span></span><br><span class="line"><span class="comment">//被唤醒后，他会不断的重新尝试获取互斥量锁，如果获取不到还是会卡在这个位置，如果获取到就继续往下执行</span></span><br><span class="line">  <span class="comment">//往下执行时，会先判断wait的第二个参数返回值，如果还是返回false，则就解锁并且再次进入睡眠状态等待唤醒</span></span><br><span class="line">	<span class="comment">//往下执行时，如果第二个参数返回值为true,那么就开始执行下面的流程，此时互斥量还是被锁的状态 </span></span><br><span class="line">	<span class="comment">//如果wait没有第二个参数，则wait返回，流程走下来，互斥量处于被锁；</span></span><br><span class="line">my_condvar.wait(mymutex,[<span class="keyword">this</span>] &#123;<span class="comment">//一个lambda表达式就是一个可调用对象（函数）</span></span><br><span class="line">	<span class="keyword">if</span>(！somethings.empty())<span class="comment">//如果消息队列不为空 </span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">my_condvar.notify_one <span class="comment">//不一定就是唤醒一次 wait就执行一次，因为线程切换原因，可能唤醒了好几次只有一次有用；</span></span><br><span class="line">my_condvar.notify_all<span class="comment">//唤醒多个wait</span></span><br></pre></td></tr></table></figure>
+<h5 id="async、future、packaged-task、promise"><a href="#async、future、packaged-task、promise" class="headerlink" title="async、future、packaged_task、promise"></a>async、future、packaged_task、promise</h5><p>std::async 是个函数模版，用来启动一个异步任务，启动起来以后，他返回一个std::future 对象，它是一个类模版 </p>
+<p>什么叫启动一个异步任务？就是自动创建一个线程，并开始执行线程入口函数，返回的std::future 对象里就含有线程返回的结果 ，可以通过调用std::future对象的成员函数get，可以获取线程返回的结果，</p>
+<p>future提供一种访问异步操作结果的机制，就是说线程的执行结果你可能没有办法马上拿到，但是将来线程执行完毕后，你就可以得到结果，它保存在future的成员函数里；</p>
+<p>如果get函数拿不到那个线程的返回值，就会一直卡在那个位置，直到能够拿到，且只能调用一次；</p>
+<p><strong>std::packaged_task：打包任务，把任务包装起来。</strong> 类模板，它的模板参数是各种可调用对象，通过packaged_task把各种可调用对象包装起来，方便将来作为线程入口函数来调用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;main&quot;</span> &lt;&lt; <span class="string">&quot;threadid = &quot;</span> &lt;&lt; <span class="built_in">std</span>::this_thread::get_id() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="comment">//我们把函数mythread通过packaged_task包装起来</span></span><br><span class="line">  <span class="comment">//参数是一个int，返回值类型是int</span></span><br><span class="line">  <span class="function"><span class="built_in">std</span>::packaged_task&lt;<span class="title">int</span><span class="params">(<span class="keyword">int</span>)</span>&gt; <span class="title">mypt</span><span class="params">(mythread)</span></span>;</span><br><span class="line">	<span class="function"><span class="built_in">std</span>::thread <span class="title">t1</span><span class="params">(<span class="built_in">std</span>::ref(mypt), <span class="number">1</span>)</span></span>;</span><br><span class="line">	t1.join();</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">future</span>&lt;<span class="keyword">int</span>&gt; result = mypt.get_future(); </span><br><span class="line">	<span class="comment">//std::future对象里包含有线程入口函数的返回结果，这里result保存mythread返回的结果。</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; result.get() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>std::promise，类模板 我们能够在某个线程中给它赋值，然后我们可以在其他线程中，把这个值取出来</p>
+<p>总结：通过promise保存一个值，在将来某个时刻我们通过吧一个future绑定到这个promise上，来得到绑定的值</p>
+<p>注意：使用thread时，必须 join() 或者 detach() 否则程序会报异常</p>
+<p><strong>小结：</strong></p>
+<p>我们学习这些东西的目的并不是，要把他们都用到实际开发中。</p>
+<p>相反，如果我们能够用最少的东西写出一个稳定的，高效的多线程程序，更值得赞赏。</p>
+<p>我们为了成长必须阅读一些高手写的代码，从而实现自己代码的积累；</p>
+<h5 id="future其他成员函数、shared-future、atomic"><a href="#future其他成员函数、shared-future、atomic" class="headerlink" title="future其他成员函数、shared_future、atomic"></a>future其他成员函数、shared_future、atomic</h5><p><strong>一、std::future 的成员函数</strong></p>
+<p><strong>std::future_status status</strong> = result.<strong>wait_for</strong>(std::chrono::seconds(几秒));</p>
+<p>卡住当前流程，等待std::async()的异步任务运行一段时间，然后返回其状态std::future_status。如果std::async()的参数是std::launch::deferred（延迟执行），则不会卡住主流程。</p>
+<p>std::future_status是枚举类型，表示异步任务的执行状态。类型的取值有 </p>
+<p> std::future_status::timeout<br>        std::future_status::ready<br>        std::future_status::deferred</p>
+<p>因为get()函数的设计是一个移动语义，相当于将result中的值移动到了a中，再次get就报告了异常。</p>
+<p><strong>二、std::shared_future：也是个类模板</strong></p>
+<p>std::future的 get() 成员函数是转移数据</p>
+<p>std::shared_future 的 get()成员函数是复制数据</p>
+<p><strong>三、std::atomic原子操作</strong></p>
+<p>3.1 原子操作概念引出范例：<br>         互斥量：多线程编程中 用于保护共享数据：先锁住， 操作共享数据， 解锁。</p>
+<p>有两个线程，对一个变量进行操作，一个线程读这个变量的值，一个线程往这个变量中写值。</p>
+<p>即使是一个简单变量的读取和写入操作，如果不加锁，也有可能会导致读写值混乱（一条C语句会被拆成3、4条汇编语句来执行，所以仍然有可能混乱）；</p>
+<p>大家可以把原子操作理解成一种：不需要用到互斥量加锁（无锁）技术的多线程并发编程方式。</p>
+<p>原子操作：在多线程中不会被打断的程序执行片段。</p>
+<p>从效率上来说，原子操作要比互斥量的方式效率要高。</p>
+<p>互斥量的加锁一般是针对一个代码段，而原子操作针对的一般都是一个变量。</p>
+<p>原子操作，一般都是指“不可分割的操作”；也就是说这种操作状态要么是完成的，要么是没完成的，不可能出现半完成状态。</p>
+<p>原子操作实质上是：不允许在进行原子对象操作时进行CPU的上下文切换。</p>
+<p>std::atomic来代表原子操作，是个类模板。其实std::atomic是用来封装某个类型的值的；</p>
+<p>一般atomic原子操作，针对++，–，+=，-=，&amp;=，|=，^=是支持的，其他操作不一定支持。</p>
+<p>二、std::async深入理解</p>
+<p>2.1 std::async参数详述，async 用来创建一个异步任务</p>
+<p>延迟调用参数 std::launch::deferred【延迟调用】，std::launch::async【强制创建一个线程】</p>
+<p>std::async()我们一般不叫创建线程（他能够创建线程），我们一般叫它创建一个异步任务。</p>
+<p>std::async和std::thread最明显的不同，就是 async 有时候并不创建新线程。</p>
+<p>①如果用std::launch::deferred 来调用async？</p>
+<p>延迟到调用 get() 或者 wait() 时执行，如果不调用就不会执行</p>
+<p>②如果用std::launch::async来调用async？</p>
+<p>强制这个异步任务在新线程上执行，这意味着，系统必须要创建出新线程来运行入口函数。</p>
+<p>③如果同时用 std::launch::async | std::launch::deferred</p>
+<p>这里这个或者关系意味着async的行为可能是 std::launch::async 创建新线程立即执行， 也可能是 std::launch::deferred 没有创建新线程并且延迟到调用get()执行，由<strong>系统根据实际情况来决定采取</strong>哪种方案</p>
+<p>④不带额外参数 std::async(mythread)，只给async 一个入口函数名，此时的系统给的默认值是 std::launch::async | std::launch::deferred 和 ③ 一样，有系统自行决定异步还是同步运行。</p>
+<p>2.2 std::async和std::thread()区别：</p>
+<p>std::thread()如果系统资源紧张可能出现创建线程失败的情况，如果创建线程失败那么程序就可能崩溃，而且不容易拿到函数返回值（不是拿不到）<br>std::async()创建异步任务。可能创建线程也可能不创建线程，并且容易拿到线程入口函数的返回值；</p>
+<p>由于系统资源限制：</p>
+<p>①如果用std::thread创建的线程太多，则可能创建失败，系统报告异常，崩溃。</p>
+<p>②如果用std::async，一般就不会报异常，因为如果系统资源紧张，无法创建新线程的时候，async不加额外参数的调用方式就不会创建新线程。而是在后续调用get()请求结果时执行在这个调用get()的线程上。</p>
+<p>如果你强制async一定要创建新线程就要使用 std::launch::async 标记。承受的代价是，系统资源紧张时可能崩溃。</p>
+<p>③根据经验，一个程序中线程数量 不宜超过100~200 。</p>
+<p>2.3 async不确定性问题的解决</p>
+<p>不加额外参数的async调用时让系统自行决定，是否创建新线程。</p>
+<p>std::future result = std::async(mythread);</p>
+<p>问题焦点在于这个写法，任务到底有没有被推迟执行。</p>
+<p>通过wait_for返回状态来判断：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::future_status status = result.wait_for(<span class="built_in">std</span>::chrono::seconds(<span class="number">6</span>));</span><br><span class="line"><span class="comment">//std::future_status status = result.wait_for(6s);</span></span><br><span class="line">	<span class="keyword">if</span> (status == <span class="built_in">std</span>::future_status::timeout) &#123;</span><br><span class="line">		<span class="comment">//超时：表示线程还没有执行完</span></span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;超时了，线程还没有执行完&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (status == <span class="built_in">std</span>::future_status::ready) &#123;</span><br><span class="line">		<span class="comment">//表示线程成功放回</span></span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;线程执行成功，返回&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; result.get() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (status == <span class="built_in">std</span>::future_status::deferred) &#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;线程延迟执行&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; result.get() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>递归独占互斥量 std::recursive_mutex</strong></p>
+<p>std::mutex 独占式互斥量</p>
+<p>std::recursive_mutex：允许在同一个线程中同一个互斥量多次被 lock() ，（但是递归加锁的次数是有限制的，太多可能会报异常），效率要比mutex低。</p>
+<p>如果你真的用了 recursive_mutex 要考虑代码是否有优化空间，如果能调用一次 lock()就不要调用多次</p>
+<p><strong>带超时的互斥量 std::timed_mutex 和 std::recursive_timed_mutex</strong></p>
+<p><em>5.1 std::timed_mutex：是待超时的独占互斥量</em></p>
+<ul>
+<li>try_lock_for()：</li>
+</ul>
+<p>等待一段时间，如果拿到了锁，或者超时了未拿到锁，就继续执行（有选择执行）如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="function">chrono::milliseconds <span class="title">timeout</span><span class="params">(<span class="number">100</span>)</span></span>;</span><br><span class="line"><span class="keyword">if</span> (my_mymutex.try_lock_for(timeout))&#123;</span><br><span class="line">    <span class="comment">//......拿到锁返回ture</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::chrono::milliseconds sleeptime(<span class="number">100</span>);</span><br><span class="line">    <span class="built_in">std</span>::this_thread::sleep_for(sleeptime);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>try_lock_until()：</li>
+</ul>
+<p>参数是一个未来的时间点，在这个未来的时间没到的时间内，如果拿到了锁头，流程就走下来，如果时间到了没拿到锁，流程也可以走下来。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="function">chrono::milliseconds <span class="title">timeout</span><span class="params">(<span class="number">100</span>)</span></span>;</span><br><span class="line"><span class="keyword">if</span> (my_mymutex.try_lock_until(chrono::steady_clock::now() + timeout))&#123;</span><br><span class="line">    <span class="comment">//......拿到锁返回ture</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::chrono::milliseconds sleeptime(<span class="number">100</span>);</span><br><span class="line">    <span class="built_in">std</span>::this_thread::sleep_for(sleeptime);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两者的区别就是一个参数是时间段，一个参数是时间点</p>
+<p>std::recursive_timed_mutex：是待超时的递归独占互斥量；</p>
+<p>虚假唤醒：</p>
+<p>notify_one或者notify_all唤醒wait()后，实际有些线程可能不满足唤醒的条件，就会造成虚假唤醒，可以在wait中再次进行判断解决虚假唤醒。</p>
+<p>解决：wait中要有第二个参数（lambda），并且这个lambda中要正确判断所处理的公共数据是否存在。</p>
+<p><strong>浅谈线程池：</strong><br>场景设想：服务器程序， 每来一个客户端，就创建一个新线程为这个客户提供服务。</p>
+<p>问题：</p>
+<p>1、2万个玩家，不可能给每个玩家创建一个新线程，此程序写法在这种场景下不通。</p>
+<p>2、程序稳定性问题：编写代码中，“时不时地突然”创建一个线程，这种写法，一般情况下不会出错，但是不稳定的；</p>
+<p>线程池：把一堆线程弄到一起，统一管理。这种统一管理调度，循环利用的方式，就叫做线程池。</p>
+<p>实现方式：程序启动时，一次性创建好一定数量的线程。这种方式让人更放心，觉得程序代码更稳定。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jason Yang
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://yoursite.com/2020/11/01/c++_thread/" title="c++多线程并发笔记">http://yoursite.com/2020/11/01/c++_thread/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c++</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/28/AI-yaoqizhi/" rel="prev" title="人工智能三大瓶颈-姚期智">
+      <i class="fa fa-chevron-left"></i> 人工智能三大瓶颈-姚期智
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/05/ROS_learning/" rel="next" title="ROS">
+      ROS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%87%8F%EF%BC%9AMutex%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">互斥量：Mutex类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%EF%BC%9A%E4%B8%A4%E4%B8%AA%E7%BA%BF%E7%A8%8B%E4%BA%89%E5%A4%BA%E8%B5%84%E6%BA%90%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%EF%BC%8C%E4%B8%A4%E4%B8%AA%E4%BA%92%E6%96%A5%E9%87%8F%E5%B5%8C%E5%A5%97%E4%BD%BF%E7%94%A8%EF%BC%8C%E4%B8%94%E4%BD%BF%E7%94%A8%E7%9A%84%E9%A1%BA%E5%BA%8F%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%9B"><span class="nav-number">1.1.</span> <span class="nav-text">死锁：两个线程争夺资源的过程中，两个互斥量嵌套使用，且使用的顺序不一致；</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E7%9A%84%E4%B8%80%E8%88%AC%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">死锁的一般解决方案：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Unique-lock%E5%8F%96%E4%BB%A3Lock-guard%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">Unique_lock取代Lock_guard：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%80%E6%9C%89%E6%9D%83%E4%BC%A0%E9%80%92%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">所有权传递问题：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%9A"><span class="nav-number"></span> <span class="nav-text">单例设计模式：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3"><span class="nav-number">1.</span> <span class="nav-text">单例设计模式共享数据问题分析与解决</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F-condition-variable%E3%80%81wait%E3%80%81notify-one%E3%80%81notify-all"><span class="nav-number">2.</span> <span class="nav-text">条件变量 condition_variable、wait、notify_one、notify_all</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#async%E3%80%81future%E3%80%81packaged-task%E3%80%81promise"><span class="nav-number">2.1.</span> <span class="nav-text">async、future、packaged_task、promise</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#future%E5%85%B6%E4%BB%96%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E3%80%81shared-future%E3%80%81atomic"><span class="nav-number">2.2.</span> <span class="nav-text">future其他成员函数、shared_future、atomic</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Yang"
+      src="/images/head.jpeg">
+  <p class="site-author-name" itemprop="name">Jason Yang</p>
+  <div class="site-description" itemprop="description">Coding,Reading,Learning</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Jason-Yoo" title="GitHub → https://github.com/Jason-Yoo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiduocaiyang@gmail.com" title="E-Mail → mailto:jiduocaiyang@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/Reign_Man" title="CSDN → https://blog.csdn.net/Reign_Man" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason Yang</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+</body>
+</html>

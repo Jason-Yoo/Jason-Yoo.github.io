@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en-hk">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=微软雅黑:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Coding,Reading,Learning">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DC">
+<meta property="og:url" content="http://yoursite.com/page/5/index.html">
+<meta property="og:site_name" content="DC">
+<meta property="og:description" content="Coding,Reading,Learning">
+<meta property="og:locale" content="en_HK">
+<meta property="article:author" content="Jason Yang">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/page/5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: true,
+    isPost: false
+  };
+</script>
+
+  <title>DC</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DC</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">永远年轻，永远热泪盈眶。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-link"></i>links</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/31/linear-algebra/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/31/linear-algebra/" class="post-title-link" itemprop="url">线性代数</a>
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-31 12:43:15" itemprop="dateCreated datePublished" datetime="2020-01-31T12:43:15+08:00">2020-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-09 10:02:29" itemprop="dateModified" datetime="2020-03-09T10:02:29+08:00">2020-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Vision</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>条件数（Condition number）：</p>
+<p>条件数是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/线性方程组/5904308">线性方程组</a>Ax=b的解对b中的误差或不确定度的敏感性的度量。数学定义为矩阵A的条件数等于A的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/范数/10856788">范数</a>与A的逆的范数的乘积，即</p>
+<script type="math/tex; mode=display">
+k\left( A \right)=\left| \left| A^{-1} \right| \right|\; \cdot \; \left| \left| A \right| \right|</script><p>对应矩阵的3种范数（1范数，2范数，无穷范数），相应地可以定义3种条件数。</p>
+<p>数值分析中，一个问题的<strong>条件数</strong>是该数量在数值计算中的容易程度的衡量，也就是该问题的适定性。一个低条件数的问题称为<strong>良态</strong>的，而高条件数的问题称为<strong>病态</strong>（或者说非良态）的。</p>
+<p>正则化(Regularization)：</p>
+<p>在线性代数中，<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/不适定问题">不适定问题</a>通常是由一组线性代数<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/方程/6306">方程</a>定义的，而且这组方程组通常来源于有着很大的条件数的不适定反问题。大<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/条件数/5293168">条件数</a>意味着舍入误差或其它误差会严重地影响问题的结果。通过正则化的方法可以改善或者减少过度拟合问题。</p>
+<p>L~0~正则化：模型参数中非零参数的个数。</p>
+<p>从直观上看，利用非零参数的个数，可以很好的来选择特征，实现特征稀疏的效果，具体操作时选择参数非零的特征即可。但因为L~0~正则化很难求解，是个NP难问题，因此一般采用L~1~正则化。L~1~正则化是L~0~正则化的最优凸近似，比容易求解，并且也可以实现稀疏的效果。</p>
+<p>L~1~正则化：模型参数中各个参数绝对值之和。</p>
+<p>L~2~正则化：各个参数的平方的和的开方值。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/31/StructSLAM-Visual-SLAM-With-Building-Structure-Lines/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/31/StructSLAM-Visual-SLAM-With-Building-Structure-Lines/" class="post-title-link" itemprop="url">SLAM</a>
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-31 10:37:19" itemprop="dateCreated datePublished" datetime="2020-01-31T10:37:19+08:00">2020-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-28 14:58:50" itemprop="dateModified" datetime="2020-09-28T14:58:50+08:00">2020-09-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Vision</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h5 id="StructSLAM-Visual-SLAM-With-Building-Structure-Lines"><a href="#StructSLAM-Visual-SLAM-With-Building-Structure-Lines" class="headerlink" title="StructSLAM: Visual SLAM With Building Structure Lines"></a>StructSLAM: Visual SLAM With Building Structure Lines</h5><p>建筑物结构线做为特征用于定位和构图，不同于其他线特征，建筑物结构线对全局方向信息进行编码，该信息随着时间的推移限制了摄像机的航向，消除了累积的方向误差，从而减小了位置漂移。</p>
+<h5 id="Real-Time-Loop-Closure-in-2D-LIDAR-SLAM"><a href="#Real-Time-Loop-Closure-in-2D-LIDAR-SLAM" class="headerlink" title="Real-Time Loop Closure in 2D LIDAR SLAM"></a>Real-Time Loop Closure in 2D LIDAR SLAM</h5><p>摘要：</p>
+<p>这篇论文主要研究减少闭环检验约束条件和闭环计算检验的计算量，提高计算效率，达到实时闭环检测和大平面地图的构建。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/31/StructSLAM-Visual-SLAM-With-Building-Structure-Lines/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/27/Mamba_forever/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/27/Mamba_forever/" class="post-title-link" itemprop="url">Mamba Forever</a>
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-27 14:20:40" itemprop="dateCreated datePublished" datetime="2020-01-27T14:20:40+08:00">2020-01-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-17 10:03:35" itemprop="dateModified" datetime="2020-02-17T10:03:35+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/After-Academic/" itemprop="url" rel="index">
+                    <span itemprop="name">After Academic</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><center><img data-src="/images/Mamba_forever.assets/640.jpeg" alt="img" style="zoom:100%;" /></center><br>再多的数据，也描绘不出你的伟大</p>
+<p>再璀璨的辉煌，也换不回你的笑容</p>
+<p>紫金王朝，曼巴精神</p>
+<p>你带给我们力量，影响着我们整个青春</p>
+<p><strong>Mamba Never Out</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/06/3D-2D_match/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/06/3D-2D_match/" class="post-title-link" itemprop="url">相机成像模型</a>
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-06 22:33:05" itemprop="dateCreated datePublished" datetime="2020-01-06T22:33:05+08:00">2020-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-18 11:11:43" itemprop="dateModified" datetime="2020-06-18T11:11:43+08:00">2020-06-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Vision</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h5 id="本质矩阵（Essential-Matrix）："><a href="#本质矩阵（Essential-Matrix）：" class="headerlink" title="本质矩阵（Essential Matrix）："></a>本质矩阵（Essential Matrix）：</h5><p>本质矩阵E：反映【空间一点P的像点】在【不同视角摄像机】下【摄像机坐标系】中的表示之间的关系，具有5个自由度。</p>
+<center><img data-src="/images/3D-2D_match.assets/image-20200618105802363.png" alt="image-20200618105802363" style="zoom:33%;" /></center>
+
+<h5 id="基础矩阵（Fundmental-Matrix）："><a href="#基础矩阵（Fundmental-Matrix）：" class="headerlink" title="基础矩阵（Fundmental Matrix）："></a>基础矩阵（Fundmental Matrix）：</h5><p>在对极几何中存在一个从一幅图像上的点到另一幅图像与之对应的极线的映射，基础矩阵即表示该射影映射，基础矩阵具有7个自由度。</p>
+<center><img data-src="/images/3D-2D_match.assets/image-20200618110058424.png" alt="image-20200618110058424" style="zoom:33%;" /></center>
+
+<h5 id="单应矩阵（Homography-Matrix）："><a href="#单应矩阵（Homography-Matrix）：" class="headerlink" title="单应矩阵（Homography Matrix）："></a>单应矩阵（Homography Matrix）：</h5><p><strong>单应性（Homography）</strong>变换。可以简单的理解为它用来<strong>描述物体在世界坐标系和像素坐标系之间的位置映射关系</strong>。对应的变换矩阵称为<strong>单应性矩阵</strong>，它同时包含了相机内参和外参。射影变换的自由度为9，其同样具有尺度等价性（因为图像坐标是通过齐次坐标表示，因此你矩阵同乘一个常数，最后求得的坐标其实是一致的），因此自由度减一，其自由度为8。</p>
+<h5 id="计算机视觉领域广泛应用的畸变模型："><a href="#计算机视觉领域广泛应用的畸变模型：" class="headerlink" title="计算机视觉领域广泛应用的畸变模型："></a>计算机视觉领域广泛应用的畸变模型：</h5><p>$\begin{equation}<br>\left[\begin{array}{lll}{x,} &amp; {y,} &amp; {1+k\left(x^{2}+y^{2}\right)}\end{array}\right]^{\top} \simeq P X<br>\end{equation}$</p>
+<p>其中 $(x,y)$ 为投影的3D点 $X$ 的中心图像坐标,其中 P 为摄像机投影矩阵，$k$为畸变系数；</p>
+<p>来源：</p>
+<p>Simultaneous linear estimation of multiple view geometry and lens distortion</p>
+<p>解决的问题：3D-2D点的矫正（由于镜头畸变造成）</p>
+<p>解决模型：</p>
+<p>1.真正的镜头畸变曲线通常非常复杂，而处理非线性畸变的系统需要使用高阶模型或查找表来校准相机。然而，对于计算机视觉，特别是对于匹配，像素顺序的精度是很重要的。因此，通常将失真函数L扩展为泰勒级数，并且只保留第一个非线性偶数项；</p>
+<p>2.新的失真方程</p>
+<script type="math/tex; mode=display">\begin{aligned}\left(\begin{array}{c}{p} \\ {q} \\ {1}\end{array}\right) &=\left(\begin{array}{c}{x} \\ {y} \\ {1+\lambda\left(x^{2}+y^{2}\right)}\end{array}\right) \\ &=\left(\begin{array}{c}{x} \\ {y} \\ {1}\end{array}\right)+\lambda\left(\begin{array}{c}{0} \\ {0} \\ {\|x\|^{2}}\end{array}\right) \end{aligned}</script>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/06/software_02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/06/software_02/" class="post-title-link" itemprop="url">代码软件安利</a>
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-06 15:33:44" itemprop="dateCreated datePublished" datetime="2020-01-06T15:33:44+08:00">2020-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-10 20:33:10" itemprop="dateModified" datetime="2020-01-10T20:33:10+08:00">2020-01-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index">
+                    <span itemprop="name">Software</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>用了好久的软件了，忘记安利了，程序猿的大部分时间都在干两件事，一件是改BUG，一件就是起名字，哈哈哈哈哈，这个软件就是解决了后面一件事情，具体操作如下啦。</p>
+<center><img data-src="/images/software_02.assets/image-20200106153514129.png" alt="50%" width="50%"  style="zoom:50%;" /></center>
+<center><img data-src="/images/software_02.assets/image-20200106154158717.png" alt="50%" width="50%"  style="zoom:50%;" /></center>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/06/kaggle_01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/06/kaggle_01/" class="post-title-link" itemprop="url">Kaggle_pubg_item</a>
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-06 15:30:01" itemprop="dateCreated datePublished" datetime="2020-01-06T15:30:01+08:00">2020-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-15 17:00:30" itemprop="dateModified" datetime="2020-07-15T17:00:30+08:00">2020-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Vision</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​                             <strong>The Mission of Machine Learning :PUBG Finish Placement Prediction</strong></p>
+<p><strong>Ⅰ. Introduction</strong><br>    Based on the background of PlayerUnknown’s BattleGrounds (PUBG), we can use over 65,000 games’ worth of anonymized player data, split into training and testing sets, and asked to predict final placement from final in-game stats and initial player ratings, where 0 is last place and 1 is winner , chicken dinner.</p>
+<p><strong>Ⅱ. Experiments</strong><br>    After going through a series of groping, drawing and submission, I can initially understand what is going on.</p>
+<ol>
+<li>First day of trying to communicate with Kaggle<center><img data-src="/images/kaggle_01.assets/image-20200106154414116.png" alt="50%" width="50%" style="zoom:50%;" /></center></li>
+<li>Second day of trying to communicate with Kaggle<center><img data-src="/images/kaggle_01.assets/image-20200107234329533.png" alt="50%" width="50%"  style="zoom:50%;" /></center></li>
+<li>The software of JupyterLab is useful to debug with python，it could run step by step, and you can find which step is in the wrong direction.<center><img data-src="/images/kaggle_01.assets/image-20200116130704813.png" alt="50%" width="50%" style="zoom:50%;" /> </center></li>
+<li>Although this is my first feature engineering analysis, with the help of notebooks, it is still a start. (please ignore my poor English).<center><img data-src="/images/kaggle_01.assets/image-20200116131028652.png" alt="50%" width="50%" style="zoom:50%;" /> </center></li>
+<li>After working and debugging, some results were received.<br><center><img data-src="/images/kaggle_01.assets/image-20200116131302174.png" alt="50%" width="50%" style="zoom:50%;" /> </center><br><strong>Ⅲ.Conclude</strong><br> First of all, I am fortunate to be able to join the course in machine learning. I am grateful to the instructors for their examples and guidance in the classroom. Actually, I have no idea about machine learning before this course and just know that it is popular and useful for classification problems. Learning through the course and this mission, I think I have taken the first step of machine learning and I also have a long way to learn deeply.</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/DJI_develop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/04/DJI_develop/" class="post-title-link" itemprop="url">DJI-device</a>
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-04 12:41:50" itemprop="dateCreated datePublished" datetime="2020-01-04T12:41:50+08:00">2020-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-06 15:45:49" itemprop="dateModified" datetime="2020-01-06T15:45:49+08:00">2020-01-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Engineering-experiment/" itemprop="url" rel="index">
+                    <span itemprop="name">Engineering experiment</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>DJI M210 RTK V2 + Z30 + Manifold2-C</p>
+<p>经过与大疆工程师的沟通，这套硬件是可以实现远距离的目标识别锁定与视觉导航，这方面应该可以做很多应用；</p>
+<p><center><img data-src="/images/DJI_develop.assets/image-20200104222342698.png" alt="50%" width="50%" style="zoom:33%;" /></center></p>
+<p><center><img data-src="/images/DJI_develop.assets/image-20200104222302599.png" alt="50%" width="50%" style="zoom:33%;" /></center><br>忘记放图了，新鲜的灰机来啦！</p>
+<p><center><img data-src="/images/DJI_develop.assets/IMG_2497.jpeg"alt="50%" width="50%" style="zoom:25%;" /></center></p>
+<p><center><img data-src="/images/DJI_develop.assets/IMG_2503.jpeg" alt="50%" width="50%" style="zoom:25%;" /></center></p>
+<p><center><img data-src="/images/DJI_develop.assets/IMG_2499.jpeg" alt="50%" width="50%" style="zoom:25%;" /></center><br>飞起来还是一如既往的稳，好玩！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/09/thinking03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/12/09/thinking03/" class="post-title-link" itemprop="url">小声逼逼</a>
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-09 17:16:44" itemprop="dateCreated datePublished" datetime="2019-12-09T17:16:44+08:00">2019-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-10 10:11:00" itemprop="dateModified" datetime="2019-12-10T10:11:00+08:00">2019-12-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Review/" itemprop="url" rel="index">
+                    <span itemprop="name">Review</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="科研的打开方式："><a href="#科研的打开方式：" class="headerlink" title="科研的打开方式："></a>科研的打开方式：</h4><p>1.解决的根本问题是什么（Ax+b=0）</p>
+<p>2.解决此问题的有效方法</p>
+<p>3.解决该问题需要付出的代价（算法复杂度、算法稳定度、算法精度）</p>
+<p>望深思！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Yang"
+      src="/images/head.jpeg">
+  <p class="site-author-name" itemprop="name">Jason Yang</p>
+  <div class="site-description" itemprop="description">Coding,Reading,Learning</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Jason-Yoo" title="GitHub → https://github.com/Jason-Yoo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiduocaiyang@gmail.com" title="E-Mail → mailto:jiduocaiyang@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/Reign_Man" title="CSDN → https://blog.csdn.net/Reign_Man" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason Yang</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout: 3000,
+        priority: true,
+        ignores: [uri => uri.includes('#'),uri => uri == 'http://yoursite.com/page/5/',]
+      });
+      });
+  </script>
+
+</body>
+</html>

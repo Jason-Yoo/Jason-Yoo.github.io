@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en-hk">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=微软雅黑:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="1.未知焦距位姿测量—PNP问题关键词：Focal Length Estimation 、 Camera Pose Estimation、 PNP Problem方法一：通过成像模型和相机模型，对相机内参数矩阵利用点之间的距离关系等构件多项式代数方程，通过隐变量消去法或Grobner基，吴方法的方式进行求解； 位姿估计的最小问题：​    所谓最小问题,是指使用最少的匹配点对来估计对极几何、相机标">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Camera Pose and Focal Length Estimation">
+<meta property="og:url" content="http://yoursite.com/2020/06/10/Camera-Pose-and-Focal-Length-Estimation/index.html">
+<meta property="og:site_name" content="DC">
+<meta property="og:description" content="1.未知焦距位姿测量—PNP问题关键词：Focal Length Estimation 、 Camera Pose Estimation、 PNP Problem方法一：通过成像模型和相机模型，对相机内参数矩阵利用点之间的距离关系等构件多项式代数方程，通过隐变量消去法或Grobner基，吴方法的方式进行求解； 位姿估计的最小问题：​    所谓最小问题,是指使用最少的匹配点对来估计对极几何、相机标">
+<meta property="og:locale" content="en_HK">
+<meta property="og:image" content="http://yoursite.com/images/Camera%20Pose%20and%20Focal%20Length%20Estimation.assets/image-20200705211126286.png">
+<meta property="og:image" content="http://yoursite.com/images/Camera%20Pose%20and%20Focal%20Length%20Estimation.assets/image-20200705211018966.png">
+<meta property="article:published_time" content="2020-06-10T09:06:53.307Z">
+<meta property="article:modified_time" content="2020-12-18T13:45:16.655Z">
+<meta property="article:author" content="Jason Yang">
+<meta property="article:tag" content="视觉测量">
+<meta property="article:tag" content="位姿估计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/Camera%20Pose%20and%20Focal%20Length%20Estimation.assets/image-20200705211126286.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/10/Camera-Pose-and-Focal-Length-Estimation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Camera Pose and Focal Length Estimation | DC</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DC</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">永远年轻，永远热泪盈眶。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-link"></i>links</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/10/Camera-Pose-and-Focal-Length-Estimation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Camera Pose and Focal Length Estimation
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-10 17:06:53" itemprop="dateCreated datePublished" datetime="2020-06-10T17:06:53+08:00">2020-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-18 21:45:16" itemprop="dateModified" datetime="2020-12-18T21:45:16+08:00">2020-12-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Vision</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="1-未知焦距位姿测量—PNP问题"><a href="#1-未知焦距位姿测量—PNP问题" class="headerlink" title="1.未知焦距位姿测量—PNP问题"></a>1.未知焦距位姿测量—PNP问题</h4><h5 id="关键词：Focal-Length-Estimation-、-Camera-Pose-Estimation、-PNP-Problem"><a href="#关键词：Focal-Length-Estimation-、-Camera-Pose-Estimation、-PNP-Problem" class="headerlink" title="关键词：Focal Length Estimation 、 Camera Pose Estimation、 PNP Problem"></a>关键词：Focal Length Estimation 、 Camera Pose Estimation、 PNP Problem</h5><p>方法一：通过成像模型和相机模型，对相机内参数矩阵利用点之间的距离关系等构件多项式代数方程，通过隐变量消去法或Grobner基，吴方法的方式进行求解；</p>
+<h5 id="位姿估计的最小问题："><a href="#位姿估计的最小问题：" class="headerlink" title="位姿估计的最小问题："></a>位姿估计的最小问题：</h5><p>​    所谓最小问题,是指使用最少的匹配点对来估计对极几何、相机标定参数以及畸变参数等，但是最小问题的求解一般需进行复杂的代数多项式求解，最初的算法都选择忽略几何限制直接使用更多的点对进行求解。随着 Grobner 基的应用， 复杂多项式方程组的求解变得可行，推动了基于最小问题相对姿态估计的快速发展。</p>
+<a id="more"></a>
+<h5 id="Major-contributors：Zuzana-Kukelova"><a href="#Major-contributors：Zuzana-Kukelova" class="headerlink" title="Major contributors：Zuzana Kukelova"></a>Major contributors：Zuzana Kukelova</h5><h5 id="相关文献："><a href="#相关文献：" class="headerlink" title="相关文献："></a>相关文献：</h5><h5 id="1-Kanaeva-Ekaterina-Gurevich-Lev-Vakhitov-Alexander-Camera-Pose-and-Focal-Length-Estimation-Using-Regularized-Distance-Constraints-C-British-Machine-Vision-Conference-2015"><a href="#1-Kanaeva-Ekaterina-Gurevich-Lev-Vakhitov-Alexander-Camera-Pose-and-Focal-Length-Estimation-Using-Regularized-Distance-Constraints-C-British-Machine-Vision-Conference-2015" class="headerlink" title="[1]. Kanaeva, Ekaterina, Gurevich, Lev, Vakhitov, Alexander. Camera Pose and Focal Length Estimation Using Regularized Distance Constraints[C]// British Machine Vision Conference. 2015."></a>[1]. Kanaeva, Ekaterina, Gurevich, Lev, Vakhitov, Alexander. Camera Pose and Focal Length Estimation Using Regularized Distance Constraints[C]// British Machine Vision Conference. 2015.</h5><p>​    基于正则距离约束进行相机姿态和焦距估计，文章开头阐述了基于EPNP的位姿计算方法，然后在这个基础上提出了基于正则距离约束的位姿计算方程，将投影方程和距离约束合并为一个具有统计意义的最小二乘函数，将搜索空间定义为最小二乘系统矩阵的几个右奇异向量的线性组合，然后使用线性规划技术求出最优解；</p>
+<p>​    实验表明，其提出的方法EPNPfr,在提取误差存在3～4个像素误差时，其位姿估计误差和焦距估计误差均在10%左右，在点数超过10个以后，其位姿估计误差和焦距估计误差均在4%以下，当点数达到15个及以上，其误差在2%左右；</p>
+<h5 id="2-薛俊诗-舒奇泉-郭宁博-未知畸变参数时多视图三维重建相对位姿估计方法-J-光子学报-2018"><a href="#2-薛俊诗-舒奇泉-郭宁博-未知畸变参数时多视图三维重建相对位姿估计方法-J-光子学报-2018" class="headerlink" title="[2].薛俊诗, 舒奇泉, 郭宁博. 未知畸变参数时多视图三维重建相对位姿估计方法[J]. 光子学报, 2018"></a>[2].薛俊诗, 舒奇泉, 郭宁博. 未知畸变参数时多视图三维重建相对位姿估计方法[J]. 光子学报, 2018</h5><p>​    根据对极几何关系，推导了畸变中心未知时的畸变基础矩阵表达模型． 在系数矩阵中引入加权矩阵，控制参与估计的匹配对应点，通过奇异值分解估计畸变基础矩阵．根据加权矩阵更新准则对加权矩阵进行更新，然后进行迭代计算，比较前后两次估计得到的内点数目及平均极线距离，得到畸变基础矩阵的最优解，并判断是否需要继续迭代． 在得到最优畸变基础矩阵后，再分别对畸变中心、畸变参数以及焦距进行估计．</p>
+<p>​    算法误差：在噪声均方差为2.5时，畸变参数误差均值小于 2%，3.5% ．</p>
+<h5 id="3-Kukelova-Zuzana-et-al-“Fast-and-robust-numerical-solutions-to-minimal-problems-for-cameras-with-radial-distortion-”-Computer-Vision-amp-Image-Understanding-114-2-2010-234-244"><a href="#3-Kukelova-Zuzana-et-al-“Fast-and-robust-numerical-solutions-to-minimal-problems-for-cameras-with-radial-distortion-”-Computer-Vision-amp-Image-Understanding-114-2-2010-234-244" class="headerlink" title="[3].Kukelova, Zuzana , et al. “Fast and robust numerical solutions to minimal problems for cameras with radial distortion.” Computer Vision &amp; Image Understanding 114.2(2010):234-244."></a>[3].Kukelova, Zuzana , et al. “Fast and robust numerical solutions to minimal problems for cameras with radial distortion.” <em>Computer Vision &amp; Image Understanding</em> 114.2(2010):234-244.</h5><p>​    提出了一种基于八个对应点的最小解决方案 可以估计未标定相机的基础矩阵以及单一畸变参数。</p>
+<h5 id="4-Jiang-Fangyuan-Kuang-Yubin-Solem-Jan-Erik-A-Minimal-Solution-to-Relative-Pose-with-Unknown-Focal-Length-and-Radial-Distortion-M-Computer-Vision-—-ACCV-2014-Springer-International-Publishing-2014"><a href="#4-Jiang-Fangyuan-Kuang-Yubin-Solem-Jan-Erik-A-Minimal-Solution-to-Relative-Pose-with-Unknown-Focal-Length-and-Radial-Distortion-M-Computer-Vision-—-ACCV-2014-Springer-International-Publishing-2014" class="headerlink" title="[4].Jiang, Fangyuan, Kuang, Yubin, Solem, Jan Erik. A Minimal Solution to Relative Pose with Unknown Focal Length and Radial Distortion.[M]// Computer Vision — ACCV 2014. Springer International Publishing, 2014."></a>[4].Jiang, Fangyuan, Kuang, Yubin, Solem, Jan Erik. A Minimal Solution to Relative Pose with Unknown Focal Length and Radial Distortion.[M]// Computer Vision — ACCV 2014. Springer International Publishing, 2014.</h5><p>​    对未知焦距及畸变参数下的本质矩阵估计的最小问题进行了详细的研究, 提出了基于 Grobner 基的多项式求解方法 ， 该方法能够得到大量正确的匹配对应点并实现焦距及 畸变参数的同时精确估计 。</p>
+<h5 id="5-KUKELOVA-Z，HELLER-J，BUNJNAK-M，et-al．-Efficient-solution-to-the-epipolar-geometry-for-radially-distorted-cameras-C］-IEEE-International-Conference-on-Computer-Vision，2015"><a href="#5-KUKELOVA-Z，HELLER-J，BUNJNAK-M，et-al．-Efficient-solution-to-the-epipolar-geometry-for-radially-distorted-cameras-C］-IEEE-International-Conference-on-Computer-Vision，2015" class="headerlink" title="[5]. KUKELOVA Z，HELLEＲ J，BUNJNAK M，et al． Efficient solution to the epipolar geometry for radially distorted cameras[C］. IEEE International Conference on Computer Vision，2015"></a>[5]. KUKELOVA Z，HELLEＲ J，BUNJNAK M，et al． Efficient solution to the epipolar geometry for radially distorted cameras[C］. IEEE International Conference on Computer Vision，2015</h5><p>​    通过 10 个点对构建了自由度为 10 的多项式方程，并利用 Strum 序列法进行求解，能够得到抗噪声、稳定的、快速的求解，除本质矩阵与基础矩阵外，单应矩阵也是描述对极几何关系的重要内容 。</p>
+<h5 id="6-KUKELOVA-Z，HELLER-J，BUJNAK-M，et-al．-Radial-distortion-homography［C］．Computer-Vision-and-Pattern-Recognition，-IEEE，2015：-639-647．"><a href="#6-KUKELOVA-Z，HELLER-J，BUJNAK-M，et-al．-Radial-distortion-homography［C］．Computer-Vision-and-Pattern-Recognition，-IEEE，2015：-639-647．" class="headerlink" title="[6]. KUKELOVA Z，HELLEＲ J，BUJNAK M，et al． Ｒadial distortion homography［C］．Computer Vision and Pattern Recognition， IEEE，2015： 639-647．"></a>[6]. KUKELOVA Z，HELLEＲ J，BUJNAK M，et al． Ｒadial distortion homography［C］．Computer Vision and Pattern Recognition， IEEE，2015： 639-647．</h5><p>​    研究了畸变情况下单应矩阵的最小求解方法（使用五个对应点构建非线性方程组，并使用 Grobner 基进行快速稳定求解）和非最小求解方法（是使用六个点构建二元二次线性方程组，进行线性求解 ），上述畸变参数的求解都是建立在已知畸变中心（Center of Distortion，CoD），或者假定畸变中心为影像中心下进行的。实际上，影像的畸变中心与影像中心并不重合 ．</p>
+<h4 id="2-未知焦距测量—标定测量问题"><a href="#2-未知焦距测量—标定测量问题" class="headerlink" title="2.未知焦距测量—标定测量问题"></a>2.未知焦距测量—标定测量问题</h4><h5 id="关键词：相机自标定-成像模型-相机内参数"><a href="#关键词：相机自标定-成像模型-相机内参数" class="headerlink" title="关键词：相机自标定 成像模型 相机内参数"></a>关键词：相机自标定 成像模型 相机内参数</h5><p>方式一：当目标运动轨迹任意时，从像平面轨迹中恢复轨迹的空间信息，须要获取相机的位姿．从图像中标定相机位姿的方法主要有：</p>
+<p>a. 模板标定法，主要有Tsai 标定法与张正友标定法；</p>
+<p>b. 主动标定法， 如基于椭圆特征的平面位姿定位方法和基于测量辅助工具法，但是主动标定实验条件要求高，受标定物的影响较大；</p>
+<p>c. 自标定法，如在使用扫描曲线标定 CT、基于镜像与正交性约束、基于透视图中的灭点和利用地标测量的平面运动约束估计相机的位姿信息．但是以上的标定法均使用静态图片进行相机标定，不适用于轨迹分析中的目标特征运动变化的具体情况</p>
+<p>方式二：通过建立的合作目标对变焦相机不同倍率和焦距设置下的变焦相机模型进行标定，获得不同倍率和焦距设置下的标定参数，然后通过这系列位置的标定模型参数进行分析，建立变焦相机的几何模型。</p>
+<h5 id="相关文献"><a href="#相关文献" class="headerlink" title="相关文献:"></a>相关文献:</h5><h5 id="1-变焦相机高精度标定与测图精度研究-2015-杨长坤"><a href="#1-变焦相机高精度标定与测图精度研究-2015-杨长坤" class="headerlink" title="[1] . 变焦相机高精度标定与测图精度研究 2015 杨长坤"></a>[1] . 变焦相机高精度标定与测图精度研究 2015 杨长坤</h5><p>将变焦相机分解成多个定焦相机，建立包含缩放倍数和焦距变化的变焦相机模型，通过建立的合作目标对变焦相机不同倍率和焦距设置下的变焦相机模型进行标定，获得不同倍率和焦距设置下的标定参数，然后通过这系列位置的标定模型参数进行分析，建立变焦相机的几何模型。</p>
+<p>具体方法：</p>
+<p>（1）.首先基于合作特征分别对变焦相机固定主距位置进行标定；</p>
+<p>（2）.对不同率和焦距设置下的标定结果进行多项式拟合得到变焦相机几何模型；</p>
+<p>结论：标定出的主点随意的分布，这种随意性在倍率及焦距变化时都有表现，因此很难通过多项式拟合的方式标定像主点，但是也可以看出这种变化性不大，不同倍率和焦距之下主点的差异不超过10个像素，因此可借助吴波提出的焦距扩展的方法标定像主点，由此得到在焦距和倍率变化时的主点标准差为0.001mm</p>
+<h5 id="2-段绍丽-变焦相机的标定技术研究-D-2017-郑州大学"><a href="#2-段绍丽-变焦相机的标定技术研究-D-2017-郑州大学" class="headerlink" title="[2]. 段绍丽. 变焦相机的标定技术研究[D].2017.郑州大学"></a>[2]. 段绍丽. 变焦相机的标定技术研究[D].2017.郑州大学</h5><p>研究了基于二消式自标定方法。提出的基于二消失点的相机自标定方法，只需被拍摄场景中包含矩形图案（需要满足建立二消失点的条件，两组正交平行的线），从不同视点拍摄4幅图像，利用亚像素角点检测算法计算二消失点，根据二消失点的几何性质建立线性约束方程，最后线性求解出相机的内参数；</p>
+<p>标定精度：焦距标定误差2%，主点标定误差3%，适合近距离标定；</p>
+<p>缺点：需要两个视角的4幅图像，且被拍摄场景中包含矩形图案；</p>
+<h5 id="3-顾国华-二维旋转平台下的相机参数标定-2017-南京理工大学"><a href="#3-顾国华-二维旋转平台下的相机参数标定-2017-南京理工大学" class="headerlink" title="[3]. 顾国华.二维旋转平台下的相机参数标定.2017. 南京理工大学"></a>[3]. 顾国华.二维旋转平台下的相机参数标定.2017. 南京理工大学</h5><center><img data-src="/images/Camera%20Pose%20and%20Focal%20Length%20Estimation.assets/image-20200705211126286.png" alt="image-20200705211126286" style="zoom:33%;" /></center>
+
+<p>提出了一种基于二维旋转平台的相机成像模型。 首先，通过一对坐标系的变换与逆变换，将相机的旋转平移变换关系转换为二维旋转平台纯旋转关系；然后，借助旋转平台读数以及相机到旋转平台的固定变换关系，实现相机内参的精确标定以及任意位置间相机外参的相互转换；最后，利用标定出的相机与旋转平台间变换矩阵实现不同位置相机参数的转换。</p>
+<p>求解模型：</p>
+<p>$H$为相机内参数,$[R_{1},T_{1}]$为初始相机外参数，$s$为尺度因子，$R_{Ti}$为第$i$幅图像与初始图像的旋转矩阵，可以通过经纬仪得到</p>
+<script type="math/tex; mode=display">
+\begin{aligned}\left[\begin{array}{c}s_{i} \boldsymbol{p}_{i} \\ s_{i} \\ 1\end{array}\right]=\left[\begin{array}{cc}\boldsymbol{H} & \boldsymbol{0} \\ \boldsymbol{0} & \boldsymbol{1}\end{array}\right] \times\left[\begin{array}{cc}\boldsymbol{R}_{\mathrm{ct}} & \boldsymbol{T}_{\mathrm{ct}} \\ \boldsymbol{0} & \boldsymbol{1}\end{array}\right]^{-1} \times\left[\begin{array}{cc}\boldsymbol{R}_{T i} & \boldsymbol{0} \\ \boldsymbol{0} & \boldsymbol{1}\end{array}\right] \times \left[\begin{array}{cc}\boldsymbol{R}_{\mathrm{ct}} & \boldsymbol{T}_{\mathrm{ct}} \\ \mathbf{0} & \mathbf{1}\end{array}\right] \times\left[\begin{array}{cc}\boldsymbol{R}_{1} & \boldsymbol{T}_{1} \\ \mathbf{0} & \mathbf{1}\end{array}\right] \times \boldsymbol{P} \end{aligned}</script><p>非线性优化：Levenberg-Marquardt algorithm</p>
+<p>初始值：像素尺寸dx和dy、焦距f、分辨率W*H；外参初始矩阵可以通过P3P算法求解得到；</p>
+<script type="math/tex; mode=display">
+\boldsymbol{H}=\left[\begin{array}{ccc}\frac{f}{d x} & 0 & \frac{W}{2} \\ 0 & \frac{f}{d y} & \frac{H}{2} \\ 0 & 0 & 1\end{array}\right]</script><p>优化函数：</p>
+<p>$(R_{ct},T_{ct})$为相机和经纬仪的变换参数，在实际装配过程中应尽量保证相机坐标系与经纬仪坐标系重合，使得$R_{ct}$的初始值为单位矩阵，$T_{ct}$的初始值为$[0,0,0]^{T}$</p>
+<script type="math/tex; mode=display">
+\begin{array}{c}f\left(\boldsymbol{H}, \boldsymbol{R}_{\mathrm{ct}}, \boldsymbol{T}_{\mathrm{ct}}, \boldsymbol{R}_{1}, \boldsymbol{T}_{1}\right)_{\min }= \ \sum_{i=1}^{N}\left\|\boldsymbol{p}_{i}\left(\boldsymbol{H}, \boldsymbol{R}_{\mathrm{ct}}, \boldsymbol{T}_{\mathrm{ct}}, \boldsymbol{R}_{1}, \boldsymbol{T}_{1}\right)-\boldsymbol{p}_{i}^{\prime}\right\|\end{array}</script><h5 id="4-雷成-吴福朝-胡占义-一种新的基于主动视觉系统的摄像机自标定方法-J-计算机学报-2000-11-11-20"><a href="#4-雷成-吴福朝-胡占义-一种新的基于主动视觉系统的摄像机自标定方法-J-计算机学报-2000-11-11-20" class="headerlink" title="[4]. 雷成, 吴福朝, 胡占义. 一种新的基于主动视觉系统的摄像机自标定方法[J]. 计算机学报, 2000(11):11-20."></a>[4]. 雷成, 吴福朝, 胡占义. 一种新的基于主动视觉系统的摄像机自标定方法[J]. 计算机学报, 2000(11):11-20.</h5><p>提出了一种新的基于主动视觉系统的摄像机自标定方法 ,通过控制摄像机平台作 4次平移运动 (其中任意 3次均不在同一平面上 )即可线性地标定摄像机的内参数以及摄像机坐标系与平台坐标系之间的旋转矩阵 .</p>
+<p>首先通过主动视觉平台纯平移运动对内参数阵 K以及摄像机坐标系与平台 坐标系之间的旋转矩阵 Rp 的标定，然后，通过平台平移和旋转运动对摄像机坐标系与平台坐标系之间的平移向量 Tp 的标定</p>
+<h5 id="5-李宝全-方勇纯-张雪波-基于纯旋转运动的摄像机统一自标定方法-J-光学学报-2013-11-146-153"><a href="#5-李宝全-方勇纯-张雪波-基于纯旋转运动的摄像机统一自标定方法-J-光学学报-2013-11-146-153" class="headerlink" title="[5].李宝全, 方勇纯, 张雪波. 基于纯旋转运动的摄像机统一自标定方法[J]. 光学学报, 2013(11):146-153."></a>[5].李宝全, 方勇纯, 张雪波. 基于纯旋转运动的摄像机统一自标定方法[J]. 光学学报, 2013(11):146-153.</h5><p>​    应用统一球形成像模型对中心折反射摄像机与针孔摄像机两类摄像机进行描述；证明当摄像机坐标系做纯旋转运动时，空间静止点对应的球面投影点之间的距离保持不变；根据该性质构造具有统一形式的内参数约束方程组；提出最优化目标函数（Levenberg-Marquardt algorithm）并利用数值优化算法进行求解。</p>
+<p>其中：</p>
+<script type="math/tex; mode=display">
+a=\frac{u-u_{0}}{f_{u}(\xi+m)}, \quad b=\frac{v-v_{0}}{f_{v}(\xi+m)}</script><script type="math/tex; mode=display">
+\lambda=\frac{\xi+\sqrt{1+\left(1-\xi^{2}\right)\left(a^{2}+b^{2}\right)}}{a^{2}+b^{2}+1}</script><script type="math/tex; mode=display">
+\boldsymbol{K}_{m}=\left[\begin{array}{ccc}f_{u}(\xi+m) & 0 & u_{0} \\ 0 & f_{v}(\xi+m) & v_{0} \\ 0 & 0 & 1\end{array}\right]</script><p>对于针孔相机模型：$\xi=0,m=1$​</p>
+<p>优化模型：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} J\left[\xi, f_{u}(\xi+m), f_{v}(\xi+m), u_{0}, v_{0}\right]=& \sum_{i=1}^{N-1} \sum_{j=i+1}^{N}\left\{\left[a_{i} \lambda_{i} a_{j} \lambda_{j}+b_{i \lambda} b_{j} \lambda_{j}+\left(\lambda_{i}-\xi\right)\left(\lambda_{j}-\xi\right)\right]-\right.\\ &\left.\left[a_{i \lambda}^{\prime} \lambda_{i}^{\prime} a_{j}^{\prime} \lambda_{j}^{\prime}+b_{i}^{\prime} \lambda_{i}^{\prime} b_{j}^{\prime} \lambda_{j}^{\prime}+\left(\lambda_{i}^{\prime}-\xi\right)\left(\lambda_{j}^{\prime}-\xi\right)\right]\right\}^{2} \end{aligned}</script><h5 id="6-高扬-林嘉睿-陈家琪-等-基于精密二轴转台的大尺寸测量相机高效灵活标定方法-J-纳米技术与精密工程-2018-1-001-59-65"><a href="#6-高扬-林嘉睿-陈家琪-等-基于精密二轴转台的大尺寸测量相机高效灵活标定方法-J-纳米技术与精密工程-2018-1-001-59-65" class="headerlink" title="[6].高扬, 林嘉睿, 陈家琪,等. 基于精密二轴转台的大尺寸测量相机高效灵活标定方法[J]. 纳米技术与精密工程, 2018, 1(001):59-65."></a>[6].高扬, 林嘉睿, 陈家琪,等. 基于精密二轴转台的大尺寸测量相机高效灵活标定方法[J]. 纳米技术与精密工程, 2018, 1(001):59-65.</h5><center><img data-src="/images/Camera%20Pose%20and%20Focal%20Length%20Estimation.assets/image-20200705211018966.png" alt="image-20200705211018966" style="zoom:33%;" /></center>
+
+<p>研究了一种使用<strong>精密二轴转台</strong>和<strong>单个固定不动的光学参考点</strong>进行相机标定的方法。 通过精密二轴转台带动相机做二维转动并拍摄前方光学参考点，从而构建精密的角度基准控制场并实现标定．</p>
+<p>$P_{R0}$为固定不动光点，$R_i$为转台变换量</p>
+<p>求解模型：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{R}_{i}=\left[\begin{array}{ccc}\cos \varphi_{i} & 0 & -\sin \varphi_{i} \\ 0 & 1 & 0 \\ \sin \varphi_{i} & 0 & \cos \varphi_{i}\end{array}\right]\left[\begin{array}{ccc}1 & 0 & 0 \\ 0 & \cos \psi_{i} & \sin \psi_{i} \\ 0 & -\sin \psi_{i} & \cos \psi_{i}\end{array}\right]</script><script type="math/tex; mode=display">
+\left.\begin{array}{l}z_{C i}\left[\begin{array}{l}u_{i} \\ v_{i} \\ 1\end{array}\right]=\left[\begin{array}{ccc}a_{x} & 0 & u_{0} \\ 0 & a_{y} & v_{0} \\ 0 & 0 & 1\end{array}\right]\left[\begin{array}{l}x_{c i} \\ y_{c i} \\ z_{c i}\end{array}\right]= {\left[\begin{array}{ccc}a_{x} & 0 & u_{0} \\ 0 & a_{y} & v_{0} \\ 0 & 0 & 1\end{array}\right]\left[\boldsymbol{R}_{\mathrm{RC}} \boldsymbol{R}_{i}\left[\begin{array}{c}x_{\mathrm{R} 0} \\ y_{\mathrm{R} 0} \\ z_{\mathrm{R} 0}\end{array}\right]+\boldsymbol{t}_{\mathrm{RC}}\right.}\end{array}\right]</script><p>非线性优化方法：Levenberg-Marquardt algorithm</p>
+<p>优化模型：将$P_{R0}$归一化后</p>
+<script type="math/tex; mode=display">
+\begin{aligned} 
+\boldsymbol{J}\left(\boldsymbol{p}_{\mathrm{R} 0}, \boldsymbol{R}_{\mathrm{RC}}, \boldsymbol{x}_{\mathrm{ins}}\right)=&
+\left[\sum_{i=1}^{n}
+\left(\hat{u}_{i}-u_{i}\right)^{2}+
+\left(\hat{v}_{i}-v_{i}\right)^{2}
+\right]+M
+\left(\left\|\boldsymbol{p}_{\mathrm{R} 0}\right\|-1\right)^{2} \end{aligned}</script><h5 id="7-霍炬-杨卫-杨明-基于消隐点几何特性的摄像机自标定方法-J-光学学报-2010-30-002-465-472"><a href="#7-霍炬-杨卫-杨明-基于消隐点几何特性的摄像机自标定方法-J-光学学报-2010-30-002-465-472" class="headerlink" title="[7].霍炬, 杨卫, 杨明. 基于消隐点几何特性的摄像机自标定方法[J]. 光学学报, 2010, 30(002):465-472."></a>[7].霍炬, 杨卫, 杨明. 基于消隐点几何特性的摄像机自标定方法[J]. 光学学报, 2010, 30(002):465-472.</h5><p>基于正交的两组平行直线形成的消隐点的几何特性，提出了一种摄像机内外参数的自标定方法。 该方法利用连接光心与消隐点向量的正交性质，建立关于相机内参数的约束方程，并给出了约束方程的线性解法；</p>
+<p>针对现有自标定方法未能标定畸变系数的现状，提出了一种考虑畸变的非线性最优化算法，该算法以线性求解得到的内参数为初值，利用非线性单纯型法寻优标定畸变；建立消隐点坐标系，给出了摄像机外参数的求解算法。</p>
+<h5 id="8-Agapito-L-Hayman-E-Reid-I-Self-calibration-of-rotating-and-zooming-cameras-Int-J-Comput-Vis-45-2-107–127-2001"><a href="#8-Agapito-L-Hayman-E-Reid-I-Self-calibration-of-rotating-and-zooming-cameras-Int-J-Comput-Vis-45-2-107–127-2001" class="headerlink" title="[8].Agapito, L., Hayman, E., Reid, I.: Self-calibration of rotating and zooming cameras. Int. J. Comput. Vis. 45(2), 107–127 (2001)"></a>[8].Agapito, L., Hayman, E., Reid, I.: Self-calibration of rotating and zooming cameras. Int. J. Comput. Vis. 45(2), 107–127 (2001)</h5><p>提出了新的线性和非线性校准方法（基于LM算法），用于自校准旋转和变焦相机。 他们的方法基于无限单应性约束，并将$f，C_x，C_y$和$k_1$视为变量参数。 为了提高相机参数的准确性，他们使用了最大似然估计（MLE）和最大后验估计（MAP）。 他们通过保持原理点不变而更准确的结果。 他们还分析了径向畸变对自校准的影响，并使用多项式拟合对径向畸变的第一系数的变化进行了建模。 </p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jason Yang
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://yoursite.com/2020/06/10/Camera-Pose-and-Focal-Length-Estimation/" title="Camera Pose and Focal Length Estimation">http://yoursite.com/2020/06/10/Camera-Pose-and-Focal-Length-Estimation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%A7%86%E8%A7%89%E6%B5%8B%E9%87%8F/" rel="tag"># 视觉测量</a>
+              <a href="/tags/%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/" rel="tag"># 位姿估计</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/12/Box-modeling/" rel="prev" title="UAVGP堆叠箱体建模方案">
+      <i class="fa fa-chevron-left"></i> UAVGP堆叠箱体建模方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/18/Vincenty-solutions/" rel="next" title="Vincenty solutions of geodesics on the ellipsoid">
+      Vincenty solutions of geodesics on the ellipsoid <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%9C%AA%E7%9F%A5%E7%84%A6%E8%B7%9D%E4%BD%8D%E5%A7%BF%E6%B5%8B%E9%87%8F%E2%80%94PNP%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">1.未知焦距位姿测量—PNP问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D%EF%BC%9AFocal-Length-Estimation-%E3%80%81-Camera-Pose-Estimation%E3%80%81-PNP-Problem"><span class="nav-number">1.1.</span> <span class="nav-text">关键词：Focal Length Estimation 、 Camera Pose Estimation、 PNP Problem</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1%E7%9A%84%E6%9C%80%E5%B0%8F%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">位姿估计的最小问题：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Major-contributors%EF%BC%9AZuzana-Kukelova"><span class="nav-number">1.3.</span> <span class="nav-text">Major contributors：Zuzana Kukelova</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%96%87%E7%8C%AE%EF%BC%9A"><span class="nav-number">1.4.</span> <span class="nav-text">相关文献：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Kanaeva-Ekaterina-Gurevich-Lev-Vakhitov-Alexander-Camera-Pose-and-Focal-Length-Estimation-Using-Regularized-Distance-Constraints-C-British-Machine-Vision-Conference-2015"><span class="nav-number">1.5.</span> <span class="nav-text">[1]. Kanaeva, Ekaterina, Gurevich, Lev, Vakhitov, Alexander. Camera Pose and Focal Length Estimation Using Regularized Distance Constraints[C]&#x2F;&#x2F; British Machine Vision Conference. 2015.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E8%96%9B%E4%BF%8A%E8%AF%97-%E8%88%92%E5%A5%87%E6%B3%89-%E9%83%AD%E5%AE%81%E5%8D%9A-%E6%9C%AA%E7%9F%A5%E7%95%B8%E5%8F%98%E5%8F%82%E6%95%B0%E6%97%B6%E5%A4%9A%E8%A7%86%E5%9B%BE%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA%E7%9B%B8%E5%AF%B9%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1%E6%96%B9%E6%B3%95-J-%E5%85%89%E5%AD%90%E5%AD%A6%E6%8A%A5-2018"><span class="nav-number">1.6.</span> <span class="nav-text">[2].薛俊诗, 舒奇泉, 郭宁博. 未知畸变参数时多视图三维重建相对位姿估计方法[J]. 光子学报, 2018</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-Kukelova-Zuzana-et-al-%E2%80%9CFast-and-robust-numerical-solutions-to-minimal-problems-for-cameras-with-radial-distortion-%E2%80%9D-Computer-Vision-amp-Image-Understanding-114-2-2010-234-244"><span class="nav-number">1.7.</span> <span class="nav-text">[3].Kukelova, Zuzana , et al. “Fast and robust numerical solutions to minimal problems for cameras with radial distortion.” Computer Vision &amp; Image Understanding 114.2(2010):234-244.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-Jiang-Fangyuan-Kuang-Yubin-Solem-Jan-Erik-A-Minimal-Solution-to-Relative-Pose-with-Unknown-Focal-Length-and-Radial-Distortion-M-Computer-Vision-%E2%80%94-ACCV-2014-Springer-International-Publishing-2014"><span class="nav-number">1.8.</span> <span class="nav-text">[4].Jiang, Fangyuan, Kuang, Yubin, Solem, Jan Erik. A Minimal Solution to Relative Pose with Unknown Focal Length and Radial Distortion.[M]&#x2F;&#x2F; Computer Vision — ACCV 2014. Springer International Publishing, 2014.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-KUKELOVA-Z%EF%BC%8CHELLER-J%EF%BC%8CBUNJNAK-M%EF%BC%8Cet-al%EF%BC%8E-Efficient-solution-to-the-epipolar-geometry-for-radially-distorted-cameras-C%EF%BC%BD-IEEE-International-Conference-on-Computer-Vision%EF%BC%8C2015"><span class="nav-number">1.9.</span> <span class="nav-text">[5]. KUKELOVA Z，HELLEＲ J，BUNJNAK M，et al． Efficient solution to the epipolar geometry for radially distorted cameras[C］. IEEE International Conference on Computer Vision，2015</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-KUKELOVA-Z%EF%BC%8CHELLER-J%EF%BC%8CBUJNAK-M%EF%BC%8Cet-al%EF%BC%8E-Radial-distortion-homography%EF%BC%BBC%EF%BC%BD%EF%BC%8EComputer-Vision-and-Pattern-Recognition%EF%BC%8C-IEEE%EF%BC%8C2015%EF%BC%9A-639-647%EF%BC%8E"><span class="nav-number">1.10.</span> <span class="nav-text">[6]. KUKELOVA Z，HELLEＲ J，BUJNAK M，et al． Ｒadial distortion homography［C］．Computer Vision and Pattern Recognition， IEEE，2015： 639-647．</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9C%AA%E7%9F%A5%E7%84%A6%E8%B7%9D%E6%B5%8B%E9%87%8F%E2%80%94%E6%A0%87%E5%AE%9A%E6%B5%8B%E9%87%8F%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">2.未知焦距测量—标定测量问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D%EF%BC%9A%E7%9B%B8%E6%9C%BA%E8%87%AA%E6%A0%87%E5%AE%9A-%E6%88%90%E5%83%8F%E6%A8%A1%E5%9E%8B-%E7%9B%B8%E6%9C%BA%E5%86%85%E5%8F%82%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">关键词：相机自标定 成像模型 相机内参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%96%87%E7%8C%AE"><span class="nav-number">2.2.</span> <span class="nav-text">相关文献:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%8F%98%E7%84%A6%E7%9B%B8%E6%9C%BA%E9%AB%98%E7%B2%BE%E5%BA%A6%E6%A0%87%E5%AE%9A%E4%B8%8E%E6%B5%8B%E5%9B%BE%E7%B2%BE%E5%BA%A6%E7%A0%94%E7%A9%B6-2015-%E6%9D%A8%E9%95%BF%E5%9D%A4"><span class="nav-number">2.3.</span> <span class="nav-text">[1] . 变焦相机高精度标定与测图精度研究 2015 杨长坤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E6%AE%B5%E7%BB%8D%E4%B8%BD-%E5%8F%98%E7%84%A6%E7%9B%B8%E6%9C%BA%E7%9A%84%E6%A0%87%E5%AE%9A%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6-D-2017-%E9%83%91%E5%B7%9E%E5%A4%A7%E5%AD%A6"><span class="nav-number">2.4.</span> <span class="nav-text">[2]. 段绍丽. 变焦相机的标定技术研究[D].2017.郑州大学</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E9%A1%BE%E5%9B%BD%E5%8D%8E-%E4%BA%8C%E7%BB%B4%E6%97%8B%E8%BD%AC%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E7%9B%B8%E6%9C%BA%E5%8F%82%E6%95%B0%E6%A0%87%E5%AE%9A-2017-%E5%8D%97%E4%BA%AC%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6"><span class="nav-number">2.5.</span> <span class="nav-text">[3]. 顾国华.二维旋转平台下的相机参数标定.2017. 南京理工大学</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E9%9B%B7%E6%88%90-%E5%90%B4%E7%A6%8F%E6%9C%9D-%E8%83%A1%E5%8D%A0%E4%B9%89-%E4%B8%80%E7%A7%8D%E6%96%B0%E7%9A%84%E5%9F%BA%E4%BA%8E%E4%B8%BB%E5%8A%A8%E8%A7%86%E8%A7%89%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA%E8%87%AA%E6%A0%87%E5%AE%9A%E6%96%B9%E6%B3%95-J-%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E6%8A%A5-2000-11-11-20"><span class="nav-number">2.6.</span> <span class="nav-text">[4]. 雷成, 吴福朝, 胡占义. 一种新的基于主动视觉系统的摄像机自标定方法[J]. 计算机学报, 2000(11):11-20.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-%E6%9D%8E%E5%AE%9D%E5%85%A8-%E6%96%B9%E5%8B%87%E7%BA%AF-%E5%BC%A0%E9%9B%AA%E6%B3%A2-%E5%9F%BA%E4%BA%8E%E7%BA%AF%E6%97%8B%E8%BD%AC%E8%BF%90%E5%8A%A8%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA%E7%BB%9F%E4%B8%80%E8%87%AA%E6%A0%87%E5%AE%9A%E6%96%B9%E6%B3%95-J-%E5%85%89%E5%AD%A6%E5%AD%A6%E6%8A%A5-2013-11-146-153"><span class="nav-number">2.7.</span> <span class="nav-text">[5].李宝全, 方勇纯, 张雪波. 基于纯旋转运动的摄像机统一自标定方法[J]. 光学学报, 2013(11):146-153.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-%E9%AB%98%E6%89%AC-%E6%9E%97%E5%98%89%E7%9D%BF-%E9%99%88%E5%AE%B6%E7%90%AA-%E7%AD%89-%E5%9F%BA%E4%BA%8E%E7%B2%BE%E5%AF%86%E4%BA%8C%E8%BD%B4%E8%BD%AC%E5%8F%B0%E7%9A%84%E5%A4%A7%E5%B0%BA%E5%AF%B8%E6%B5%8B%E9%87%8F%E7%9B%B8%E6%9C%BA%E9%AB%98%E6%95%88%E7%81%B5%E6%B4%BB%E6%A0%87%E5%AE%9A%E6%96%B9%E6%B3%95-J-%E7%BA%B3%E7%B1%B3%E6%8A%80%E6%9C%AF%E4%B8%8E%E7%B2%BE%E5%AF%86%E5%B7%A5%E7%A8%8B-2018-1-001-59-65"><span class="nav-number">2.8.</span> <span class="nav-text">[6].高扬, 林嘉睿, 陈家琪,等. 基于精密二轴转台的大尺寸测量相机高效灵活标定方法[J]. 纳米技术与精密工程, 2018, 1(001):59-65.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-%E9%9C%8D%E7%82%AC-%E6%9D%A8%E5%8D%AB-%E6%9D%A8%E6%98%8E-%E5%9F%BA%E4%BA%8E%E6%B6%88%E9%9A%90%E7%82%B9%E5%87%A0%E4%BD%95%E7%89%B9%E6%80%A7%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA%E8%87%AA%E6%A0%87%E5%AE%9A%E6%96%B9%E6%B3%95-J-%E5%85%89%E5%AD%A6%E5%AD%A6%E6%8A%A5-2010-30-002-465-472"><span class="nav-number">2.9.</span> <span class="nav-text">[7].霍炬, 杨卫, 杨明. 基于消隐点几何特性的摄像机自标定方法[J]. 光学学报, 2010, 30(002):465-472.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-Agapito-L-Hayman-E-Reid-I-Self-calibration-of-rotating-and-zooming-cameras-Int-J-Comput-Vis-45-2-107%E2%80%93127-2001"><span class="nav-number">2.10.</span> <span class="nav-text">[8].Agapito, L., Hayman, E., Reid, I.: Self-calibration of rotating and zooming cameras. Int. J. Comput. Vis. 45(2), 107–127 (2001)</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Yang"
+      src="/images/head.jpeg">
+  <p class="site-author-name" itemprop="name">Jason Yang</p>
+  <div class="site-description" itemprop="description">Coding,Reading,Learning</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Jason-Yoo" title="GitHub → https://github.com/Jason-Yoo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiduocaiyang@gmail.com" title="E-Mail → mailto:jiduocaiyang@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/Reign_Man" title="CSDN → https://blog.csdn.net/Reign_Man" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason Yang</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+</body>
+</html>

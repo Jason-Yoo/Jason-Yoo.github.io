@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en-hk">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=微软雅黑:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="抛开技术，也要学一些经济学，一些笔记&amp;emsp;&amp;emsp;为什么股市和经济是剪刀差？ &amp;emsp;&amp;emsp;因为需要提升资产价格，掩盖债务的增加。推高资产价格的最简单有效的手段是推高股票指数；黄金价格的飙升而美元指数没有任何反应意味着经济不靠谱； &amp;emsp;&amp;emsp;全球公认的三大泡沫资产：美国的股票，中国的房子，欧洲的债；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Economics">
+<meta property="og:url" content="http://yoursite.com/2021/01/07/economics/index.html">
+<meta property="og:site_name" content="DC">
+<meta property="og:description" content="抛开技术，也要学一些经济学，一些笔记&amp;emsp;&amp;emsp;为什么股市和经济是剪刀差？ &amp;emsp;&amp;emsp;因为需要提升资产价格，掩盖债务的增加。推高资产价格的最简单有效的手段是推高股票指数；黄金价格的飙升而美元指数没有任何反应意味着经济不靠谱； &amp;emsp;&amp;emsp;全球公认的三大泡沫资产：美国的股票，中国的房子，欧洲的债；">
+<meta property="og:locale" content="en_HK">
+<meta property="og:image" content="https://picture-share-1303204700.cos.ap-nanjing.myqcloud.com/uPic/xOrt9R.jpg">
+<meta property="og:image" content="https://picture-share-1303204700.cos.ap-nanjing.myqcloud.com/uPic/OGZvcK.jpg">
+<meta property="article:published_time" content="2021-01-07T12:42:47.267Z">
+<meta property="article:modified_time" content="2021-02-28T12:47:44.008Z">
+<meta property="article:author" content="Jason Yang">
+<meta property="article:tag" content="经济学理论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picture-share-1303204700.cos.ap-nanjing.myqcloud.com/uPic/xOrt9R.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2021/01/07/economics/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Economics | DC</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DC</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">永远年轻，永远热泪盈眶。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-link"></i>links</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/07/economics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Economics
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-01-07 20:42:47" itemprop="dateCreated datePublished" datetime="2021-01-07T20:42:47+08:00">2021-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-02-28 20:47:44" itemprop="dateModified" datetime="2021-02-28T20:47:44+08:00">2021-02-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Economics/" itemprop="url" rel="index">
+                    <span itemprop="name">Economics</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="抛开技术，也要学一些经济学，一些笔记"><a href="#抛开技术，也要学一些经济学，一些笔记" class="headerlink" title="抛开技术，也要学一些经济学，一些笔记"></a>抛开技术，也要学一些经济学，一些笔记</h4><p>&emsp;&emsp;为什么股市和经济是剪刀差？</p>
+<p>&emsp;&emsp;因为需要提升资产价格，掩盖债务的增加。推高资产价格的最简单有效的手段是推高股票指数；黄金价格的飙升而美元指数没有任何反应意味着经济不靠谱；</p>
+<p>&emsp;&emsp;全球公认的三大泡沫资产：美国的股票，中国的房子，欧洲的债； </p>
+<a id="more"></a>
+<p>&emsp;&emsp;需要去学习的内容：宏观经济学、微观经济学、货币金融学、统计学、会计学；</p>
+<p>&emsp;&emsp;资产- 负债 = 股东权益</p>
+<p>&emsp;&emsp;关于ROE（净资产收益率）=净利率 $<em>$ 资产周转率 $</em>$ 杠杆比率；</p>
+<h3 id="关于投资"><a href="#关于投资" class="headerlink" title="关于投资"></a>关于投资</h3><p>&emsp;&emsp;投资的真正奥义并非赚取收益，毕竟只要还在这张牌桌上，就都是浮盈，乐观<strong>/</strong>坚韧<strong>/</strong>理性<strong>/</strong>终生学习，在投资路上获得正反馈，是我们变成一个更好的人之后自然的结果。</p>
+<p>&emsp;&emsp;投资是一件反人性的事。把自己和自我意识解耦这件事本身就充满吸引力。自我是一顶帽子，只不过我们现在不戴上它，我们摘下来审视和讨论它。</p>
+<p>&emsp;&emsp;短期是和货币的流动性强关联，长期是和经济发展的趋势强关联；</p>
+<h5 id="财经书单-："><a href="#财经书单-：" class="headerlink" title="财经书单 ："></a>财经书单 ：</h5><p>&emsp;&emsp;<strong>初级:</strong><br>         穷爸爸富爸爸<br>         小狗钱钱<br>         财务自由之路(微信读书)<br>         小岛经济学<br>         巴比伦富翁<br>&emsp;&emsp;<strong>中级:</strong><br>         日本蜡烛图技术(看k线)<br>         股市趋势技术分析<br>         指数基金投资(微信读书)<br>         共同基金常识<br>         金融炼金术<br><strong>&emsp;&emsp;思维提升:</strong><br>         《穷查理宝典》（微信读书）<br>         《巴菲特致股东的信》<br>         《聪明的投资者》<br>         《原则》<br>         《价值》<br>         《周期》</p>
+<h5 id="周期行业："><a href="#周期行业：" class="headerlink" title="周期行业："></a>周期行业：</h5><p>&emsp;&emsp;指行业的景气度与外部宏观经济环境高度正相关，并呈现周期性循环的行业。</p>
+<p>&emsp;&emsp;周期性行业的特征就是产品价格呈周期性波动的，产品的市场价格是企业赢利的基础。市场通常会给予它们比较低的估值。</p>
+<p>&emsp;&emsp;在这种行业环境中，只要决策稍有不慎或优秀管理层离开，就可能带来很大危机，永远都只有难于把握的阶段性投资机会。包括能源，自然资源，化工，工业设备，汽车；金融机构（包括银行，投行，基金等）也属于周期性行业；</p>
+<h5 id="反周期行业："><a href="#反周期行业：" class="headerlink" title="反周期行业："></a>反周期行业：</h5><p>&emsp;&emsp;对于大部分所谓反周期行业，我觉得还是称为防御性行业比较合适。</p>
+<p>&emsp;&emsp;这样的行业有，通信，食品零售，食品饮料，烟草，家化，utility（供电，供水等等）。</p>
+<p>&emsp;&emsp;这类行业的特点是提供维持生活最基本服务或者产品，所以不会因为经济下行而受到大的影响，没有大落自然也没有大起。所以总的来说和经济周期是不相关的。</p>
+<p>&emsp;&emsp;从投资的角度，简单来说，长期投资赚收益要投防御性行业，这些行业会有稳定的现金流和分红；</p>
+<p>&emsp;&emsp;如果想炒中短线，要做周期性行业，这么多行业又有分长周期，短周期，早周期，晚周期，看准了时间点买入特定的行业，再在周期高点抛出。</p>
+<h3 id="公司的价值链模型："><a href="#公司的价值链模型：" class="headerlink" title="公司的价值链模型："></a>公司的价值链模型：</h3><p>&emsp;&emsp;<strong>第一步：投入资金</strong></p>
+<p>&emsp;&emsp;自有资金——权益——净资产</p>
+<p>&emsp;&emsp;公司借债——债务——负债</p>
+<p>&emsp;&emsp;<strong>第二步：资金去向</strong></p>
+<p>&emsp;&emsp;非现金资产：机器设备、专利技术、土地拍照；对应折旧费用、摊销费用</p>
+<p>&emsp;&emsp;不是资产： 招募人才；对应营业成本、销售费用、管理费用；</p>
+<p>&emsp;&emsp; <strong>第三步：产生价值</strong></p>
+<p>&emsp;&emsp;（资产负债表）存货——非现金资产——损耗货出售——利润表（成本费用、存货跌价准备、主营业务成本）</p>
+<p>&emsp;&emsp;<strong>第四步：回收账款</strong></p>
+<p>&emsp;&emsp;工业成本：可变成本和固定成本；</p>
+<p>&emsp;&emsp;循环一次有多少收益，和一年内可循环多少次；</p>
+<p>&emsp;&emsp;如果市场竞争加剧，工业企业价值链变长，一年完成的循环次数变少；</p>
+<h3 id="读懂公司财报"><a href="#读懂公司财报" class="headerlink" title="读懂公司财报"></a>读懂公司财报</h3><h5 id="资产负债表"><a href="#资产负债表" class="headerlink" title="资产负债表"></a>资产负债表</h5><p>钱的来源：借款（负债）与股东投资（权益）</p>
+<p>钱的去处：组成企业资产，按照变现便捷度排列，货币在最前面，最不易变现的固定资产、无形资产、商誉等放在最后；</p>
+<p>阅读财报一个重要的方法就是跟同行对照着看，看不同项目在总资产中占比有何不同，思考为何不同，是优势还是劣势，尤其是应收票据、应收账款、应付账款、预付款项、预收款项几个项目；可以看出公司与上下游之间的地位，展示公司竞争力的强弱；</p>
+<h5 id="利润表"><a href="#利润表" class="headerlink" title="利润表"></a>利润表</h5><p>资本市场喜欢看，也最容易造假，造假的根源是权责发生制。没收到的钱可能被算作收入；没付出的钱可能被记录为成本；又或者收到的钱不算作收入，已付出去的钱不被记录为成本；</p>
+<p>营业利润是一家公司的核心利润，是持续竞争力的体现；</p>
+<p>投资者可以将成本，税收、费用各自占收入的比例与同行对比，与历史对比，如果比例异常，就要在财报附注里寻找解释；</p>
+<p>并非每家子公司都是上市公司100%持股的，那些在子公司里占点股份的股东，他们股份对应的资产在资产负债表里叫“少数股东权益”，他们股份对应的利润或者亏损在利润表里叫做“少数股东损益”，从净利润里去掉它，剩下的就是“归属于母公司所有者的净利润”；</p>
+<h5 id="现金流量表"><a href="#现金流量表" class="headerlink" title="现金流量表"></a>现金流量表</h5><p>记录公司的现金流入与流出，不是通过完整记录公司现金流水做出的，而是以利润表为基础，参考资产负债表应收应付科目，调整得出；</p>
+<p>表里最准确的数字是期初现金总额，期末现金总额及两者的差值；</p>
+<p>由于现金的收益率为0，无论是个人还是公司，都不会持有大量现金，会选择银行存款或者理财产品，这类东西被称为“现金等价物”</p>
+<p>公司涉及现金的活动分为三大类：经营活动，投资活动和筹资活动；</p>
+<p>经营活动：企业销售，提供劳务带来的现金收入及现金支出；</p>
+<p>投资活动：企业对外投资的支出和收到之前投资回报的情况，通常跨行扩张的需要重点关注，不妙的情况较大；</p>
+<p>筹资活动：包含公司回购股票，向股东分配红利、借贷或者发行股票收到的现金以及相关成本支出；</p>
+<p>除了上述三张表，董事会报告和重要事项是必须细读的内容，好多年的连在一起读，通过前后对比，可以判读董事会说话是否可信，对市场的判断是否准确，对企业的掌控力的强弱等；</p>
+<p>企业必须披露却又不想让你明白的东西大多都在附注里；</p>
+<h5 id="关于投资人的类型："><a href="#关于投资人的类型：" class="headerlink" title="关于投资人的类型："></a>关于投资人的类型：</h5><p>&emsp;&emsp;&emsp;&emsp;战略投资人，是基于产业整合角度的投资，即strategic buyer；</p>
+<p>&emsp;&emsp;&emsp;&emsp;财务投资人，是基于资本投资角度的投资，即financial sponsor；</p>
+<p>&emsp;&emsp;目前，我们市场中经常的听到的行业巨头的收购兼并，大多数为战略投资；大多数的PE投资，为财务投资；</p>
+<p>&emsp;&emsp;战略投资和财务投资，在<strong>投资选择、投后管理、股权退出</strong>三个方面有很大差别。</p>
+<p>&emsp;&emsp;<strong>1.投资选择上，战略投资偏好产业扩张，财务投资倾向资本回报。</strong></p>
+<p>&emsp;&emsp;战略投资者，由于具有长期深入的行业积累，因此往往能够容忍目标企业有“经营缺点”，因为其可以通过自己的经营能力弥补目标企业的“缺点”。</p>
+<p>&emsp;&emsp;战略投资者通常认可融资企业的战略价值，如品牌、渠道、网络、专利、市场占有率等。所以很多时候，一家财务上陷入困境的企业可以凭借上述战略价值受到众多战略投资者的追捧。</p>
+<p>&emsp;&emsp;财务投资者，由于在金融投资具有更多的资源和实力，有利于目标企业未来的上市融资。</p>
+<p>&emsp;&emsp;<strong>2.投后管理上，战略投资者尽心尽力，财务投资者爱莫能助。</strong></p>
+<p>&emsp;&emsp;<strong>3. 股权退出上，战略投资较少考虑退出，财务投资迫切需要退出获得回报。</strong></p>
+<h3 id="一些零碎的知识点："><a href="#一些零碎的知识点：" class="headerlink" title="一些零碎的知识点："></a>一些零碎的知识点：</h3><p>&emsp;&emsp;资产：可被公司利用，间接或直接带来收益，并最终转化为成本费用；</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">资产</th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">存货</td>
+<td style="text-align:center">出售</td>
+<td style="text-align:center">收入或成本</td>
+<td>可变成本</td>
+</tr>
+<tr>
+<td style="text-align:center">其他非现金资产</td>
+<td style="text-align:center">损耗</td>
+<td style="text-align:center">成本</td>
+<td>固定成本</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">贬值</td>
+<td style="text-align:center">费用</td>
+<td>资产减值损失</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>&emsp;&emsp;金融危机：全部或大部分<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/金融">金融</a>指标（如：<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/短期利率">短期利率</a>、<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/货币资产">货币资产</a>、<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/证券">证券</a>、<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/房地产">房地产</a>、土地(<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/价格">价格</a>)、商业破产数和金融机构倒闭数）的急剧、短暂和超周期的恶化；</p>
+<p>&emsp;&emsp;特征是人们基于经济未来将更加悲观的预期，整个区域内货币币值出现幅度较大的<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/贬值">贬值</a>，<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/经济总量">经济总量</a>与<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/经济规模">经济规模</a>出现较大的损失，<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/经济增长">经济增长</a>受到打击。往往伴随着<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/企业">企业</a>大量倒闭，<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/失业率">失业率</a>提高，社会普遍的<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/经济萧条">经济萧条</a>；</p>
+<p>&emsp;&emsp;人们不再相信银行，把钱全部取出来，出现挤提现象，利率飙升；</p>
+<p>&emsp;&emsp;经济危机：指需求和供给脱节，资本家把牛奶倒进了河里，农场主让蔬菜烂在地里；</p>
+<p>&emsp;&emsp;个人的财务管理应该是用一项投资去换一项投资；</p>
+<p>&emsp;&emsp;企业过度财务管理，亏损触发财务危机；</p>
+<p>&emsp;&emsp;个人和家庭杠杆消费，失业触发财务危机；</p>
+<p>&emsp;&emsp;生产部门过度扩大规模，导致竞争激烈和过剩；</p>
+<p>&emsp;&emsp;金融行业创造资产和杠杆，制造泡沫和市场波动；</p>
+<p>&emsp;&emsp;宏观部门创造货币，推高资产价格，掩盖债务危机；</p>
+<p>&emsp;&emsp;<strong>疫情过后的疯狂IPO是因为资本家是不看好未来金融市场的，通过IPO可以迅速套现；</strong></p>
+<p>&emsp;&emsp;市盈率=股票的价格/公司净利润，假定每股价格80块，每一股的净利润是2块，那么市盈率就为40，也就是说，如果不考虑通货膨胀，这个公司花40年赚来的钱，才和你现在所付出的80块匹配；</p>
+<p>&emsp;&emsp;从股东价值变成生态价值，供应商不赚钱（成本降），高管和员工只拿工资（成本降），寡头垄断（消灭竞争），技术进步（消灭竞争），产融一体（金融成本最优化），最终实现净利润最大化，供应商、员工、债权人都能从股票的市值中获益；</p>
+<p>&emsp;&emsp;中美的双循环对比：</p>
+<center><img data-src="https://picture-share-1303204700.cos.ap-nanjing.myqcloud.com/uPic/xOrt9R.jpg" style="zoom:33%;" alt="50%" width="50%"  /></center>
+&emsp;&emsp;哈耶克政治经济学论述：
+<center><img data-src="https://picture-share-1303204700.cos.ap-nanjing.myqcloud.com/uPic/OGZvcK.jpg" style="zoom:33%;" alt="50%" width="50%" /></center>
+
+<h5 id="关于上市公司财务造假的一些知识："><a href="#关于上市公司财务造假的一些知识：" class="headerlink" title="关于上市公司财务造假的一些知识："></a>关于上市公司财务造假的一些知识：</h5><p>李非列-恒鑫集团-淮南矿业对赌收购芜湖港将物流业务给芜湖港</p>
+<p>&emsp;&emsp;托盘方 -影子银行-融资业务变成买卖业务-假的贸易交易发生现金流</p>
+<p>&emsp;&emsp;资金占用费 托盘融资业务  在财报里看不出来</p>
+<p>&emsp;&emsp;应收账款 虚增利润 应收账款增速连续超过公司营收增速 </p>
+<p>&emsp;&emsp;皖江物流造假方案：增加的利润隐藏在资产当中的应收账款里，导致应收账款增速连续超过公司营收增速 ，带来了现金流量表与利润表不匹配的矛盾；</p>
+<p>康得新的故事 印刷预涂膜技术 光学膜 定向增发股票</p>
+<p>&emsp;&emsp;维持长期绩优股的形象 关联公司联合财务造假 关联交易 虚增收入（数量和单价）</p>
+<p>&emsp;&emsp;营业利润率 合理的控制费用 </p>
+<p>&emsp;&emsp;造假方案：增加的利润隐藏在资产当中的货币资金里，导致货币资金增加带来经营活动现金流入的增加，创建现金流转；</p>
+<p>&emsp;&emsp;通过融资，借贷的方式拿到钱，将钱以某种方式转移到表外（支付材料和设备—预付款 借给大股东—其他应收账），回到表内导致利润增加—货币资金；</p>
+<p>&emsp;&emsp;存在的问题：需要持续的资金来源，公司有现金还要大量借钱，债务违约后一地鸡毛</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jason Yang
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://yoursite.com/2021/01/07/economics/" title="Economics">http://yoursite.com/2021/01/07/economics/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6%E7%90%86%E8%AE%BA/" rel="tag"># 经济学理论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/13/xbotpark0811/" rel="prev" title="关于智能C端创业-创业及BP的心得">
+      <i class="fa fa-chevron-left"></i> 关于智能C端创业-创业及BP的心得
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/09/lixiang/" rel="next" title="理想CEO—李想">
+      理想CEO—李想 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%9B%E5%BC%80%E6%8A%80%E6%9C%AF%EF%BC%8C%E4%B9%9F%E8%A6%81%E5%AD%A6%E4%B8%80%E4%BA%9B%E7%BB%8F%E6%B5%8E%E5%AD%A6%EF%BC%8C%E4%B8%80%E4%BA%9B%E7%AC%94%E8%AE%B0"><span class="nav-number">1.</span> <span class="nav-text">抛开技术，也要学一些经济学，一些笔记</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%8A%95%E8%B5%84"><span class="nav-number"></span> <span class="nav-text">关于投资</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B4%A2%E7%BB%8F%E4%B9%A6%E5%8D%95-%EF%BC%9A"><span class="nav-number">0.1.</span> <span class="nav-text">财经书单 ：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%91%A8%E6%9C%9F%E8%A1%8C%E4%B8%9A%EF%BC%9A"><span class="nav-number">0.2.</span> <span class="nav-text">周期行业：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8D%E5%91%A8%E6%9C%9F%E8%A1%8C%E4%B8%9A%EF%BC%9A"><span class="nav-number">0.3.</span> <span class="nav-text">反周期行业：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%8F%B8%E7%9A%84%E4%BB%B7%E5%80%BC%E9%93%BE%E6%A8%A1%E5%9E%8B%EF%BC%9A"><span class="nav-number"></span> <span class="nav-text">公司的价值链模型：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E6%87%82%E5%85%AC%E5%8F%B8%E8%B4%A2%E6%8A%A5"><span class="nav-number"></span> <span class="nav-text">读懂公司财报</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B5%84%E4%BA%A7%E8%B4%9F%E5%80%BA%E8%A1%A8"><span class="nav-number">0.1.</span> <span class="nav-text">资产负债表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E6%B6%A6%E8%A1%A8"><span class="nav-number">0.2.</span> <span class="nav-text">利润表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8E%B0%E9%87%91%E6%B5%81%E9%87%8F%E8%A1%A8"><span class="nav-number">0.3.</span> <span class="nav-text">现金流量表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%8A%95%E8%B5%84%E4%BA%BA%E7%9A%84%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="nav-number">0.4.</span> <span class="nav-text">关于投资人的类型：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9B%B6%E7%A2%8E%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%9A"><span class="nav-number"></span> <span class="nav-text">一些零碎的知识点：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E8%B4%A2%E5%8A%A1%E9%80%A0%E5%81%87%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%EF%BC%9A"><span class="nav-number">0.1.</span> <span class="nav-text">关于上市公司财务造假的一些知识：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Yang"
+      src="/images/head.jpeg">
+  <p class="site-author-name" itemprop="name">Jason Yang</p>
+  <div class="site-description" itemprop="description">Coding,Reading,Learning</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Jason-Yoo" title="GitHub → https://github.com/Jason-Yoo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiduocaiyang@gmail.com" title="E-Mail → mailto:jiduocaiyang@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/Reign_Man" title="CSDN → https://blog.csdn.net/Reign_Man" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason Yang</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+</body>
+</html>

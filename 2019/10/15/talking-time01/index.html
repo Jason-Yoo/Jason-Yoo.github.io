@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en-hk">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=微软雅黑:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="搜索阶段:远距离：    目标为几个像素，并且淹没在环境里     完全没有任何目标或目标偶尔出现，如何进行导航  中远距离    目标部分容易被遮挡，如何进行目标检测     在光线条件较差的环境下，目标检测出现误判和无法工作的情况 近距离    目标在视场中占据较大部分，飞机的剧烈姿态变换容易引起目标丢失     受到飞机震动和相机抖动限制，特征点提取误差较大，位姿解算精度不高 当前解决方案：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="旋翼机自主着陆-主要技术难点：">
+<meta property="og:url" content="http://yoursite.com/2019/10/15/talking-time01/index.html">
+<meta property="og:site_name" content="DC">
+<meta property="og:description" content="搜索阶段:远距离：    目标为几个像素，并且淹没在环境里     完全没有任何目标或目标偶尔出现，如何进行导航  中远距离    目标部分容易被遮挡，如何进行目标检测     在光线条件较差的环境下，目标检测出现误判和无法工作的情况 近距离    目标在视场中占据较大部分，飞机的剧烈姿态变换容易引起目标丢失     受到飞机震动和相机抖动限制，特征点提取误差较大，位姿解算精度不高 当前解决方案：">
+<meta property="og:locale" content="en_HK">
+<meta property="article:published_time" content="2019-10-15T11:36:17.621Z">
+<meta property="article:modified_time" content="2020-07-05T12:41:36.128Z">
+<meta property="article:author" content="Jason Yang">
+<meta property="article:tag" content="位姿估计">
+<meta property="article:tag" content="自主着陆">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2019/10/15/talking-time01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>旋翼机自主着陆-主要技术难点： | DC</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DC</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">永远年轻，永远热泪盈眶。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-link"></i>links</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/15/talking-time01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          旋翼机自主着陆-主要技术难点：
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-10-15 19:36:17" itemprop="dateCreated datePublished" datetime="2019-10-15T19:36:17+08:00">2019-10-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-05 20:41:36" itemprop="dateModified" datetime="2020-07-05T20:41:36+08:00">2020-07-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Vision</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="搜索阶段"><a href="#搜索阶段" class="headerlink" title="搜索阶段:"></a>搜索阶段:</h3><h4 id="远距离："><a href="#远距离：" class="headerlink" title="远距离："></a>远距离：</h4><pre><code>    目标为几个像素，并且淹没在环境里
+    完全没有任何目标或目标偶尔出现，如何进行导航 
+</code></pre><h4 id="中远距离"><a href="#中远距离" class="headerlink" title="中远距离"></a>中远距离</h4><pre><code>    目标部分容易被遮挡，如何进行目标检测
+    在光线条件较差的环境下，目标检测出现误判和无法工作的情况
+</code></pre><h4 id="近距离"><a href="#近距离" class="headerlink" title="近距离"></a>近距离</h4><pre><code>    目标在视场中占据较大部分，飞机的剧烈姿态变换容易引起目标丢失
+    受到飞机震动和相机抖动限制，特征点提取误差较大，位姿解算精度不高
+</code></pre><h4 id="当前解决方案："><a href="#当前解决方案：" class="headerlink" title="当前解决方案："></a>当前解决方案：</h4><p>1.依靠GPS、RTK等设备进行目标追踪</p>
+<p> 存在与目标的通信<br> 特定的环境中GPS设备无法使用<br> 依赖于无人机外部的系统，并且可能被卡住，扰乱或欺骗</p>
+<p>2.依靠主动发光的着陆点作为目标，采用多元图像融合的方法实现红外和可见光图像融合的自主识别，提高视觉系统的自适应性</p>
+<p>3.采用机器学习的方法对目标活动范围对环境进行学习，构建快速对图像分割模型</p>
+<p>4.应用实例：</p>
+<p><strong>Robust Autonomous Ship Deck Landing for Rotorcraft   2016 卡内基梅隆</strong></p>
+<p>使用长波红外相机， 长波红外辐射在波长介于8到12微米之间传播，具有独特的能力，可以在恶化的视觉条件下（例如雾或烟雾）穿透遮挡物，优于可见光谱中的光。</p>
+<p> 在数千到500米的距离处，飞机上的传感器检测到船并沿着正确的甲板进场航向对齐其轨迹，补偿航行方向，航行速度，风和其他因素。 当飞机吸入500至50米的距离时，它开始估计甲板的运动模型。 在最后的50米中，轨迹规划器改进了甲板的运动模型，然后使用该模型执行最终的着陆操纵。</p>
+<p><strong>To Learn or Not to Learn: Visual Localization from Essential Matrices  2019.8.4  慕尼黑工业大学</strong></p>
+<p>由三个阶段组成：<br>第一阶段，使用图像检索来识别一组图像，这些图像可能描绘与查询图像相同的场景部分。<br>第二阶段，对于每个检索到的图像，我们计算基本矩阵，该矩阵编码其相对于查询图像的相对姿势。<br>第三阶段，使用已检索图像的已知绝对姿势，我们能够对查询图像的位置进行三角测量并估计其方向，同时在RANSAC中对其进行形式化。</p>
+<h4 id="跟踪阶段"><a href="#跟踪阶段" class="headerlink" title="跟踪阶段:"></a>跟踪阶段:</h4><h5 id="目标检测"><a href="#目标检测" class="headerlink" title="目标检测"></a>目标检测</h5><pre><code>    如何很好区分背景和目标，在环境噪声中提取小目标
+    收到飞机自身姿态角和相机视场限制，变化较快的目标容易丢失
+    无人机机载的算力和功率有限
+</code></pre><h5 id="跟踪策略"><a href="#跟踪策略" class="headerlink" title="跟踪策略"></a>跟踪策略</h5><pre><code>    在未识别到目标或只有部分目标的条件下如何实现目标跟踪
+    在远距离识别到目标条件下如何跟踪
+    在近距离识别到目标条件下如何跟踪
+    在跟踪过程中如何在节省飞机自身动力资源的条件下实现轨迹最优
+</code></pre><h5 id="轨迹预测"><a href="#轨迹预测" class="headerlink" title="轨迹预测"></a>轨迹预测</h5><pre><code>    如何对行驶在马路上的高速车辆目标进行轨迹预测
+    如何对行驶在海面上的船舰进行轨迹预测
+    如何对飞行在空中的目标进行轨迹预测
+</code></pre><h5 id="当前解决方案：-1"><a href="#当前解决方案：-1" class="headerlink" title="当前解决方案："></a>当前解决方案：</h5><p><strong>To Learn or Not to Learn: Visual Localization from Essential Matrices 2019.8.4  慕尼黑工业大学</strong></p>
+<p>基于特征和基于学习的方法的混合，其中通过神经网络学习特征提取和特征匹配，在目标识别跟踪对同时进行模型更新学习，提高检测效率</p>
+<p>从视觉分级、多估计中心的角度，将基础的合作目标扩展为分布式多合作目标，提高解算精度和高度限制</p>
+<p><strong>Vision-based Autonomous Landing of a Quadrotor Using a Gimbaled Camera 2018 北京理工大学</strong></p>
+<p>基于自适应视觉的云台平台控制器可确保摄像机的视线始终跟踪平台，优势在于采用的PT平台的动态比MAV快得多，MAV和移动平台之间的相对位置可以从PT平台的旋转角度计算。这样做减轻飞行器的运动负担，它不必总是保持在目标之上，同时视觉监测上也不会受到飞机震动或运动带来的影响。</p>
+<p><strong>Autonomous Landing of a Multirotor Micro Air Vehicle on a High Velocity Ground Vehicle 2017 加拿大蒙特利尔理工学院</strong></p>
+<p>比例导航控制器用于远程方法，随后转换为近距离的PID控制器。 卡尔曼滤波器用于通过将来自MAV的机载INS，视觉基准标记和移动电话的测量结果融合来估计MAV相对于着陆点的位置。但是此系统在着陆垫上未使用多尺度视觉基准，以允许使用单个摄像机在更长和更近的范围内进行视觉目标跟踪，或通过消除通过手机获得移动目标的GPS坐标来简化系统。</p>
+<p> <strong>Autonomous landing on a moving car with unmanned aerial vehicle 2017 国际机器人挑战赛</strong></p>
+<p>第一部分提供了世界框架坐标系中汽车位置的测量，测量由汽车状态估计器处理，汽车状态估计器以非完整的汽车模型的方式输出汽车状态的近似值。<br>第二部分将汽车状态的估计值传达给汽车状态预测器，其输出是汽车的未来轨迹。<br>第三部分将汽车未来轨迹被控制跟踪器作为参考，其最小化MAV未来状态的预测未来的二次误差，从而高于汽车。<br>第四部分将控制跟踪器将所需状态（位置，速度和加速度）输出到状态反馈控制器。状态反馈控制器是传递函数的最后一部分，它为Pixhawk飞行控制器生成命令。</p>
+<h3 id="降落阶段："><a href="#降落阶段：" class="headerlink" title="降落阶段："></a>降落阶段：</h3><h4 id="目标检测-1"><a href="#目标检测-1" class="headerlink" title="目标检测"></a>目标检测</h4><pre><code>    着陆过程中目标变化较快，如何在飞机高速移动过程中进行目标检测
+    在识别到部分目标的情况下如何进行位姿结算
+</code></pre><h4 id="着陆控制"><a href="#着陆控制" class="headerlink" title="着陆控制"></a>着陆控制</h4><pre><code>    在降落过程中如何保证飞机与移动目标的相对位置在很小的区间内
+    在降落时如何确保飞机能平稳降落
+</code></pre><h4 id="降落点选择"><a href="#降落点选择" class="headerlink" title="降落点选择"></a>降落点选择</h4><pre><code>    采用何种方法对降落点进行评判选择
+    降落点如何构型可以实现多个阶段的视觉位姿解算
+    何种降落点的普遍适应性较好
+</code></pre><h4 id="当前解决方案：-2"><a href="#当前解决方案：-2" class="headerlink" title="当前解决方案："></a>当前解决方案：</h4><p><strong>Monocular and Stereo Cues for Landing Zone Evaluation for Micro UAVs    2018.12.9 卡内基梅隆ICRA</strong> </p>
+<p>使用立体相机和惯性传感器组合分析无人机下方的表面。坡度和粗糙度是用于评估地形的两个指标。 </p>
+<p>基于单目相机的方法可大致分为两种类型。一种类型是使用单应矩阵来找到平面区域中的特征点</p>
+<p>另一种方法是使用运动立体三角测量来构建密集点云。这些方法可以在静态环境（如刚性地面，屋顶）中很好地工作，但在极地几何失效的动态场景中无法工作，例如水，水波纹，树上的叶子</p>
+<p><strong>Vision-Based Autonomous UAV Navigation and Landing for Urban Search and Rescue.  2019.06 苏黎世联邦理工学院</strong> </p>
+<p>评估地形的平整度和倾斜度，深度信息的能力以及降落在探测到的场地上所需的能量来评估着陆点的风险。<br>首先通过计算每个上述危险因素的成本图的加权和来在本地估计一组密集的候选着陆点。接下来，使用基于聚类的方法优化无人机探索的整个区域。一旦确定了最终着陆点，系统就会考虑附近的障碍物以及无人机动力学来计算最小冲击轨迹并执行着陆机动。</p>
+<p><strong>Toward GPS-denied Landing of Unmanned Aerial Vehicles on Ships at Sea 2015  海军工程教育中心（NEEC）设计</strong></p>
+<p>以计算机视觉技术和延迟状态估计框架为中心,将得到的单应性分解为无人机和着陆平台之间的六自由度（6-DOF）相对姿势信息，执行状态估计，延迟 - 状态扩展卡尔曼滤波器，然后执行多级运动控制,在实验平台中，低级姿态控制器由无人机制造商设计，因此我们的运动控制设计专注于高级位置控制器。</p>
+<p>状态估计：状态估计模块运行延迟状态扩展卡尔曼滤波器，将从UAV（在IMU数据的情况下）和从图像处理模块（用于摄像机观察）发布的观测数据作为输入，输出船舶相对于无人机的导出相对姿态估计</p>
+<h4 id="主要技术需求"><a href="#主要技术需求" class="headerlink" title="主要技术需求"></a>主要技术需求</h4><h5 id="移动平台"><a href="#移动平台" class="headerlink" title="移动平台"></a>移动平台</h5><pre><code>    移动平台尺寸和承载能力需要能够满足无人机的降落要求
+    移动平台的速度和位置可实时测量并发送至监控软件
+    移动平台可以模拟船舰的运动状态
+</code></pre><h5 id="无人机"><a href="#无人机" class="headerlink" title="无人机"></a>无人机</h5><pre><code>    无人机动力配置和载重能力满足实验需求
+    无人机应具有高精度的定位性能和自身稳定性
+    无人机能够搭载云台相机和小型视觉处理平台
+</code></pre><h5 id="视觉算法"><a href="#视觉算法" class="headerlink" title="视觉算法"></a>视觉算法</h5><pre><code>    能够实现各个着陆阶段稳定的目标识别
+    在较低算法复杂度的条件下实现特征检测和特征匹配
+    能够实时完成教高精度的位姿解算和误差补偿
+    如何构建具有低分辨率摄像机和有限计算资源的鲁棒高精度探测器; 
+</code></pre><h5 id="控制算法"><a href="#控制算法" class="headerlink" title="控制算法"></a>控制算法</h5><pre><code>    在着陆各个阶段的飞机自身姿态的稳定控制
+    在着陆各个阶段飞机的飞行任务的调度
+    在具备移动平台的位置速度信息和飞机的位置姿态信息能够实现有效的跟踪控制
+    在复杂度较低的环境下能够实现轨迹预测和低功耗轨迹跟踪
+</code></pre><h5 id="主要技术需求-1"><a href="#主要技术需求-1" class="headerlink" title="主要技术需求"></a>主要技术需求</h5><p>​    <strong>移动平台</strong><br>​        移动平台尺寸和承载能力需要能够满足无人机的降落要求<br>​        移动平台的速度和位置可实时测量并发送至监控软件<br>​        移动平台可以模拟船舰的运动状态<br>​    <strong>无人机</strong><br>​        无人机动力配置和载重能力满足实验需求<br>​        无人机应具有高精度的定位性能和自身稳定性<br>​        无人机能够搭载云台相机和小型视觉处理平台<br>​    <strong>视觉算法</strong><br>​        能够实现各个着陆阶段稳定的目标识别<br>​        在较低算法复杂度的条件下实现特征检测和特征匹配<br>​        能够实时完成教高精度的位姿解算和误差补偿<br>​        如何构建具有低分辨率摄像机和有限计算资源的鲁棒高精度探测器;<br>​    <strong>控制算法</strong><br>​        在着陆各个阶段的飞机自身姿态的稳定控制<br>​        在着陆各个阶段飞机的飞行任务的调度<br>​        在具备移动平台的位置速度信息和飞机的位置姿态信息能够实现有效的跟踪控制<br>​        在复杂度较低的环境下能够实现轨迹预测和低功耗轨迹跟踪<br>​    <strong>位姿解算</strong><br>​    点的数量最优问题<br>​    点的数量与计算时间的相关性最优问题<br>​    图像的清晰度与位姿结算精度最优问题<br>​    考虑点的权重与位姿解算精度最优问题</p>
+<h5 id="漫谈："><a href="#漫谈：" class="headerlink" title="漫谈："></a>漫谈：</h5><h5 id="以上是我简单梳理的一些旋翼机自主着陆的技术要点，在此领域目前大佬们都在用神经网络在做无人机的视觉导航，不可否认的是这一方法的确解决了很多无法量化的视觉模型，在大佬们的论文里获取数据样本的方法可谓是千奇百怪，我觉得如果能够通过仿真的方法就能够实现数据集的获取应该是最好不过了，如何缩短仿真与实际环境之间的差距也是一个很重要的课题，如果能够突破，那么就可以大幅度减化数据获取和训练这个过程。当然，还可以做一些复杂环境或者数据无法获取环境样本仿真与模型训练。"><a href="#以上是我简单梳理的一些旋翼机自主着陆的技术要点，在此领域目前大佬们都在用神经网络在做无人机的视觉导航，不可否认的是这一方法的确解决了很多无法量化的视觉模型，在大佬们的论文里获取数据样本的方法可谓是千奇百怪，我觉得如果能够通过仿真的方法就能够实现数据集的获取应该是最好不过了，如何缩短仿真与实际环境之间的差距也是一个很重要的课题，如果能够突破，那么就可以大幅度减化数据获取和训练这个过程。当然，还可以做一些复杂环境或者数据无法获取环境样本仿真与模型训练。" class="headerlink" title="以上是我简单梳理的一些旋翼机自主着陆的技术要点，在此领域目前大佬们都在用神经网络在做无人机的视觉导航，不可否认的是这一方法的确解决了很多无法量化的视觉模型，在大佬们的论文里获取数据样本的方法可谓是千奇百怪，我觉得如果能够通过仿真的方法就能够实现数据集的获取应该是最好不过了，如何缩短仿真与实际环境之间的差距也是一个很重要的课题，如果能够突破，那么就可以大幅度减化数据获取和训练这个过程。当然，还可以做一些复杂环境或者数据无法获取环境样本仿真与模型训练。"></a>以上是我简单梳理的一些旋翼机自主着陆的技术要点，在此领域目前大佬们都在用神经网络在做无人机的视觉导航，不可否认的是这一方法的确解决了很多无法量化的视觉模型，在大佬们的论文里获取数据样本的方法可谓是千奇百怪，我觉得如果能够通过仿真的方法就能够实现数据集的获取应该是最好不过了，如何缩短仿真与实际环境之间的差距也是一个很重要的课题，如果能够突破，那么就可以大幅度减化数据获取和训练这个过程。当然，还可以做一些复杂环境或者数据无法获取环境样本仿真与模型训练。</h5><h5 id="BD178A18-DA96-43F5-9DE3-1F2E15825888-4-5005-c-images-talking-20time01-assets-BD178A18-DA96-43F5-9DE3-1F2E15825888-4-5005-c-1140585-jpeg"><a href="#BD178A18-DA96-43F5-9DE3-1F2E15825888-4-5005-c-images-talking-20time01-assets-BD178A18-DA96-43F5-9DE3-1F2E15825888-4-5005-c-1140585-jpeg" class="headerlink" title="![BD178A18-DA96-43F5-9DE3-1F2E15825888_4_5005_c](/images/talking%20time01.assets/BD178A18-DA96-43F5-9DE3-1F2E15825888_4_5005_c-1140585.jpeg)"></a><center>![BD178A18-DA96-43F5-9DE3-1F2E15825888_4_5005_c](/images/talking%20time01.assets/BD178A18-DA96-43F5-9DE3-1F2E15825888_4_5005_c-1140585.jpeg)</center></h5>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jason Yang
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://yoursite.com/2019/10/15/talking-time01/" title="旋翼机自主着陆-主要技术难点：">http://yoursite.com/2019/10/15/talking-time01/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/" rel="tag"># 位姿估计</a>
+              <a href="/tags/%E8%87%AA%E4%B8%BB%E7%9D%80%E9%99%86/" rel="tag"># 自主着陆</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/14/first_use/" rel="prev" title="搞好了图片">
+      <i class="fa fa-chevron-left"></i> 搞好了图片
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/16/talking-time02/" rel="next" title="旋翼机自主着陆-合作目标设计">
+      旋翼机自主着陆-合作目标设计 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E9%98%B6%E6%AE%B5"><span class="nav-number">1.</span> <span class="nav-text">搜索阶段:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9C%E8%B7%9D%E7%A6%BB%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">远距离：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AD%E8%BF%9C%E8%B7%9D%E7%A6%BB"><span class="nav-number">1.2.</span> <span class="nav-text">中远距离</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%91%E8%B7%9D%E7%A6%BB"><span class="nav-number">1.3.</span> <span class="nav-text">近距离</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A"><span class="nav-number">1.4.</span> <span class="nav-text">当前解决方案：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA%E9%98%B6%E6%AE%B5"><span class="nav-number">1.5.</span> <span class="nav-text">跟踪阶段:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B"><span class="nav-number">1.5.1.</span> <span class="nav-text">目标检测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA%E7%AD%96%E7%95%A5"><span class="nav-number">1.5.2.</span> <span class="nav-text">跟踪策略</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%A8%E8%BF%B9%E9%A2%84%E6%B5%8B"><span class="nav-number">1.5.3.</span> <span class="nav-text">轨迹预测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A-1"><span class="nav-number">1.5.4.</span> <span class="nav-text">当前解决方案：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%8D%E8%90%BD%E9%98%B6%E6%AE%B5%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">降落阶段：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B-1"><span class="nav-number">2.1.</span> <span class="nav-text">目标检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9D%80%E9%99%86%E6%8E%A7%E5%88%B6"><span class="nav-number">2.2.</span> <span class="nav-text">着陆控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%8D%E8%90%BD%E7%82%B9%E9%80%89%E6%8B%A9"><span class="nav-number">2.3.</span> <span class="nav-text">降落点选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A-2"><span class="nav-number">2.4.</span> <span class="nav-text">当前解决方案：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF%E9%9C%80%E6%B1%82"><span class="nav-number">2.5.</span> <span class="nav-text">主要技术需求</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E5%B9%B3%E5%8F%B0"><span class="nav-number">2.5.1.</span> <span class="nav-text">移动平台</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%97%A0%E4%BA%BA%E6%9C%BA"><span class="nav-number">2.5.2.</span> <span class="nav-text">无人机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%86%E8%A7%89%E7%AE%97%E6%B3%95"><span class="nav-number">2.5.3.</span> <span class="nav-text">视觉算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">2.5.4.</span> <span class="nav-text">控制算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF%E9%9C%80%E6%B1%82-1"><span class="nav-number">2.5.5.</span> <span class="nav-text">主要技术需求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%BC%AB%E8%B0%88%EF%BC%9A"><span class="nav-number">2.5.6.</span> <span class="nav-text">漫谈：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A5%E4%B8%8A%E6%98%AF%E6%88%91%E7%AE%80%E5%8D%95%E6%A2%B3%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%97%8B%E7%BF%BC%E6%9C%BA%E8%87%AA%E4%B8%BB%E7%9D%80%E9%99%86%E7%9A%84%E6%8A%80%E6%9C%AF%E8%A6%81%E7%82%B9%EF%BC%8C%E5%9C%A8%E6%AD%A4%E9%A2%86%E5%9F%9F%E7%9B%AE%E5%89%8D%E5%A4%A7%E4%BD%AC%E4%BB%AC%E9%83%BD%E5%9C%A8%E7%94%A8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9C%A8%E5%81%9A%E6%97%A0%E4%BA%BA%E6%9C%BA%E7%9A%84%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA%EF%BC%8C%E4%B8%8D%E5%8F%AF%E5%90%A6%E8%AE%A4%E7%9A%84%E6%98%AF%E8%BF%99%E4%B8%80%E6%96%B9%E6%B3%95%E7%9A%84%E7%A1%AE%E8%A7%A3%E5%86%B3%E4%BA%86%E5%BE%88%E5%A4%9A%E6%97%A0%E6%B3%95%E9%87%8F%E5%8C%96%E7%9A%84%E8%A7%86%E8%A7%89%E6%A8%A1%E5%9E%8B%EF%BC%8C%E5%9C%A8%E5%A4%A7%E4%BD%AC%E4%BB%AC%E7%9A%84%E8%AE%BA%E6%96%87%E9%87%8C%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E6%A0%B7%E6%9C%AC%E7%9A%84%E6%96%B9%E6%B3%95%E5%8F%AF%E8%B0%93%E6%98%AF%E5%8D%83%E5%A5%87%E7%99%BE%E6%80%AA%EF%BC%8C%E6%88%91%E8%A7%89%E5%BE%97%E5%A6%82%E6%9E%9C%E8%83%BD%E5%A4%9F%E9%80%9A%E8%BF%87%E4%BB%BF%E7%9C%9F%E7%9A%84%E6%96%B9%E6%B3%95%E5%B0%B1%E8%83%BD%E5%A4%9F%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E8%8E%B7%E5%8F%96%E5%BA%94%E8%AF%A5%E6%98%AF%E6%9C%80%E5%A5%BD%E4%B8%8D%E8%BF%87%E4%BA%86%EF%BC%8C%E5%A6%82%E4%BD%95%E7%BC%A9%E7%9F%AD%E4%BB%BF%E7%9C%9F%E4%B8%8E%E5%AE%9E%E9%99%85%E7%8E%AF%E5%A2%83%E4%B9%8B%E9%97%B4%E7%9A%84%E5%B7%AE%E8%B7%9D%E4%B9%9F%E6%98%AF%E4%B8%80%E4%B8%AA%E5%BE%88%E9%87%8D%E8%A6%81%E7%9A%84%E8%AF%BE%E9%A2%98%EF%BC%8C%E5%A6%82%E6%9E%9C%E8%83%BD%E5%A4%9F%E7%AA%81%E7%A0%B4%EF%BC%8C%E9%82%A3%E4%B9%88%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%A4%A7%E5%B9%85%E5%BA%A6%E5%87%8F%E5%8C%96%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96%E5%92%8C%E8%AE%AD%E7%BB%83%E8%BF%99%E4%B8%AA%E8%BF%87%E7%A8%8B%E3%80%82%E5%BD%93%E7%84%B6%EF%BC%8C%E8%BF%98%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%BA%9B%E5%A4%8D%E6%9D%82%E7%8E%AF%E5%A2%83%E6%88%96%E8%80%85%E6%95%B0%E6%8D%AE%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E7%8E%AF%E5%A2%83%E6%A0%B7%E6%9C%AC%E4%BB%BF%E7%9C%9F%E4%B8%8E%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E3%80%82"><span class="nav-number">2.5.7.</span> <span class="nav-text">以上是我简单梳理的一些旋翼机自主着陆的技术要点，在此领域目前大佬们都在用神经网络在做无人机的视觉导航，不可否认的是这一方法的确解决了很多无法量化的视觉模型，在大佬们的论文里获取数据样本的方法可谓是千奇百怪，我觉得如果能够通过仿真的方法就能够实现数据集的获取应该是最好不过了，如何缩短仿真与实际环境之间的差距也是一个很重要的课题，如果能够突破，那么就可以大幅度减化数据获取和训练这个过程。当然，还可以做一些复杂环境或者数据无法获取环境样本仿真与模型训练。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BD178A18-DA96-43F5-9DE3-1F2E15825888-4-5005-c-images-talking-20time01-assets-BD178A18-DA96-43F5-9DE3-1F2E15825888-4-5005-c-1140585-jpeg"><span class="nav-number">2.5.8.</span> <span class="nav-text">![BD178A18-DA96-43F5-9DE3-1F2E15825888_4_5005_c](&#x2F;images&#x2F;talking%20time01.assets&#x2F;BD178A18-DA96-43F5-9DE3-1F2E15825888_4_5005_c-1140585.jpeg)</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Yang"
+      src="/images/head.jpeg">
+  <p class="site-author-name" itemprop="name">Jason Yang</p>
+  <div class="site-description" itemprop="description">Coding,Reading,Learning</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Jason-Yoo" title="GitHub → https://github.com/Jason-Yoo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiduocaiyang@gmail.com" title="E-Mail → mailto:jiduocaiyang@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/Reign_Man" title="CSDN → https://blog.csdn.net/Reign_Man" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason Yang</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

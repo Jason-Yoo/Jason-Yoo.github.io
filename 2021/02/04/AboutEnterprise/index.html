@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en-hk">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=微软雅黑:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="写在前面：&amp;emsp;&amp;emsp;最近很多人在股票和基金的盘子上与庄家博弈，做芯片最锋利矛的蔡经理、蓝筹坤坤、医药女神兰姐，市场的火热程度把危机四伏的股市伪装成了稳赚不赔的买卖，年轻人误把股市和基金当作提款机，其实却成了庄家镰刀下的嫩韭菜。如果想在本不擅长的东西里获得利益，高瓴资本坚守的价值投资是我们更应该学习的，不做短线的投机者，做价值的坚守者，赚到自己认知范围内的钱。 &amp;emsp;&amp;emsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="看懂公司">
+<meta property="og:url" content="http://yoursite.com/2021/02/04/AboutEnterprise/index.html">
+<meta property="og:site_name" content="DC">
+<meta property="og:description" content="写在前面：&amp;emsp;&amp;emsp;最近很多人在股票和基金的盘子上与庄家博弈，做芯片最锋利矛的蔡经理、蓝筹坤坤、医药女神兰姐，市场的火热程度把危机四伏的股市伪装成了稳赚不赔的买卖，年轻人误把股市和基金当作提款机，其实却成了庄家镰刀下的嫩韭菜。如果想在本不擅长的东西里获得利益，高瓴资本坚守的价值投资是我们更应该学习的，不做短线的投机者，做价值的坚守者，赚到自己认知范围内的钱。 &amp;emsp;&amp;emsp;">
+<meta property="og:locale" content="en_HK">
+<meta property="article:published_time" content="2021-02-04T03:37:08.918Z">
+<meta property="article:modified_time" content="2021-02-28T09:15:19.221Z">
+<meta property="article:author" content="Jason Yang">
+<meta property="article:tag" content="行业研究">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/04/AboutEnterprise/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>看懂公司 | DC</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DC</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">永远年轻，永远热泪盈眶。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-link"></i>links</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/04/AboutEnterprise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          看懂公司
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-02-04 11:37:08" itemprop="dateCreated datePublished" datetime="2021-02-04T11:37:08+08:00">2021-02-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-02-28 17:15:19" itemprop="dateModified" datetime="2021-02-28T17:15:19+08:00">2021-02-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Entrepreneurship/" itemprop="url" rel="index">
+                    <span itemprop="name">Entrepreneurship</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="写在前面："><a href="#写在前面：" class="headerlink" title="写在前面："></a>写在前面：</h4><p>&emsp;&emsp;最近很多人在股票和基金的盘子上与庄家博弈，做芯片最锋利矛的蔡经理、蓝筹坤坤、医药女神兰姐，市场的火热程度把危机四伏的股市伪装成了稳赚不赔的买卖，年轻人误把股市和基金当作提款机，其实却成了庄家镰刀下的嫩韭菜。如果想在本不擅长的东西里获得利益，高瓴资本坚守的价值投资是我们更应该学习的，不做短线的投机者，做价值的坚守者，赚到自己认知范围内的钱。</p>
+<p>&emsp;&emsp;任何行业都是认知水平高的人赚一窍不通的人的钱，一切商业经济的本质就是信息的不对等；</p>
+<h4 id="如何快速看懂一家公司："><a href="#如何快速看懂一家公司：" class="headerlink" title="如何快速看懂一家公司："></a>如何快速看懂一家公司：</h4><h5 id="第一：清晰的宏观视野"><a href="#第一：清晰的宏观视野" class="headerlink" title="第一：清晰的宏观视野"></a>第一：清晰的宏观视野</h5><a id="more"></a>
+<p>&emsp;&emsp;人口结构变化趋势</p>
+<p>&emsp;&emsp;技术等基础设施的变化趋势</p>
+<p>&emsp;&emsp;宏观经济的周期波动</p>
+<h5 id="第二：判断行业发展规模"><a href="#第二：判断行业发展规模" class="headerlink" title="第二：判断行业发展规模"></a>第二：判断行业发展规模</h5><p>&emsp;&emsp;这个行业提供的是怎么样的产品，解决了什么问题，这个觉得了你的市场空间有多大？比如互联网+是改造、替代传统行业还是创造新行业。</p>
+<p>&emsp;&emsp;判断行业是什么驱动的？供给驱动看产能，而需求驱动看天花板。</p>
+<p>&emsp;&emsp;判断市场规模：销量乘以单价、渗透率等关键数据假设</p>
+<h5 id="第三：判断行业所处阶段"><a href="#第三：判断行业所处阶段" class="headerlink" title="第三：判断行业所处阶段"></a>第三：判断行业所处阶段</h5><p>&emsp;&emsp;按照产品生命周期分类，《创新的扩散》书中的分类：创新者、早期使用者、早期大众、晚期大众、落伍者。</p>
+<p>&emsp;&emsp;技术成熟度曲线。科技诞生的促动期、过高期望的峰值、泡沫化的谷底、稳步爬升的光明期、实质生产的高峰期。</p>
+<p>&emsp;&emsp;以上两个维度的判断，其实不只是判断行业所处的阶段，也是为了判断这个公司切入点是否准确，STP如果错了，后续战略很难实现。</p>
+<h5 id="第四：行业竞争格局，其实就是波特五力。从产业链去全面分析目前格局。"><a href="#第四：行业竞争格局，其实就是波特五力。从产业链去全面分析目前格局。" class="headerlink" title="第四：行业竞争格局，其实就是波特五力。从产业链去全面分析目前格局。"></a>第四：行业竞争格局，其实就是波特五力。从产业链去全面分析目前格局。</h5><p>&emsp;&emsp;它所处的产业链的每个环节是什么；</p>
+<p>&emsp;&emsp;每个环节的拥挤程度如何，哪个环节更有议价能力；「拥挤意味着市场比较分散；市场集中度越高，议价能力越强。」</p>
+<p>&emsp;&emsp;相对拥挤，或者说没有议价能力的产业链环节，提供的产品是否是同质化。</p>
+<h5 id="第五：认清公司的商业模式"><a href="#第五：认清公司的商业模式" class="headerlink" title="第五：认清公司的商业模式"></a>第五：认清公司的商业模式</h5><p>&emsp;&emsp;本质是看公司是否是合适这个赛道的车，</p>
+<p>&emsp;&emsp;商业模式应该怎么看？任何一个商业模式都是一个由客户价值、企业资源和能力、盈利方式构成的三维立体模式。</p>
+<p>&emsp;&emsp;回到“提供的是怎么样的产品，解决了什么问题”？公司靠什么赚钱？</p>
+<p>&emsp;&emsp;公司的商业模式简化为一个公式来，看公司怎么组织各方面的资源。</p>
+<h5 id="第六：找到护城河"><a href="#第六：找到护城河" class="headerlink" title="第六：找到护城河"></a>第六：找到护城河</h5><p>&emsp;&emsp;《投资的护城河》提到5个来源：</p>
+<p>&emsp;&emsp;无形资产：品牌和专利</p>
+<p>&emsp;&emsp;成本优势：是否利用了规模效应、协同效应导致了规模经济和范围经济。或者其他的先天的成本优势。（如“天道”中农户小作坊作为生产单元）</p>
+<p>&emsp;&emsp;转换成本：这个可以用产品的公司来解释：用户价值＝（新体验-旧体验）-替换成本；其实转换成本其实就是你提供的用户价值至少要和进展对手持平，用户价值越大转换成本越高。</p>
+<p>&emsp;&emsp;网络效应：无论是铁路网，公路网还是互联网，都提供了一个网络效应的基础设施，那么公司能否利用这些基础设施产生网络效应呢？</p>
+<p>&emsp;&emsp;有效规模：这个就是市场容量的问题，长期看市场是能容许有限的对手，再多一个所有人就会亏损。</p>
+<h5 id="第七：洞察“人”和“制度”"><a href="#第七：洞察“人”和“制度”" class="headerlink" title="第七：洞察“人”和“制度”"></a>第七：洞察“人”和“制度”</h5><p>&emsp;&emsp;创始人的认知、布局、格局。</p>
+<p>&emsp;&emsp;组织也就是管理层在这个赛道上是不是有能力承接。</p>
+<p>&emsp;&emsp;制度，就是生产关系的治理。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jason Yang
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://yoursite.com/2021/02/04/AboutEnterprise/" title="看懂公司">http://yoursite.com/2021/02/04/AboutEnterprise/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%A1%8C%E4%B8%9A%E7%A0%94%E7%A9%B6/" rel="tag"># 行业研究</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/28/ML-xmind/" rel="prev" title="关于深度学习">
+      <i class="fa fa-chevron-left"></i> 关于深度学习
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">写在前面：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E7%9C%8B%E6%87%82%E4%B8%80%E5%AE%B6%E5%85%AC%E5%8F%B8%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">如何快速看懂一家公司：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%EF%BC%9A%E6%B8%85%E6%99%B0%E7%9A%84%E5%AE%8F%E8%A7%82%E8%A7%86%E9%87%8E"><span class="nav-number">2.1.</span> <span class="nav-text">第一：清晰的宏观视野</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%EF%BC%9A%E5%88%A4%E6%96%AD%E8%A1%8C%E4%B8%9A%E5%8F%91%E5%B1%95%E8%A7%84%E6%A8%A1"><span class="nav-number">2.2.</span> <span class="nav-text">第二：判断行业发展规模</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%EF%BC%9A%E5%88%A4%E6%96%AD%E8%A1%8C%E4%B8%9A%E6%89%80%E5%A4%84%E9%98%B6%E6%AE%B5"><span class="nav-number">2.3.</span> <span class="nav-text">第三：判断行业所处阶段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%EF%BC%9A%E8%A1%8C%E4%B8%9A%E7%AB%9E%E4%BA%89%E6%A0%BC%E5%B1%80%EF%BC%8C%E5%85%B6%E5%AE%9E%E5%B0%B1%E6%98%AF%E6%B3%A2%E7%89%B9%E4%BA%94%E5%8A%9B%E3%80%82%E4%BB%8E%E4%BA%A7%E4%B8%9A%E9%93%BE%E5%8E%BB%E5%85%A8%E9%9D%A2%E5%88%86%E6%9E%90%E7%9B%AE%E5%89%8D%E6%A0%BC%E5%B1%80%E3%80%82"><span class="nav-number">2.4.</span> <span class="nav-text">第四：行业竞争格局，其实就是波特五力。从产业链去全面分析目前格局。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%EF%BC%9A%E8%AE%A4%E6%B8%85%E5%85%AC%E5%8F%B8%E7%9A%84%E5%95%86%E4%B8%9A%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.5.</span> <span class="nav-text">第五：认清公司的商业模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%EF%BC%9A%E6%89%BE%E5%88%B0%E6%8A%A4%E5%9F%8E%E6%B2%B3"><span class="nav-number">2.6.</span> <span class="nav-text">第六：找到护城河</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%EF%BC%9A%E6%B4%9E%E5%AF%9F%E2%80%9C%E4%BA%BA%E2%80%9D%E5%92%8C%E2%80%9C%E5%88%B6%E5%BA%A6%E2%80%9D"><span class="nav-number">2.7.</span> <span class="nav-text">第七：洞察“人”和“制度”</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Yang"
+      src="/images/head.jpeg">
+  <p class="site-author-name" itemprop="name">Jason Yang</p>
+  <div class="site-description" itemprop="description">Coding,Reading,Learning</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Jason-Yoo" title="GitHub → https://github.com/Jason-Yoo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiduocaiyang@gmail.com" title="E-Mail → mailto:jiduocaiyang@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/Reign_Man" title="CSDN → https://blog.csdn.net/Reign_Man" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason Yang</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

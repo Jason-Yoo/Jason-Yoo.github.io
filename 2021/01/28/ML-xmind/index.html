@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en-hk">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=微软雅黑:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="神经网络的入门知识应用需求：&amp;emsp;&amp;emsp;可以逼近任意连续函数能力">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于深度学习">
+<meta property="og:url" content="http://yoursite.com/2021/01/28/ML-xmind/index.html">
+<meta property="og:site_name" content="DC">
+<meta property="og:description" content="神经网络的入门知识应用需求：&amp;emsp;&amp;emsp;可以逼近任意连续函数能力">
+<meta property="og:locale" content="en_HK">
+<meta property="article:published_time" content="2021-01-28T14:36:04.267Z">
+<meta property="article:modified_time" content="2021-02-17T03:19:44.346Z">
+<meta property="article:author" content="Jason Yang">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/01/28/ML-xmind/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>关于深度学习 | DC</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DC</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">永远年轻，永远热泪盈眶。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-link"></i>links</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en-hk">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/28/ML-xmind/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="Jason Yang">
+      <meta itemprop="description" content="Coding,Reading,Learning">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DC">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于深度学习
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-01-28 22:36:04" itemprop="dateCreated datePublished" datetime="2021-01-28T22:36:04+08:00">2021-01-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-02-17 11:19:44" itemprop="dateModified" datetime="2021-02-17T11:19:44+08:00">2021-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI/" itemprop="url" rel="index">
+                    <span itemprop="name">AI</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="神经网络的入门知识"><a href="#神经网络的入门知识" class="headerlink" title="神经网络的入门知识"></a>神经网络的入门知识</h3><h4 id="应用需求："><a href="#应用需求：" class="headerlink" title="应用需求："></a>应用需求：</h4><p>&emsp;&emsp;可以逼近任意连续函数能力</p>
+<a id="more"></a>
+<h4 id="主要内容："><a href="#主要内容：" class="headerlink" title="主要内容："></a>主要内容：</h4><h5 id="emsp-emsp-1-激励函数"><a href="#emsp-emsp-1-激励函数" class="headerlink" title="&emsp;&emsp;1.激励函数"></a>&emsp;&emsp;1.激励函数</h5><p>&emsp;&emsp;&emsp;&emsp;对上一层所有输入信息产生输出信息对变换关系</p>
+<p>&emsp;&emsp;&emsp;&emsp;常见的激活函数 sigmoid Relu tansh softsign ELU 等</p>
+<h5 id="emsp-emsp-2-损失函数"><a href="#emsp-emsp-2-损失函数" class="headerlink" title="&emsp;&emsp;2.损失函数"></a>&emsp;&emsp;2.损失函数</h5><p>&emsp;&emsp;&emsp;&emsp;定义指标表示一个模型是坏的，这个指标成为成本(cost)或者损失（loss)</p>
+<h5 id="emsp-emsp-3-常见的损失函数"><a href="#emsp-emsp-3-常见的损失函数" class="headerlink" title="&emsp;&emsp;3.常见的损失函数"></a>&emsp;&emsp;3.常见的损失函数</h5><p>&emsp;&emsp;&emsp;&emsp;<strong>交叉嫡</strong>——用在分类问题上，衡量我们的预测用于描述真相的低效性</p>
+<p>&emsp;&emsp;&emsp;&emsp;<strong>平方损失函数</strong>——用在具体数值的预测</p>
+<p>&emsp;&emsp;&emsp;&emsp;<strong>均方误差函数</strong>——各个训练点到最优拟合线的距离最小（平方和最小）</p>
+<h4 id="典型方法举例——梯度下降法"><a href="#典型方法举例——梯度下降法" class="headerlink" title="典型方法举例——梯度下降法"></a>典型方法举例——梯度下降法</h4><p>&emsp;&emsp;想要一个网络能够拟合任意的连续函数，就需要损失函数越来越小，所以需要约定一个方向使得每次训练完一批次的样本数据得到预测结果和目标结果的差异越来越小，而这个差异越来越小的方向就是我们需要的梯度下降</p>
+<h5 id="工作方式"><a href="#工作方式" class="headerlink" title="工作方式"></a>工作方式</h5><p>&emsp;&emsp;第一阶段：神经网络输入样本数据经过前向传递到达输出层得到预测结果</p>
+<p>&emsp;&emsp;第二阶段：使用不同计算方式（不同的损失函数）计算样本预测结果和样本目标结果的差异并以此作为调整权重偏执的依据，然后传至上层网络</p>
+<h3 id="热门深度学习框架："><a href="#热门深度学习框架：" class="headerlink" title="热门深度学习框架："></a>热门深度学习框架：</h3><h4 id="一、TensorFlow（google）"><a href="#一、TensorFlow（google）" class="headerlink" title="一、TensorFlow（google）"></a>一、TensorFlow（google）</h4><h5 id="emsp-emsp-优势"><a href="#emsp-emsp-优势" class="headerlink" title="&emsp;&emsp;优势"></a>&emsp;&emsp;优势</h5><p>&emsp;&emsp;TensorFlow有很直观的计算图可视化呈现，模型能够快速的部署在各种硬件机器上，从高性能的计算机到移动设备，再到更小的更轻量的智能终端</p>
+<p>&emsp;&emsp;TensorFlow提供全面的服务，无论是Python，C++，JAVA，Go，甚至是JavaScript，Julia，C#，几乎所有开发者都可以从熟悉的语言入手开始深度学习的旅程。</p>
+<h5 id="emsp-emsp-劣势"><a href="#emsp-emsp-劣势" class="headerlink" title="&emsp;&emsp;劣势"></a>&emsp;&emsp;劣势</h5><p>&emsp;&emsp;相比Pytorch，Caffe等框架，TensorFlow的计算速度可以说是“牛拉车“。而且通过它构建一个深度学习框架需要更复杂的代码，还要忍受重复的多次构建静态图。</p>
+<h4 id="二、Pytorch（facebook）"><a href="#二、Pytorch（facebook）" class="headerlink" title="二、Pytorch（facebook）"></a>二、Pytorch（facebook）</h4><h5 id="emsp-emsp-优势-1"><a href="#emsp-emsp-优势-1" class="headerlink" title="&emsp;&emsp;优势"></a>&emsp;&emsp;优势</h5><p>&emsp;&emsp;Pytorch库足够简单，跟NumPy，SciPy等可以无缝连接，而且基于tensor的GPU加速非常给力</p>
+<p>&emsp;&emsp;训练网络迭代的核心-梯度的计算，Autograd架构(借鉴于Chainer)，基于Pytorch，我们可以动态地设计网络，而无需笨拙地定义静态网络图，才能去进行计算，想要对网络有任务修改，都要从头开始构建静态图。</p>
+<h5 id="emsp-emsp-劣势-1"><a href="#emsp-emsp-劣势-1" class="headerlink" title="&emsp;&emsp;劣势"></a>&emsp;&emsp;劣势</h5><p>&emsp;&emsp;模型部署较为困难</p>
+<h4 id="三、百度飞桨"><a href="#三、百度飞桨" class="headerlink" title="三、百度飞桨"></a>三、百度飞桨</h4><h3 id="热门目标检测框架："><a href="#热门目标检测框架：" class="headerlink" title="热门目标检测框架："></a>热门目标检测框架：</h3><h4 id="一、YOLO"><a href="#一、YOLO" class="headerlink" title="一、YOLO"></a>一、YOLO</h4><h5 id="emsp-emsp-核心思想"><a href="#emsp-emsp-核心思想" class="headerlink" title="&emsp;&emsp;核心思想"></a>&emsp;&emsp;核心思想</h5><p>&emsp;&emsp;把模型的输出划分成网格形状，每个网格中的cell都可以输出物体的类别和边界框，坐标等，可包含8个维度；</p>
+<p>&emsp;&emsp;物体落在那个cell，那个cell就负责预测这个物体；</p>
+<p>&emsp;&emsp;1.训练阶段：如果物体中心落在这个cell，那么就给这个cell打上这个物体的label（包括xywh和类别）。也就是说我们是通过这种方式来设置训练的label的。换言之，我们在训练阶段，就教会cell要预测图像中的哪个物体</p>
+<p>&emsp;&emsp;2.测试阶段：如果你在训练阶段教会了cell去预测中心落在该cell中的物体，那么cell自然也会这么做。</p>
+<h5 id="emsp-emsp-模型架构"><a href="#emsp-emsp-模型架构" class="headerlink" title="&emsp;&emsp;模型架构"></a>&emsp;&emsp;模型架构</h5><h6 id="emsp-emsp-YOLO-v1"><a href="#emsp-emsp-YOLO-v1" class="headerlink" title="&emsp;&emsp;YOLO v1"></a>&emsp;&emsp;YOLO v1</h6><p>&emsp;&emsp;输出：输出的channel数目为30。一个cell内，前20个元素是类别概率值，然后2个元素是边界框confidence，最后8个元素是边界框的 (x, y,w,h) 。</p>
+<p>&emsp;&emsp;    Confidence预测：confidence表示cell预测的bounding box包含一个物体的置信度有多高并且该bounding box预测准确度有多大。</p>
+<p>&emsp;&emsp;Bounding box预测：bounding box的预测包括xywh四个值。xy表示bounding box的中心相对于cell左上角坐标偏移，宽高则是相对于整张图片的宽高进行归一化的。</p>
+<p>&emsp;&emsp;    <strong>类别预测</strong></p>
+<p>&emsp;&emsp;1.对于训练阶段，也就是打label阶段，怎么打label呢？对于一个cell，如果物体的中心落在了这个cell，那么我们给它打上这个物体的类别label，并设置概率为1。</p>
+<p>&emsp;&emsp;2.对于测试阶段来说，网络直接输出Pr(class i/object) ，就已经可以代表有物体存在的条件下类别概率。但是在测试阶段，作者还把这个概率乘上了confidence</p>
+<p>&emsp;&emsp;    既然我们一个cell只能预测一个目标，为什么还要预测两个bounding box（或者更多）？</p>
+<p>&emsp;&emsp;这个还是要从训练阶段怎么给两个predictor安排训练目标来说。在训练的时候会在线地计算每个predictor预测的bounding box和ground truth的IOU，计算出来的IOU大的那个predictor，就会负责预测这个物体，另外一个则不预测。</p>
+<p>&emsp;&emsp;    <strong>训练阶段的loss</strong></p>
+<p>&emsp;&emsp;    1.有物体中心落入的cell，需要计算分类loss，两个predictor都要计算confidence loss，预测的bounding box与ground truth IOU比较大的那个predictor需要计算xywh loss。</p>
+<p>&emsp;&emsp;2.特别注意：没有物体中心落入的cell，只需要计算confidence loss</p>
+<h6 id="emsp-emsp-YOLO-v2"><a href="#emsp-emsp-YOLO-v2" class="headerlink" title="&emsp;&emsp;YOLO v2"></a>&emsp;&emsp;YOLO v2</h6><p>&emsp;&emsp;<strong>骨架网络设计</strong></p>
+<p>&emsp;&emsp;    1.网络抛弃了全连接，采用全卷积FCN的架构，因此可以输入任意大小的图片。</p>
+<p>&emsp;&emsp;    2.在每个卷积层之后都使用了BN。BN的作用是为了是网络更容易收敛，除此之外还有正则化的作用，可以防止过拟合。</p>
+<p>&emsp;&emsp;    3.使用了跨层连接，这个借鉴了ResNet的identity mapping思想。跨层连接的一个大好处是使梯度更容易前传，也就是说可以让网络训练变得更容易。但是，这个跨层连接有点别致，一般的跨层连接，会通过求和或者通道连接进行特征融合，但是yolov2在融合之前还添加了一个reorganization的操作。</p>
+<p>&emsp;&emsp;经过这样的操作，实际上已经把feature map的排布重整了，直觉上觉得这么做不太好，但事实证明它是可行的。不过这么做的一个好处就是将所有的信息都传递到后面的层，并没有因为下采样等操作导致损失信息，因此获得了更多细粒度的特征。</p>
+<p>&emsp;&emsp;reorganization层：就是将大分辨率的feature map进行重新排布得到分辨率更小的feature map，相应的通道数增加。举例来说，如果网络的输入维度是3x416x416，那么conv13_512的维度则是512x26x26，将其进行重新排布之后则变成2048x13x13。</p>
+<p>&emsp;&emsp;    <strong>网络输出</strong></p>
+<p>&emsp;&emsp;假设网络图片的输入大小是[416,416]，那么经过骨架网络（或者说特征提取网络）之后，由于存在步长为32的分辨率降低，这样网络的输出是[13,13,1024]。</p>
+<p>&emsp;&emsp;要将其转化为预测，使用一个1x1的卷积将通道数压缩到1024→（num_anchor x (4+1+num_class)，如下图所示）这个维度就可以了，这里的num_anchor表示feature map上每个点对应的anchor数目，4表示xywh，1表示confidence，num_class表示预测的类别数，注意这里的类别数是不包括背景的。</p>
+<p>&emsp;&emsp;    <strong>网络预测</strong>  ——Anchor的预测</p>
+<p>&emsp;&emsp;yolo v1中是没有使用到anchor的，这使得每个网格中的每个cell只能预测一个物体。因此yolo v2借鉴了faster RCNN中anchor的思想，这样实际上使得grid的每个cell可以预测多个尺度的不同物体。</p>
+<p>&emsp;&emsp;yolo v1中grid的大小是7x7，但是yolo v2的grid变成了13x13，grid中的每个cell都对应这5个不同尺寸的anchor</p>
+<p>&emsp;&emsp;对于预测的bbox的中心、宽高、置信度、类别还需要经过一系列的转换才能使得网络预测具有实际的意义</p>
+<p>&emsp;&emsp;以上得到的anchor的预测结果是很多的，因此需要进行后处理，即通过非极大值抑制（NMS）和confidence滤除不包含物体的预测，得到最终的预测结果。</p>
+<p>&emsp;&emsp;<strong>网络训练</strong></p>
+<p>&emsp;&emsp;1.给Anchor打Label</p>
+<p>&emsp;&emsp;选择一个长宽和这个bbox最匹配的anchor来负责预测这个物体，长宽最匹配是计算它们的IOU（“预测的边框” 和 “真实的边框” 的交集和并集的比值）,值最大的其中一个anchor负责预测这个物体</p>
+<p>&emsp;&emsp;        2.损失函数</p>
+<p>&emsp;&emsp;        第一项：负责预测物体的anchor的xywh损失。如果anchor负责预测物体，那么需要计算坐标的L2（最小平方误差）损失。</p>
+<p>&emsp;&emsp;    第二项：不负责预测物体的anchor的xywh损失。如果anchor不负责预测物体，那么需要在迭代的初期（比如iteration&lt;12800）去计算坐标的L2损失。</p>
+<p>&emsp;&emsp;    第三项：负责预测物体的anchor的confidence损失。负责预测物体的anchor需要计算confidence损失，confidence的目标就是预测的bbox和真实bbox的iou。</p>
+<p>&emsp;&emsp;    第四项：不负责预测物体的anchor的confidece损失。对那些不负责预测gt的anchor，需要计算每个anchor和所有gt box的IOU。</p>
+<p>&emsp;&emsp;第五项：负责预测物体的anchor的类别损失。每个类别的输出概率0-1之间，计算的是L2损失。也就是说分类问题也把它当做了回归问题。另外需要注意的是，类别预测中是不需要预测背景的，因为confidence实际上就已经代表是否存在物体，类别就没必要去预测背景。</p>
+<p>&emsp;&emsp;    3.多尺度训练</p>
+<p>&emsp;&emsp;因为骨架网络是一个全卷积的网络，因此可以输入任意大小的图片，这个时候网络输出的grid大小就不是固定的，如果是416x416的图片输入，那么网络的输出的grid是13x13大小的，但图片大小变化的时候，那么grid大小也会相应的变化，这时候，anchor的数量也会相应的发生变化。</p>
+<h6 id="emsp-emsp-YOLO-V3"><a href="#emsp-emsp-YOLO-V3" class="headerlink" title="&emsp;&emsp;YOLO V3"></a>&emsp;&emsp;YOLO V3</h6><p>&emsp;&emsp;<strong>改进之处</strong></p>
+<p>&emsp;&emsp;<strong>1.多尺度预测 （类FPN）</strong></p>
+<p>&emsp;&emsp;尺度1:对于$13<em>13$的特征图，有$13</em>13*3$</p>
+<p>&emsp;&emsp;尺度2: 从尺度1中的倒数第二层的卷积层上采样(x2)再与最后一个 16x16 大小的特征图相加，再次通过多个卷积后输出 box 信息，相比尺度1变大两倍.$26<em>26</em>3$</p>
+<p>&emsp;&emsp;尺度3: 与尺度2类似，使用了 32x32 大小的特征图</p>
+<p>&emsp;&emsp;YOLO V3的精简版tiny-darknet采用的 bounding box  prior是6个</p>
+<p>&emsp;&emsp;<strong>2.backbone网络架构不同，YOLO V2采用的是darknet-19，而YOLO V3采用的是darknet-53</strong></p>
+<p>&emsp;&emsp;（1）darknet-53中无池化层，全连接层，特征图的缩小是通过增加卷积核的步长实现的；一方面基本采用全卷积（YOLO v2中采用pooling层做feature map的sample，这里都换成卷积层来做了）</p>
+<p>&emsp;&emsp;darknet-53中 CNN Kernel+BN+LeakyRelu 成为了标准组件；</p>
+<p>&emsp;&emsp;darknet-53中采用了残差的设计思想；</p>
+<p>&emsp;&emsp;<strong>3.分类器-类别预测</strong></p>
+<p>&emsp;&emsp;将原来的单标签分类改进为多标签分类（softmax-&gt;logistic）</p>
+<h4 id="二、与RCNN的不同"><a href="#二、与RCNN的不同" class="headerlink" title="二、与RCNN的不同"></a>二、与RCNN的不同</h4><p>&emsp;&emsp;YOLO没有显示求取region proposal的过程。Faster R-CNN中尽管RPN与fast rcnn共享卷积层，但是在模型训练过程中，需要反复训练RPN网络和fast rcnn网络.相对于R-CNN系列的”看两眼”(候选框提取与分类）,YOLO只需要Look Once.</p>
+<p>&emsp;&emsp;YOLO统一为一个回归问题</p>
+<p>&emsp;&emsp;R-CNN将检测结果分为两部分求解：物体类别（分类问题），物体位置即bounding box（回归问题）</p>
+<h4 id="三、Mask-RCNN"><a href="#三、Mask-RCNN" class="headerlink" title="三、Mask RCNN"></a>三、Mask RCNN</h4><p>&emsp;&emsp;模型结构:ResNet-FPN+Fast RCNN+mask</p>
+<p>&emsp;&emsp;骨干网络ResNet-FPN，用于特征提取，另外，ResNet还可以是：ResNet-50,ResNet-101,ResNeXt-50,ResNeXt-101；</p>
+<p>&emsp;&emsp;头部网络，包括边界框识别（分类和回归）+mask预测</p>
+<p>&emsp;&emsp;<strong>ROI Align</strong></p>
+<p>&emsp;&emsp;Faster R-CNN存在的问题是：特征图与原始图像是不对准的（mis-alignment），所以会影响检测精度。</p>
+<p>&emsp;&emsp;Mask R-CNN提出了RoIAlign的方法来取代ROI pooling，RoIAlign可以保留大致的空间位置。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jason Yang
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://yoursite.com/2021/01/28/ML-xmind/" title="关于深度学习">http://yoursite.com/2021/01/28/ML-xmind/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 深度学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/09/lixiang/" rel="prev" title="理想CEO—李想">
+      <i class="fa fa-chevron-left"></i> 理想CEO—李想
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/04/AboutEnterprise/" rel="next" title="看懂公司">
+      看懂公司 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">神经网络的入门知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E9%9C%80%E6%B1%82%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">应用需求：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">主要内容：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-1-%E6%BF%80%E5%8A%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">&amp;emsp;&amp;emsp;1.激励函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-2-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">&amp;emsp;&amp;emsp;2.损失函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-3-%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.3.</span> <span class="nav-text">&amp;emsp;&amp;emsp;3.常见的损失函数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B%E2%80%94%E2%80%94%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">典型方法举例——梯度下降法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.1.</span> <span class="nav-text">工作方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E9%97%A8%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">热门深度学习框架：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81TensorFlow%EF%BC%88google%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">一、TensorFlow（google）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-%E4%BC%98%E5%8A%BF"><span class="nav-number">2.1.1.</span> <span class="nav-text">&amp;emsp;&amp;emsp;优势</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-%E5%8A%A3%E5%8A%BF"><span class="nav-number">2.1.2.</span> <span class="nav-text">&amp;emsp;&amp;emsp;劣势</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Pytorch%EF%BC%88facebook%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">二、Pytorch（facebook）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-%E4%BC%98%E5%8A%BF-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">&amp;emsp;&amp;emsp;优势</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-%E5%8A%A3%E5%8A%BF-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">&amp;emsp;&amp;emsp;劣势</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%99%BE%E5%BA%A6%E9%A3%9E%E6%A1%A8"><span class="nav-number">2.3.</span> <span class="nav-text">三、百度飞桨</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E9%97%A8%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A1%86%E6%9E%B6%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">热门目标检测框架：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81YOLO"><span class="nav-number">3.1.</span> <span class="nav-text">一、YOLO</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3"><span class="nav-number">3.1.1.</span> <span class="nav-text">&amp;emsp;&amp;emsp;核心思想</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#emsp-emsp-%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84"><span class="nav-number">3.1.2.</span> <span class="nav-text">&amp;emsp;&amp;emsp;模型架构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#emsp-emsp-YOLO-v1"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">&amp;emsp;&amp;emsp;YOLO v1</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#emsp-emsp-YOLO-v2"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">&amp;emsp;&amp;emsp;YOLO v2</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#emsp-emsp-YOLO-V3"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">&amp;emsp;&amp;emsp;YOLO V3</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%8ERCNN%E7%9A%84%E4%B8%8D%E5%90%8C"><span class="nav-number">3.2.</span> <span class="nav-text">二、与RCNN的不同</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E3%80%81Mask-RCNN"><span class="nav-number">3.3.</span> <span class="nav-text">三、Mask RCNN</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Yang"
+      src="/images/head.jpeg">
+  <p class="site-author-name" itemprop="name">Jason Yang</p>
+  <div class="site-description" itemprop="description">Coding,Reading,Learning</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Jason-Yoo" title="GitHub → https://github.com/Jason-Yoo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiduocaiyang@gmail.com" title="E-Mail → mailto:jiduocaiyang@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/Reign_Man" title="CSDN → https://blog.csdn.net/Reign_Man" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason Yang</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+</body>
+</html>
